@@ -1,0 +1,600 @@
+'use strict';
+
+/* =========================================================
+ * 中国电影资料馆 · 月度排片查询
+ * 数据来自资料馆官网放映日历所调用的公开接口
+ * ========================================================= */
+
+var API = 'https://api.guoyingjiaying.cn/api/web';
+var DETAIL_PAGE = 'https://www.cfa.org.cn/eportal/ui?pageId=6bbec57b81114a378be9f08c356c4136&movieId=';
+
+/* ---------- MD5（RFC 1321 实现，已用标准向量校验） ---------- */
+function md5(str) {
+  function safeAdd(x, y) {
+    var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+    return (msw << 16) | (lsw & 0xFFFF);
+  }
+  function rotl(num, cnt) { return (num << cnt) | (num >>> (32 - cnt)); }
+  function cmn(q, a, b, x, s, t) { return safeAdd(rotl(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b); }
+  function ff(a, b, c, d, x, s, t) { return cmn((b & c) | (~b & d), a, b, x, s, t); }
+  function gg(a, b, c, d, x, s, t) { return cmn((b & d) | (c & ~d), a, b, x, s, t); }
+  function hh(a, b, c, d, x, s, t) { return cmn(b ^ c ^ d, a, b, x, s, t); }
+  function ii(a, b, c, d, x, s, t) { return cmn(c ^ (b | ~d), a, b, x, s, t); }
+
+  var bytes = [];
+  for (var i = 0; i < str.length; i++) {
+    var c = str.charCodeAt(i);
+    if (c < 128) bytes.push(c);
+    else if (c < 2048) bytes.push(192 | (c >> 6), 128 | (c & 63));
+    else if (c < 55296 || c >= 57344) bytes.push(224 | (c >> 12), 128 | ((c >> 6) & 63), 128 | (c & 63));
+    else {
+      i++;
+      var cp = 65536 + (((c & 1023) << 10) | (str.charCodeAt(i) & 1023));
+      bytes.push(240 | (cp >> 18), 128 | ((cp >> 12) & 63), 128 | ((cp >> 6) & 63), 128 | (cp & 63));
+    }
+  }
+  var len = bytes.length, bitLen = len * 8;
+  bytes.push(0x80);
+  while (bytes.length % 64 !== 56) bytes.push(0);
+  var hi = Math.floor(bitLen / 4294967296), lo = bitLen >>> 0;
+  for (var j = 0; j < 4; j++) bytes.push((lo >>> (j * 8)) & 0xFF);
+  for (var j2 = 0; j2 < 4; j2++) bytes.push((hi >>> (j2 * 8)) & 0xFF);
+
+  var a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+  for (var off = 0; off < bytes.length; off += 64) {
+    var x = [];
+    for (var k = 0; k < 16; k++) {
+      x[k] = bytes[off + k * 4] | (bytes[off + k * 4 + 1] << 8) |
+             (bytes[off + k * 4 + 2] << 16) | (bytes[off + k * 4 + 3] << 24);
+    }
+    var oa = a, ob = b, oc = c, od = d;
+    a = ff(a, b, c, d, x[0], 7, -680876936);   d = ff(d, a, b, c, x[1], 12, -389564586);
+    c = ff(c, d, a, b, x[2], 17, 606105819);    b = ff(b, c, d, a, x[3], 22, -1044525330);
+    a = ff(a, b, c, d, x[4], 7, -176418897);    d = ff(d, a, b, c, x[5], 12, 1200080426);
+    c = ff(c, d, a, b, x[6], 17, -1473231341);  b = ff(b, c, d, a, x[7], 22, -45705983);
+    a = ff(a, b, c, d, x[8], 7, 1770035416);    d = ff(d, a, b, c, x[9], 12, -1958414417);
+    c = ff(c, d, a, b, x[10], 17, -42063);      b = ff(b, c, d, a, x[11], 22, -1990404162);
+    a = ff(a, b, c, d, x[12], 7, 1804603682);   d = ff(d, a, b, c, x[13], 12, -40341101);
+    c = ff(c, d, a, b, x[14], 17, -1502002290); b = ff(b, c, d, a, x[15], 22, 1236535329);
+    a = gg(a, b, c, d, x[1], 5, -165796510);    d = gg(d, a, b, c, x[6], 9, -1069501632);
+    c = gg(c, d, a, b, x[11], 14, 643717713);   b = gg(b, c, d, a, x[0], 20, -373897302);
+    a = gg(a, b, c, d, x[5], 5, -701558691);    d = gg(d, a, b, c, x[10], 9, 38016083);
+    c = gg(c, d, a, b, x[15], 14, -660478335);  b = gg(b, c, d, a, x[4], 20, -405537848);
+    a = gg(a, b, c, d, x[9], 5, 568446438);     d = gg(d, a, b, c, x[14], 9, -1019803690);
+    c = gg(c, d, a, b, x[3], 14, -187363961);   b = gg(b, c, d, a, x[8], 20, 1163531501);
+    a = gg(a, b, c, d, x[13], 5, -1444681467);  d = gg(d, a, b, c, x[2], 9, -51403784);
+    c = gg(c, d, a, b, x[7], 14, 1735328473);   b = gg(b, c, d, a, x[12], 20, -1926607734);
+    a = hh(a, b, c, d, x[5], 4, -378558);       d = hh(d, a, b, c, x[8], 11, -2022574463);
+    c = hh(c, d, a, b, x[11], 16, 1839030562);  b = hh(b, c, d, a, x[14], 23, -35309556);
+    a = hh(a, b, c, d, x[1], 4, -1530992060);   d = hh(d, a, b, c, x[4], 11, 1272893353);
+    c = hh(c, d, a, b, x[7], 16, -155497632);   b = hh(b, c, d, a, x[10], 23, -1094730640);
+    a = hh(a, b, c, d, x[13], 4, 681279174);    d = hh(d, a, b, c, x[0], 11, -358537222);
+    c = hh(c, d, a, b, x[3], 16, -722521979);   b = hh(b, c, d, a, x[6], 23, 76029189);
+    a = hh(a, b, c, d, x[9], 4, -640364487);    d = hh(d, a, b, c, x[12], 11, -421815835);
+    c = hh(c, d, a, b, x[15], 16, 530742520);   b = hh(b, c, d, a, x[2], 23, -995338651);
+    a = ii(a, b, c, d, x[0], 6, -198630844);    d = ii(d, a, b, c, x[7], 10, 1126891415);
+    c = ii(c, d, a, b, x[14], 15, -1416354905); b = ii(b, c, d, a, x[5], 21, -57434055);
+    a = ii(a, b, c, d, x[12], 6, 1700485571);   d = ii(d, a, b, c, x[3], 10, -1894986606);
+    c = ii(c, d, a, b, x[10], 15, -1051523);    b = ii(b, c, d, a, x[1], 21, -2054922799);
+    a = ii(a, b, c, d, x[8], 6, 1873313359);    d = ii(d, a, b, c, x[15], 10, -30611744);
+    c = ii(c, d, a, b, x[6], 15, -1560198380);  b = ii(b, c, d, a, x[13], 21, 1309151649);
+    a = ii(a, b, c, d, x[4], 6, -145523070);    d = ii(d, a, b, c, x[11], 10, -1120210379);
+    c = ii(c, d, a, b, x[2], 15, 718787259);    b = ii(b, c, d, a, x[9], 21, -343485551);
+    a = safeAdd(a, oa); b = safeAdd(b, ob); c = safeAdd(c, oc); d = safeAdd(d, od);
+  }
+  function hex(n) {
+    var s = '';
+    for (var i = 0; i < 4; i++) {
+      var v = (n >>> (i * 8)) & 0xFF;
+      s += (v < 16 ? '0' : '') + v.toString(16);
+    }
+    return s;
+  }
+  return hex(a) + hex(b) + hex(c) + hex(d);
+}
+
+/* ---------- 会话：token + 服务器时钟偏移 ---------- */
+var session = { token: '', at: 0, offset: 0 };
+
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+function formBody(obj) {
+  var p = new URLSearchParams();
+  Object.keys(obj).forEach(function (k) { p.append(k, obj[k]); });
+  return p.toString();
+}
+
+function post(path, data) {
+  return fetch(API + '/' + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formBody(data)
+  }).then(function (r) {
+    // 用服务器 Date 头校准本机时钟（签名时间戳必须接近服务器时间）
+    var dh = r.headers.get('Date');
+    if (dh) {
+      var parsed = Date.parse(dh);
+      if (!isNaN(parsed)) session.offset = parsed - Date.now();
+    }
+    return r.json();
+  });
+}
+
+function serverNow() { return Date.now() + session.offset; }
+
+/** 获取并缓存签名 token（token 不随时间戳变化，可复用） */
+function ensureToken(force) {
+  var age = Date.now() - session.at;
+  if (!force && session.token && age < 80000) return Promise.resolve(session.token);
+  return post('getkey', { t: serverNow() }).then(function (j) {
+    if (j && j.data && j.data.token) {
+      session.token = j.data.token;
+      session.at = Date.now();
+    }
+    return session.token;
+  });
+}
+
+/** 拉取某月每日场次数（签名失效时自动刷新 token 重试一次） */
+function fetchAmount(year, month) {
+  return ensureToken().then(function (token) {
+    var y = String(year), m = pad2(month);
+    var t = serverNow();
+    var signer = md5(y + m + t + token);
+    return post('arrangementAmount', { year: y, month: m, t: t, signer: signer })
+      .then(function (json) {
+        if (json && json.status && json.status !== 200) {
+          // 签名校验不通过：刷新 token 后重试一次，仍失败则抛出走错误分支
+          return ensureToken(true).then(function (tk) {
+            var t2 = serverNow();
+            var sg2 = md5(y + m + t2 + tk);
+            return post('arrangementAmount', { year: y, month: m, t: t2, signer: sg2 });
+          }).then(function (json2) {
+            if (json2 && json2.status && json2.status !== 200) {
+              throw new Error(json2.msg || '排片接口返回异常');
+            }
+            return json2;
+          });
+        }
+        return json;
+      });
+  });
+}
+
+/** 拉取某日排片明细 */
+function fetchDay(year, month, day) {
+  return ensureToken().then(function (token) {
+    var y = String(year), m = pad2(month), d = pad2(day);
+    var t = serverNow();
+    var signer = md5(y + m + d + t + token);
+    return post('arrangementPage', {
+      year: y, month: m, day: d, cinema: 'all', t: t, signer: signer
+    }).then(function (json) {
+      // 签名失效（token 过期 / 时钟异常）时刷新 token 重试一次
+      var bad = json && json.status !== 200;
+      if (bad) {
+        return ensureToken(true).then(function (tk) {
+          var t2 = serverNow();
+          var sg2 = md5(y + m + d + t2 + tk);
+          return post('arrangementPage', {
+            year: y, month: m, day: d, cinema: 'all', t: t2, signer: sg2
+          });
+        });
+      }
+      return json;
+    });
+  });
+}
+
+/* ---------- 状态 ---------- */
+var state = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth() + 1,
+  venue: 'all',
+  query: '',
+  cache: {},          // "2026-11" -> { amount:{}, days:{1:[..]}, done:bool }
+  loadedDays: 0,
+  totalDays: 0
+};
+
+var VENUES = ['小西天艺术影院', '百子湾艺术影院', '江南分馆影院'];
+var WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+function cacheKey() { return state.year + '-' + pad2(state.month); }
+
+function getCache() {
+  var k = cacheKey();
+  if (!state.cache[k]) state.cache[k] = { amount: {}, days: {}, done: false };
+  return state.cache[k];
+}
+
+function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
+
+function matchVenue(cinema) {
+  if (state.venue === 'all') return true;
+  if (state.venue === 'beijing') return cinema !== '江南分馆影院';
+  if (state.venue === 'jiangnan') return cinema === '江南分馆影院';
+  return cinema === state.venue;
+}
+
+function matchQuery(film) {
+  if (!state.query) return true;
+  var q = state.query.toLowerCase();
+  return (film.movieInfo.movieName || '').toLowerCase().indexOf(q) >= 0 ||
+         (film.movieInfo.englishName || '').toLowerCase().indexOf(q) >= 0;
+}
+
+/** 收集当前筛选条件下、已加载的排片记录 */
+function visibleRecords() {
+  var cache = getCache();
+  var out = [];
+  Object.keys(cache.days).forEach(function (day) {
+    cache.days[day].forEach(function (rec) {
+      if (matchVenue(rec.cinemaInfo) && matchQuery(rec)) out.push(rec);
+    });
+  });
+  out.sort(function (a, b) {
+    if (a.playTime === b.playTime) return (a.movieHall || '').localeCompare(b.movieHall || '');
+    return a.playTime < b.playTime ? -1 : 1;
+  });
+  return out;
+}
+
+/* ---------- 渲染 ---------- */
+var $ = function (id) { return document.getElementById(id); };
+
+function renderMonthLabel() {
+  $('monthText').textContent = state.year + ' 年 ' + state.month + ' 月';
+  var now = new Date();
+  var isCurrent = state.year === now.getFullYear() && state.month === now.getMonth() + 1;
+  $('thisMonth').hidden = isCurrent;
+}
+
+function renderStats(records) {
+  var cache = getCache();
+  // 场次统计基于已加载数据 + 当前筛选
+  var bj = 0, jn = 0, total = 0;
+  var films = {};
+  records.forEach(function (r) {
+    if (r.cinemaInfo === '江南分馆影院') jn++; else bj++;
+    films[r.movieInfo.movieId || r.movieInfo.movieName] = 1;
+  });
+  total = bj + jn;
+  var chips = [
+    '<span class="stat-chip gold"><b>' + total + '</b>场排片</span>',
+    '<span class="stat-chip"><b>' + Object.keys(films).length + '</b>部影片</span>',
+    '<span class="stat-chip bj"><b>' + bj + '</b>场 · 北京</span>',
+    '<span class="stat-chip jn"><b>' + jn + '</b>场 · 江南</span>'
+  ];
+  if (cache.done) {
+    chips.push('<span class="stat-chip">数据更新于 ' + (state.updatedAt || '—') + '</span>');
+  }
+  $('stats').innerHTML = chips.join('');
+}
+
+function renderNotice() {
+  var el = $('notice');
+  var cache = getCache();
+  var now = new Date();
+  var total = 0;
+  Object.keys(cache.amount).forEach(function (k) { total += Number(cache.amount[k]) || 0; });
+
+  if (!cache.done) { el.hidden = true; return; }
+
+  if (total === 0) {
+    el.hidden = false;
+    var thisYear = now.getFullYear(), thisMonth = now.getMonth() + 1;
+    var cmp = state.year * 12 + state.month, cur = thisYear * 12 + thisMonth;
+    if (cmp < cur) {
+      el.className = 'notice warn';
+      el.textContent = '该月排片已过期。资料馆官方接口仅提供近两个月的排片数据，历史月份无法查询。';
+    } else if (cmp > cur + 2) {
+      el.className = 'notice';
+      el.textContent = '该月排片尚未发布。资料馆通常提前约两个月公布节目，届时请再来查询。';
+    } else {
+      el.className = 'notice';
+      el.textContent = '该月暂未查到排片数据，可能尚未排定或已停售，请稍后再试。';
+    }
+    return;
+  }
+  el.hidden = true;
+}
+
+function renderCalendar(records) {
+  var cache = getCache();
+  var y = state.year, m = state.month;
+  var dim = daysInMonth(y, m);
+  var firstWk = new Date(y, m - 1, 1).getDay();   // 0=周日
+  var now = new Date();
+  var isThisMonth = now.getFullYear() === y && now.getMonth() + 1 === m;
+  var filtered = cache.done;   // 明细加载完成后按筛选条件显示场次
+
+  // 每日可见场次数
+  var perDay = {};
+  if (filtered) {
+    records.forEach(function (r) {
+      var d = Number(r.playTime.slice(8, 10));
+      perDay[d] = (perDay[d] || 0) + 1;
+    });
+  }
+
+  var html = '<div class="cal-head">' +
+    ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      .map(function (w) { return '<span>' + w + '</span>'; }).join('') +
+    '</div>';
+
+  // 周一为一周起点
+  var lead = (firstWk + 6) % 7;
+  for (var p = 0; p < lead; p++) html += '<div class="cal-cell pad"></div>';
+
+  for (var d = 1; d <= dim; d++) {
+    var dt = new Date(y, m - 1, d);
+    var wkIdx = (dt.getDay() + 6) % 7;   // 0=周一
+    var cnt = filtered ? (perDay[d] || 0) : (Number(cache.amount[pad2(y) + '-' + pad2(m) + '-' + pad2(d)]) || 0);
+    var cls = 'cal-cell';
+    if (cnt > 0) cls += ' has'; else cls += ' empty-day';
+    if (isThisMonth && d === now.getDate()) cls += ' today';
+    html += '<div class="' + cls + '" data-day="' + d + '">' +
+              '<div><div class="cal-day">' + d + '</div>' +
+              '<div class="cal-wk">' + ['一','二','三','四','五','六','日'][wkIdx] + '</div></div>' +
+              '<span class="cal-count">' + (cnt > 0 ? cnt + ' 场' : '—') + '</span>' +
+            '</div>';
+  }
+  $('calendar').innerHTML = html;
+
+  Array.prototype.forEach.call($('calendar').querySelectorAll('.cal-cell.has'), function (cell) {
+    cell.addEventListener('click', function () {
+      var target = document.querySelector('.day-group[data-day="' + cell.dataset.day + '"]');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else {
+        var notice = $('notice');
+        notice.hidden = false;
+        notice.className = 'notice';
+        notice.textContent = '该日无可显示的排片（可能不满足当前的影院或搜索条件）。';
+      }
+    });
+  });
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+  });
+}
+
+function renderList(records) {
+  if (!records.length) {
+    $('dayList').innerHTML = '<div class="empty"><span class="big">◎</span>' +
+      (state.query ? '没有匹配「' + esc(state.query) + '」的排片。'
+                   : '当前条件下没有排片记录。') + '</div>';
+    return;
+  }
+  var groups = {};
+  var order = [];
+  records.forEach(function (r) {
+    var date = r.playTime.slice(0, 10);
+    if (!groups[date]) { groups[date] = []; order.push(date); }
+    groups[date].push(r);
+  });
+
+  var html = order.map(function (date) {
+    var list = groups[date];
+    var wk = WEEK[new Date(date.replace(/-/g, '/')).getDay()];
+    var bjN = 0, jnN = 0;
+    list.forEach(function (r) { if (r.cinemaInfo === '江南分馆影院') jnN++; else bjN++; });
+    var badge = [];
+    if (bjN) badge.push('北京 ' + bjN + ' 场');
+    if (jnN) badge.push('江南 ' + jnN + ' 场');
+
+    var items = list.map(function (r) {
+      var mi = r.movieInfo || {};
+      var time = r.playTime.slice(11, 16);
+      var isJn = r.cinemaInfo === '江南分馆影院';
+      var venueShort = isJn ? '江南分馆' :
+        (r.cinemaInfo === '小西天艺术影院' ? '小西天' : '百子湾');
+      var poster = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
+      var fmt = (r.node || []).join(' + ');
+      var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
+
+      var meta = [];
+      if (mi.movieTime) meta.push(esc(mi.movieTime) + ' 年');
+      if (mi.movieMinute) meta.push(esc(mi.movieMinute) + ' 分钟');
+      if (fmt) meta.push('<span class="fmt">' + esc(fmt) + '</span>');
+
+      return '<article class="film">' +
+        (poster
+          ? '<img class="poster" src="' + esc(poster) + '" alt="' + esc(mi.movieName) + '" loading="lazy">'
+          : '<div class="poster-ph">暂无海报</div>') +
+        '<div class="film-main">' +
+          '<div class="film-time">' +
+            '<span class="time-pill">' + esc(time) + '</span>' +
+            '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
+            '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
+          '</div>' +
+          '<h3 class="film-title"><a href="' + link + '" target="_blank" rel="noopener">' + esc(mi.movieName) + '</a></h3>' +
+          (mi.englishName ? '<p class="film-en">' + esc(mi.englishName) + '</p>' : '<p class="film-en"></p>') +
+          '<div class="film-meta">' + meta.join('<span class="sep">／</span>') + '</div>' +
+        '</div>' +
+        '<div class="film-side">' +
+          '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+
+    return '<section class="day-group" data-day="' + Number(date.slice(8, 10)) + '" id="day-' + date + '">' +
+      '<div class="day-head">' +
+        '<span class="day-date">' + date.slice(5, 7) + ' 月 ' + Number(date.slice(8, 10)) + ' 日</span>' +
+        '<span class="day-week">' + wk + '</span>' +
+        '<span class="day-badge">' + badge.join(' · ') + '</span>' +
+      '</div>' + items + '</section>';
+  }).join('');
+
+  $('dayList').innerHTML = html;
+}
+
+function renderSkeleton() {
+  var row = '<div class="sk-row"><div class="sk-block sk-poster"></div>' +
+    '<div class="sk-lines"><div class="sk-block sk-l1"></div>' +
+    '<div class="sk-block sk-l2"></div><div class="sk-block sk-l3"></div></div></div>';
+  $('dayList').innerHTML = '<div class="day-group"><div class="skeleton">' +
+    row + row + row + row + '</div></div>';
+}
+
+function render() {
+  renderMonthLabel();
+  var records = visibleRecords();
+  renderStats(records);
+  renderNotice();
+  renderCalendar(records);
+  renderList(records);
+}
+
+/* ---------- 数据加载（按日并发，带进度） ---------- */
+var loading = false;
+
+function loadMonth(force) {
+  var key = cacheKey();
+  var cache = getCache();
+  if (!force && cache.done) { render(); return; }
+
+  loading = true;
+  $('refreshBtn').disabled = true;
+  $('progressText').textContent = '正在获取排片…';
+  if (!cache.done) renderSkeleton();
+
+  var y = state.year, m = state.month, dim = daysInMonth(y, m);
+
+  fetchAmount(y, m).then(function (amtJson) {
+    var amount = {};
+    if (amtJson && typeof amtJson === 'object') {
+      Object.keys(amtJson).forEach(function (k) {
+        var v = amtJson[k];
+        if (v && typeof v === 'object') return;    // 跳过包了一层 data 的结构
+        amount[k] = Number(v) || 0;
+      });
+      if (amtJson.data && typeof amtJson.data === 'object' && !Array.isArray(amtJson.data)) {
+        Object.keys(amtJson.data).forEach(function (k) {
+          if (typeof amtJson.data[k] === 'number') amount[k] = amtJson.data[k];
+        });
+      }
+    }
+    cache.amount = amount;
+
+    // 只拉取有场次的日子，节省请求
+    var days = [];
+    for (var d = 1; d <= dim; d++) {
+      var k2 = pad2(y) + '-' + pad2(m) + '-' + pad2(d);
+      if ((Number(amount[k2]) || 0) > 0) days.push(d);
+    }
+    // 当月无计数时仍尝试今天，防止 amount 接口空返回导致整月被跳过
+    var now = new Date();
+    if (!days.length && y === now.getFullYear() && m === now.getMonth() + 1) {
+      days = [now.getDate()];
+    }
+
+    state.totalDays = days.length;
+    state.loadedDays = 0;
+    if (!days.length) {
+      cache.done = true;
+      finishLoad();
+      return;
+    }
+
+    // 限流并发
+    var LIMIT = 5, idx = 0, active = 0, failed = 0;
+    return new Promise(function (resolve) {
+      function next() {
+        if (idx >= days.length && active === 0) { resolve(failed); return; }
+        while (active < LIMIT && idx < days.length) {
+          (function (day) {
+            active++;
+            fetchDay(y, m, day)
+              .then(function (j) {
+                var recs = (j && j.data && j.data.records) ? j.data.records : [];
+                cache.days[day] = recs;
+              })
+              .catch(function () { failed++; })
+              .then(function () {
+                active--;
+                state.loadedDays++;
+                $('progressText').textContent = '已加载 ' + state.loadedDays + ' / ' + state.totalDays + ' 天';
+                next();
+              });
+          })(days[idx++]);
+        }
+      }
+      next();
+    });
+  }).then(function () {
+    var cache2 = getCache();
+    cache2.done = true;
+    finishLoad();
+  }).catch(function (err) {
+    loading = false;
+    $('refreshBtn').disabled = false;
+    $('progressText').textContent = '';
+    $('dayList').innerHTML = '<div class="empty"><span class="big">⚠</span>' +
+      '数据获取失败，请点击「刷新数据」重试。<br><span class="muted">' +
+      esc(err && err.message ? err.message : '网络错误') + '</span></div>';
+    $('notice').hidden = false;
+    $('notice').className = 'notice warn';
+    $('notice').textContent = '暂时无法连接资料馆排片接口，请稍后重试。';
+  });
+}
+
+function finishLoad() {
+  loading = false;
+  $('refreshBtn').disabled = false;
+  $('progressText').textContent = '';
+  state.updatedAt = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+  $('updatedAt').textContent = '最近刷新：' + new Date().toLocaleString('zh-CN', { hour12: false });
+  render();
+}
+
+/* ---------- 交互 ---------- */
+function goMonth(delta) {
+  var m = state.month + delta, y = state.year;
+  if (m < 1) { m = 12; y--; }
+  if (m > 12) { m = 1; y++; }
+  state.year = y; state.month = m;
+  renderMonthLabel();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  loadMonth(false);
+}
+
+$('prevMonth').addEventListener('click', function () { goMonth(-1); });
+$('nextMonth').addEventListener('click', function () { goMonth(1); });
+$('thisMonth').addEventListener('click', function () {
+  var n = new Date();
+  state.year = n.getFullYear(); state.month = n.getMonth() + 1;
+  renderMonthLabel();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  loadMonth(false);
+});
+
+$('venueTabs').addEventListener('click', function (e) {
+  var btn = e.target.closest('.tab');
+  if (!btn) return;
+  Array.prototype.forEach.call(this.querySelectorAll('.tab'), function (t) {
+    t.classList.toggle('is-active', t === btn);
+  });
+  state.venue = btn.dataset.venue;
+  render();
+});
+
+var searchTimer;
+$('searchBox').addEventListener('input', function () {
+  var v = this.value.trim();
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function () { state.query = v; render(); }, 180);
+});
+
+$('refreshBtn').addEventListener('click', function () {
+  session.at = 0;
+  loadMonth(true);
+});
+
+/* ---------- 启动 ---------- */
+renderMonthLabel();
+loadMonth(false);
