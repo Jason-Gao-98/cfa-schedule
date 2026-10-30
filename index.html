@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>中国电影资料馆 · 月度排片查询</title>
-<meta name="description" content="查询中国电影资料馆（北京小西天、百子湾艺术影院与苏州江南分馆）每月排片表。">
+<title>中国电影资料馆 · 排片查询</title>
+<meta name="description" content="查询中国电影资料馆（北京小西天、百子湾艺术影院与苏州江南分馆）排片表，支持跨月连续查询。">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
       <span class="brand-mark" aria-hidden="true"></span>
       <div class="brand-text">
         <h1>中国电影资料馆</h1>
-        <p>月度排片查询 · 北京 / 江南分馆</p>
+        <p>排片查询 · 北京 / 江南分馆</p>
       </div>
     </div>
     <nav class="header-links">
@@ -29,17 +29,22 @@
 
   <section class="controls" aria-label="筛选条件">
     <div class="month-nav">
-      <button type="button" id="prevMonth" class="nav-btn" aria-label="上一月">&#8249;</button>
-      <div class="month-label">
-        <span id="monthText">—</span>
-        <button type="button" id="thisMonth" class="link-btn" hidden>回到本月</button>
+      <div class="scope-switch" id="scopeSwitch" role="tablist" aria-label="查询范围">
+        <button type="button" class="tab is-active" data-scope="all" role="tab">全部排片</button>
+        <button type="button" class="tab" data-scope="month" role="tab">按月查看</button>
       </div>
-      <button type="button" id="nextMonth" class="nav-btn" aria-label="下一月">&#8250;</button>
+      <div class="month-nav-group" id="monthNavWrap" hidden>
+        <button type="button" id="prevMonth" class="nav-btn" aria-label="上一月">&#8249;</button>
+        <div class="month-label">
+          <span id="monthText">—</span>
+          <button type="button" id="thisMonth" class="link-btn" hidden>回到本月</button>
+        </div>
+        <button type="button" id="nextMonth" class="nav-btn" aria-label="下一月">&#8250;</button>
+      </div>
     </div>
 
     <div class="venue-tabs" id="venueTabs" role="tablist" aria-label="影院筛选">
       <button type="button" class="tab is-active" data-venue="all" role="tab">全部影院</button>
-      <button type="button" class="tab" data-venue="beijing" role="tab">北京总馆</button>
       <button type="button" class="tab" data-venue="jiangnan" role="tab">江南分馆</button>
       <button type="button" class="tab" data-venue="小西天艺术影院" role="tab">小西天</button>
       <button type="button" class="tab" data-venue="百子湾艺术影院" role="tab">百子湾</button>
@@ -55,7 +60,7 @@
 
   <section class="notice" id="notice" hidden></section>
 
-  <section class="calendar-block">
+  <section class="calendar-block" id="calendarBlock" hidden>
     <div class="block-head">
       <h2>当月概览</h2>
       <span class="block-hint">数字为当日排片场次，点击可跳转到该日</span>
