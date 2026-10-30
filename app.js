@@ -440,6 +440,7 @@ function renderList(records) {
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
+            occBadge(r) +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
           '</div>' +
@@ -676,7 +677,274 @@ function finishLoad() {
   state.updatedAt = new Date().toLocaleTimeString('zh-CN', { hour12: false });
   $('updatedAt').textContent = '最近刷新：' + new Date().toLocaleString('zh-CN', { hour12: false });
   render();
+  if (occ.on) loadOccupancy(false);
 }
+
+/* =========================================================
+ * 上座率：资料馆 APP 票务接口（需登录）
+ * login → token；searchMovie → getProgramDetailsApp(screens)
+ * → getCinemaSeat(restmap.sold_count / seat_count)
+ * ========================================================= */
+var APP_API = 'https://api.guoyingjiaying.cn/api';
+var AUTH_KEY = 'cfa_app_auth';
+var auth = { token: '', uid: '', account: '' };
+var occ = { on: false, loading: false, cache: {} };   // recKey -> {seat,sold} | {none:true}
+var progCache = {};                                   // movieId -> screens[]
+
+function appPost(path, data) {
+  var h = { 'Content-Type': 'application/json', 'Form-type': 'app' };
+  if (auth.token) h['Authori-zation'] = 'Bearer ' + auth.token;
+  return fetch(APP_API + '/' + path, {
+    method: 'POST', headers: h, body: JSON.stringify(data || {})
+  }).then(function (r) { return r.json(); });
+}
+
+function appGet(path) {
+  var h = { 'Form-type': 'app' };
+  if (auth.token) h['Authori-zation'] = 'Bearer ' + auth.token;
+  return fetch(APP_API + '/' + path, { headers: h }).then(function (r) { return r.json(); });
+}
+
+function authExpired(j) {
+  return !!j && [110002, 110003, 110004, 110005].indexOf(j.status) >= 0;
+}
+
+function series(fns) {
+  return fns.reduce(function (p, f) {
+    return p.then(function () { return f(); });
+  }, Promise.resolve());
+}
+
+function appLogin(account, password) {
+  return appPost('login', { account: account, password: password }).then(function (j) {
+    if (!j || j.status !== 200 || !j.data || !j.data.token) {
+      throw new Error((j && j.msg) || '登录失败，请检查账号密码');
+    }
+    auth.token = j.data.token;
+    auth.account = account;
+    try {
+      localStorage.setItem(AUTH_KEY, JSON.stringify({ account: account, token: auth.token }));
+    } catch (e) {}
+    return appGet('user');
+  }).then(function (j) {
+    if (authExpired(j)) throw new Error('登录已失效');
+    var d = (j && j.data) || {};
+    auth.uid = d.uid || d.user_id || d.id || d.userid || d.user_id_str || '';
+    if (j && j.status === 200) return true;
+    // user 接口异常不阻断登录，座位接口会用 token 兜底
+    return true;
+  });
+}
+
+function clearAuth() {
+  auth.token = ''; auth.uid = ''; auth.account = '';
+  try { localStorage.removeItem(AUTH_KEY); } catch (e) {}
+  occ.on = false;
+  occ.cache = {};
+  progCache = {};
+  renderOccBtn();
+  render();
+}
+
+function recKey(r) {
+  var mi = r.movieInfo || {};
+  return r.playTime + '|' + r.cinemaInfo + '|' + (r.movieHall || '') + '|' +
+         (mi.movieId || r.movieId || mi.movieName || '');
+}
+
+/** 在 screens 数组中匹配某条排片：日期 + 开始时间，其次影厅号、影院 */
+function matchScreen(r, screens) {
+  if (!screens || !screens.length) return null;
+  var date = r.playTime.slice(0, 10), time = r.playTime.slice(11, 16);
+  var hit = screens.filter(function (s) {
+    var st = s.screen_start_time || '';
+    return st.slice(0, 10) === date && st.slice(11, 16) === time;
+  });
+  if (!hit.length) return null;
+  if (hit.length === 1) return hit[0];
+
+  var hallNo = (String(r.movieHall || '').match(/\d+/) || [''])[0];
+  if (hallNo) {
+    var byHall = hit.filter(function (s) {
+      var hh = (String(s.screen_hall || '').match(/\d+/) || [''])[0];
+      return hh === hallNo;
+    });
+    if (byHall.length) hit = byHall;
+  }
+  if (hit.length > 1) {
+    var isJn = r.cinemaInfo === '江南分馆影院';
+    var byVenue = hit.filter(function (s) {
+      var c = String(s.screen_cinema || '') + String(s.screen_hall || '');
+      return isJn ? /江南|苏州/.test(c) : !/江南|苏州/.test(c);
+    });
+    if (byVenue.length) hit = byVenue;
+  }
+  return hit[0];
+}
+
+/** 搜索影片并拉取其场次列表（合并多个同名候选的 screens） */
+function loadScreens(recs) {
+  var mi = recs[0].movieInfo || {};
+  var gid = mi.movieId || recs[0].movieId || mi.movieName || '';
+  if (progCache[gid]) return Promise.resolve(progCache[gid]);
+
+  var name = mi.movieName || '';
+  if (!name) return Promise.resolve([]);
+  var year = String(mi.movieTime || '');
+
+  return appPost('v3/movie/searchMovie', { cn_name: name }).then(function (j) {
+    if (authExpired(j)) { var e1 = new Error('登录已失效'); e1.auth = true; throw e1; }
+    var list = (j && j.data && j.data.list) || [];
+    // 年份一致的候选优先
+    list = list.slice().sort(function (a, b) {
+      var pa = String(a.years_content || '') === year ? 0 : 1;
+      var pb = String(b.years_content || '') === year ? 0 : 1;
+      return pa - pb;
+    });
+    var cands = list.slice(0, 4);
+    var merged = [];
+    var seen = {};
+
+    function merge(arr) {
+      (arr || []).forEach(function (s) {
+        var k = s.id + '|' + s.place_id;
+        if (!seen[k]) { seen[k] = 1; merged.push(s); }
+      });
+    }
+    function covered() {
+      return recs.every(function (r) { return !!matchScreen(r, merged); });
+    }
+
+    return series(cands.map(function (c) {
+      return function () {
+        if (covered()) return;
+        var ids = [c.id, c.screen_id].filter(function (v, i, a) { return v && a.indexOf(v) === i; });
+        return series(ids.map(function (pid) {
+          return function () {
+            if (covered()) return;
+            return appPost('v3/movie/getProgramDetailsApp', { program_id: pid, uid: auth.uid })
+              .then(function (p) {
+                if (authExpired(p)) { var e2 = new Error('登录已失效'); e2.auth = true; throw e2; }
+                if (p && p.status === 200 && p.data && p.data.screens) merge(p.data.screens);
+              })['catch'](function (err) { if (err && err.auth) throw err; });
+          };
+        }));
+      };
+    })).then(function () { return merged; });
+  });
+}
+
+function fetchSeatOf(screen) {
+  return appPost('v3/movie/getCinemaSeat', {
+    userid: auth.uid, screen_id: screen.id, place_id: screen.place_id
+  }).then(function (j) {
+    if (authExpired(j)) { var e = new Error('登录已失效'); e.auth = true; throw e; }
+    if (j && j.status === 200 && j.data && j.data.restmap) {
+      var rm = j.data.restmap;
+      var seat = Number(rm.seat_count) || 0;
+      var sold = Number(rm.sold_count) || 0;
+      if (seat > 0) return { seat: seat, sold: sold };
+    }
+    return null;
+  });
+}
+
+/** 拉取当前可见排片的上座率（按影片分组、限流） */
+function loadOccupancy(force) {
+  if (!occ.on || occ.loading) return;
+
+  var recs = visibleRecords().filter(function (r) {
+    var k = recKey(r);
+    if (!force && occ.cache[k]) return false;
+    if (force) delete occ.cache[k];
+    return true;
+  });
+  if (!recs.length) { render(); return; }
+
+  occ.loading = true;
+  renderOccBtn();
+
+  var groups = {};
+  recs.forEach(function (r) {
+    var mi = r.movieInfo || {};
+    var gid = String(mi.movieId || r.movieId || mi.movieName || '?');
+    (groups[gid] = groups[gid] || []).push(r);
+  });
+
+  var gids = Object.keys(groups), gi = 0, active = 0;
+  var LIMIT = 2, done = 0, total = recs.length, lastRender = 0;
+
+  function progress() {
+    $('progressText').textContent = '上座率 ' + done + ' / ' + total;
+    var ts = Date.now();
+    if (ts - lastRender > 500) { lastRender = ts; render(); }
+  }
+  function finish(err) {
+    occ.loading = false;
+    renderOccBtn();
+    if (err && err.auth) {
+      clearAuth();
+      openLogin('登录已失效，请重新登录');
+      return;
+    }
+    if (!loading) $('progressText').textContent = '';
+    render();
+  }
+  function next() {
+    if (gi >= gids.length && active === 0) { finish(); return; }
+    while (active < LIMIT && gi < gids.length) {
+      (function (gid) {
+        active++;
+        var list = groups[gid];
+        loadScreens(list)
+          .then(function (screens) {
+            // 组内逐场查座位
+            return series(list.map(function (r) {
+              return function () {
+                var screen = matchScreen(r, screens);
+                if (!screen) { occ.cache[recKey(r)] = { none: true }; done++; progress(); return; }
+                return fetchSeatOf(screen).then(function (v) {
+                  occ.cache[recKey(r)] = v ? v : { none: true };
+                  done++; progress();
+                });
+              };
+            }));
+          })
+          .then(function () { active--; next(); })
+          ['catch'](function (err) { active--; finish(err); });
+      })(gids[gi++]);
+    }
+  }
+  next();
+}
+
+function renderOccBtn() {
+  var b = $('occBtn');
+  if (occ.loading) {
+    b.textContent = '上座率 · 查询中…';
+    b.disabled = true;
+    $('occLogout').hidden = true;
+  } else if (occ.on) {
+    b.textContent = '上座率 · 已显示';
+    b.disabled = false;
+    $('occLogout').hidden = false;
+  } else {
+    b.textContent = '上座率 · 登录查看';
+    b.disabled = false;
+    $('occLogout').hidden = true;
+  }
+}
+
+function occBadge(r) {
+  if (!occ.on) return '';
+  var v = occ.cache[recKey(r)];
+  if (!v) return occ.loading ? '<span class="occ-pill pending">上座 …</span>' : '';
+  if (v.none) return '<span class="occ-pill none" title="未开售或暂无座位数据">上座率 —</span>';
+  var pct = Math.round(v.sold / v.seat * 100);
+  var cls = pct >= 90 ? ' high' : (pct >= 70 ? ' mid' : '');
+  return '<span class="occ-pill' + cls + '" title="已售 ' + v.sold + ' / ' + v.seat + ' 座">上座 ' + pct + '%</span>';
+}
+
 
 /* ---------- 交互 ---------- */
 function goMonth(delta) {
@@ -733,6 +1001,89 @@ $('scopeSwitch').addEventListener('click', function (e) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   load(false);
 });
+
+/* ---------- 上座率：登录交互 ---------- */
+function openLogin(errMsg) {
+  $('loginModal').hidden = false;
+  $('loginError').hidden = !errMsg;
+  if (errMsg) $('loginError').textContent = errMsg;
+  $('loginPassword').value = '';
+  setTimeout(function () { $('loginAccount').focus(); }, 30);
+}
+function closeLogin() {
+  $('loginModal').hidden = true;
+  $('loginError').hidden = true;
+}
+
+$('occBtn').addEventListener('click', function () {
+  if (!occ.on) { openLogin(); return; }
+  // 已开启：清缓存重新查询（座位数据保鲜）
+  loadOccupancy(true);
+});
+
+$('occLogout').addEventListener('click', function () {
+  clearAuth();
+});
+
+$('loginCancel').addEventListener('click', closeLogin);
+$('loginModal').addEventListener('click', function (e) {
+  if (e.target === this) closeLogin();
+});
+
+function submitLogin() {
+  var account = $('loginAccount').value.trim();
+  var password = $('loginPassword').value;
+  if (!account) { openLogin('请填写账号（手机号）'); return; }
+  if (!password) { openLogin('请填写密码'); return; }
+  var btn = $('loginSubmit');
+  btn.disabled = true;
+  btn.textContent = '登录中…';
+  appLogin(account, password).then(function () {
+    btn.disabled = false;
+    btn.textContent = '登录';
+    closeLogin();
+    occ.on = true;
+    renderOccBtn();
+    render();
+    loadOccupancy(true);
+  })['catch'](function (err) {
+    btn.disabled = false;
+    btn.textContent = '登录';
+    $('loginError').hidden = false;
+    $('loginError').textContent = err && err.message ? err.message : '登录失败，请稍后重试';
+  });
+}
+$('loginSubmit').addEventListener('click', submitLogin);
+$('loginPassword').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') submitLogin();
+});
+
+/** 恢复本机保存的登录态 */
+(function restoreAuth() {
+  var raw = null;
+  try { raw = localStorage.getItem(AUTH_KEY); } catch (e) {}
+  if (!raw) { renderOccBtn(); return; }
+  var saved;
+  try { saved = JSON.parse(raw); } catch (e) { return; }
+  if (!saved || !saved.token) return;
+  auth.token = saved.token;
+  auth.account = saved.account || '';
+  appGet('user').then(function (j) {
+    if (j && j.status === 200 && !authExpired(j)) {
+      var d = j.data || {};
+      auth.uid = d.uid || d.user_id || d.id || d.userid || '';
+      occ.on = true;
+      render();
+      if (!loading) loadOccupancy(false);
+    } else {
+      clearAuth();
+    }
+    renderOccBtn();
+  })['catch'](function () {
+    // 网络失败时保留 token，按钮照常显示
+    renderOccBtn();
+  });
+})();
 
 /* ---------- 启动 ---------- */
 renderMonthLabel();
