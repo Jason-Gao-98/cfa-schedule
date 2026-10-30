@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国电影资料馆 · 月度排片查询</title>
+<meta name="description" content="查询中国电影资料馆（北京小西天、百子湾艺术影院与苏州江南分馆）每月排片表。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div class="brand-text">
+        <h1>中国电影资料馆</h1>
+        <p>月度排片查询 · 北京 / 江南分馆</p>
+      </div>
+    </div>
+    <nav class="header-links">
+      <a href="https://www.cfa.org.cn/eportal/ui?pageId=14b6b67fc1704838b760c4786a5fb46d" target="_blank" rel="noopener">官网放映日历</a>
+      <a href="https://www.cfa.org.cn/" target="_blank" rel="noopener">资料馆官网</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="controls" aria-label="筛选条件">
+    <div class="month-nav">
+      <button type="button" id="prevMonth" class="nav-btn" aria-label="上一月">&#8249;</button>
+      <div class="month-label">
+        <span id="monthText">—</span>
+        <button type="button" id="thisMonth" class="link-btn" hidden>回到本月</button>
+      </div>
+      <button type="button" id="nextMonth" class="nav-btn" aria-label="下一月">&#8250;</button>
+    </div>
+
+    <div class="venue-tabs" id="venueTabs" role="tablist" aria-label="影院筛选">
+      <button type="button" class="tab is-active" data-venue="all" role="tab">全部影院</button>
+      <button type="button" class="tab" data-venue="beijing" role="tab">北京总馆</button>
+      <button type="button" class="tab" data-venue="jiangnan" role="tab">江南分馆</button>
+      <button type="button" class="tab" data-venue="小西天艺术影院" role="tab">小西天</button>
+      <button type="button" class="tab" data-venue="百子湾艺术影院" role="tab">百子湾</button>
+    </div>
+
+    <div class="search-row">
+      <input type="search" id="searchBox" class="search-box" placeholder="搜索片名（中 / 英文）…" autocomplete="off">
+      <button type="button" id="refreshBtn" class="ghost-btn">刷新数据</button>
+    </div>
+  </section>
+
+  <section class="stats" id="stats" aria-live="polite"></section>
+
+  <section class="notice" id="notice" hidden></section>
+
+  <section class="calendar-block">
+    <div class="block-head">
+      <h2>当月概览</h2>
+      <span class="block-hint">数字为当日排片场次，点击可跳转到该日</span>
+    </div>
+    <div class="calendar" id="calendar" role="grid" aria-label="月度排片日历"></div>
+  </section>
+
+  <section class="list-block">
+    <div class="block-head">
+      <h2>排片明细</h2>
+      <span class="block-hint" id="progressText"></span>
+    </div>
+    <div id="dayList"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>数据来源于中国电影资料馆官网放映日历接口，仅供查询参考，实际排片与购票请以
+      <a href="https://www.cfa.org.cn/eportal/ui?pageId=14b6b67fc1704838b760c4786a5fb46d" target="_blank" rel="noopener">官方网站</a>为准。</p>
+    <p class="muted" id="updatedAt"></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
