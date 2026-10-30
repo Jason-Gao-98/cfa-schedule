@@ -189,13 +189,15 @@ function fetchDay(year, month, day) {
 
 /* ---------- 状态 ---------- */
 var state = {
+  scope: 'all',       // 'all'=全部排片（跨月） | 'month'=单月
   year: new Date().getFullYear(),
   month: new Date().getMonth() + 1,
   venue: 'all',
   query: '',
   cache: {},          // "2026-11" -> { amount:{}, days:{1:[..]}, done:bool }
   loadedDays: 0,
-  totalDays: 0
+  totalDays: 0,
+  allEmpty: false
 };
 
 var VENUES = ['小西天艺术影院', '百子湾艺术影院', '江南分馆影院'];
@@ -213,7 +215,6 @@ function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
 
 function matchVenue(cinema) {
   if (state.venue === 'all') return true;
-  if (state.venue === 'beijing') return cinema !== '江南分馆影院';
   if (state.venue === 'jiangnan') return cinema === '江南分馆影院';
   return cinema === state.venue;
 }
@@ -225,13 +226,15 @@ function matchQuery(film) {
          (film.movieInfo.englishName || '').toLowerCase().indexOf(q) >= 0;
 }
 
-/** 收集当前筛选条件下、已加载的排片记录 */
+/** 收集当前筛选条件下、已加载的排片记录（all 模式跨所有已加载月份） */
 function visibleRecords() {
-  var cache = getCache();
   var out = [];
-  Object.keys(cache.days).forEach(function (day) {
-    cache.days[day].forEach(function (rec) {
-      if (matchVenue(rec.cinemaInfo) && matchQuery(rec)) out.push(rec);
+  var caches = state.scope === 'month' ? [getCache()] : Object.keys(state.cache).sort().map(function (k) { return state.cache[k]; });
+  caches.forEach(function (cache) {
+    Object.keys(cache.days).forEach(function (day) {
+      cache.days[day].forEach(function (rec) {
+        if (matchVenue(rec.cinemaInfo) && matchQuery(rec)) out.push(rec);
+      });
     });
   });
   out.sort(function (a, b) {
@@ -245,6 +248,15 @@ function visibleRecords() {
 var $ = function (id) { return document.getElementById(id); };
 
 function renderMonthLabel() {
+  if (state.scope === 'all') {
+    $('monthText').textContent = '全部排片';
+    $('thisMonth').hidden = true;
+    $('monthNavWrap').hidden = true;
+    $('calendarBlock').hidden = true;
+    return;
+  }
+  $('monthNavWrap').hidden = false;
+  $('calendarBlock').hidden = false;
   $('monthText').textContent = state.year + ' 年 ' + state.month + ' 月';
   var now = new Date();
   var isCurrent = state.year === now.getFullYear() && state.month === now.getMonth() + 1;
@@ -252,7 +264,6 @@ function renderMonthLabel() {
 }
 
 function renderStats(records) {
-  var cache = getCache();
   // 场次统计基于已加载数据 + 当前筛选
   var bj = 0, jn = 0, total = 0;
   var films = {};
@@ -267,16 +278,28 @@ function renderStats(records) {
     '<span class="stat-chip bj"><b>' + bj + '</b>场 · 北京</span>',
     '<span class="stat-chip jn"><b>' + jn + '</b>场 · 江南</span>'
   ];
-  if (cache.done) {
-    chips.push('<span class="stat-chip">数据更新于 ' + (state.updatedAt || '—') + '</span>');
+  if (state.updatedAt) {
+    chips.push('<span class="stat-chip">数据更新于 ' + state.updatedAt + '</span>');
   }
   $('stats').innerHTML = chips.join('');
 }
 
 function renderNotice() {
   var el = $('notice');
-  var cache = getCache();
   var now = new Date();
+
+  if (state.scope === 'all') {
+    if (state.allEmpty && !loading) {
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = '暂未查到未来排片。资料馆官方接口仅提供从今天起约两个月的排片，更早的已过期、更远的尚未发布。';
+    } else {
+      el.hidden = true;
+    }
+    return;
+  }
+
+  var cache = getCache();
   var total = 0;
   Object.keys(cache.amount).forEach(function (k) { total += Number(cache.amount[k]) || 0; });
 
@@ -446,15 +469,77 @@ function render() {
   var records = visibleRecords();
   renderStats(records);
   renderNotice();
-  renderCalendar(records);
+  if (state.scope === 'month') renderCalendar(records);
   renderList(records);
 }
 
 /* ---------- 数据加载（按日并发，带进度） ---------- */
 var loading = false;
 
+/** 解析 arrangementAmount 返回结构（兼容包一层 data 的形式） */
+function parseAmount(j) {
+  var amount = {};
+  if (j && typeof j === 'object') {
+    Object.keys(j).forEach(function (k) {
+      var v = j[k];
+      if (v && typeof v === 'object') return;
+      amount[k] = Number(v) || 0;
+    });
+    if (j.data && typeof j.data === 'object' && !Array.isArray(j.data)) {
+      Object.keys(j.data).forEach(function (k) {
+        if (typeof j.data[k] === 'number') amount[k] = j.data[k];
+      });
+    }
+  }
+  return amount;
+}
+
+/** 限流并发拉取多日明细。tasks: [{y,m,d,cache}]；onEach 每完成一天回调一次 */
+function loadDetails(tasks, onEach) {
+  state.totalDays = tasks.length;
+  state.loadedDays = 0;
+  return new Promise(function (resolve) {
+    if (!tasks.length) { resolve(0); return; }
+    var LIMIT = 5, idx = 0, active = 0, failed = 0;
+    function next() {
+      if (idx >= tasks.length && active === 0) { resolve(failed); return; }
+      while (active < LIMIT && idx < tasks.length) {
+        (function (task) {
+          active++;
+          fetchDay(task.y, task.m, task.d)
+            .then(function (j) {
+              var recs = (j && j.data && j.data.records) ? j.data.records : [];
+              task.cache.days[task.d] = recs;
+            })
+            ['catch'](function () { failed++; })
+            .then(function () {
+              active--;
+              state.loadedDays++;
+              $('progressText').textContent = '已加载 ' + state.loadedDays + ' / ' + state.totalDays + ' 天';
+              if (onEach) onEach();
+              next();
+            });
+        })(tasks[idx++]);
+      }
+    }
+    next();
+  });
+}
+
+function failLoad(err) {
+  loading = false;
+  $('refreshBtn').disabled = false;
+  $('progressText').textContent = '';
+  $('dayList').innerHTML = '<div class="empty"><span class="big">⚠</span>' +
+    '数据获取失败，请点击「刷新数据」重试。<br><span class="muted">' +
+    esc(err && err.message ? err.message : '网络错误') + '</span></div>';
+  $('notice').hidden = false;
+  $('notice').className = 'notice warn';
+  $('notice').textContent = '暂时无法连接资料馆排片接口，请稍后重试。';
+}
+
+/** 加载指定单月的排片 */
 function loadMonth(force) {
-  var key = cacheKey();
   var cache = getCache();
   if (!force && cache.done) { render(); return; }
 
@@ -466,81 +551,114 @@ function loadMonth(force) {
   var y = state.year, m = state.month, dim = daysInMonth(y, m);
 
   fetchAmount(y, m).then(function (amtJson) {
-    var amount = {};
-    if (amtJson && typeof amtJson === 'object') {
-      Object.keys(amtJson).forEach(function (k) {
-        var v = amtJson[k];
-        if (v && typeof v === 'object') return;    // 跳过包了一层 data 的结构
-        amount[k] = Number(v) || 0;
-      });
-      if (amtJson.data && typeof amtJson.data === 'object' && !Array.isArray(amtJson.data)) {
-        Object.keys(amtJson.data).forEach(function (k) {
-          if (typeof amtJson.data[k] === 'number') amount[k] = amtJson.data[k];
-        });
-      }
-    }
+    var amount = parseAmount(amtJson);
     cache.amount = amount;
 
     // 只拉取有场次的日子，节省请求
-    var days = [];
+    var tasks = [];
     for (var d = 1; d <= dim; d++) {
       var k2 = pad2(y) + '-' + pad2(m) + '-' + pad2(d);
-      if ((Number(amount[k2]) || 0) > 0) days.push(d);
+      if ((Number(amount[k2]) || 0) > 0) tasks.push({ y: y, m: m, d: d, cache: cache });
     }
     // 当月无计数时仍尝试今天，防止 amount 接口空返回导致整月被跳过
     var now = new Date();
-    if (!days.length && y === now.getFullYear() && m === now.getMonth() + 1) {
-      days = [now.getDate()];
+    if (!tasks.length && y === now.getFullYear() && m === now.getMonth() + 1) {
+      tasks.push({ y: y, m: m, d: now.getDate(), cache: cache });
     }
 
-    state.totalDays = days.length;
-    state.loadedDays = 0;
-    if (!days.length) {
+    if (!tasks.length) {
       cache.done = true;
       finishLoad();
       return;
     }
-
-    // 限流并发
-    var LIMIT = 5, idx = 0, active = 0, failed = 0;
-    return new Promise(function (resolve) {
-      function next() {
-        if (idx >= days.length && active === 0) { resolve(failed); return; }
-        while (active < LIMIT && idx < days.length) {
-          (function (day) {
-            active++;
-            fetchDay(y, m, day)
-              .then(function (j) {
-                var recs = (j && j.data && j.data.records) ? j.data.records : [];
-                cache.days[day] = recs;
-              })
-              .catch(function () { failed++; })
-              .then(function () {
-                active--;
-                state.loadedDays++;
-                $('progressText').textContent = '已加载 ' + state.loadedDays + ' / ' + state.totalDays + ' 天';
-                next();
-              });
-          })(days[idx++]);
-        }
-      }
-      next();
-    });
+    return loadDetails(tasks);
   }).then(function () {
     var cache2 = getCache();
     cache2.done = true;
     finishLoad();
-  }).catch(function (err) {
-    loading = false;
-    $('refreshBtn').disabled = false;
-    $('progressText').textContent = '';
-    $('dayList').innerHTML = '<div class="empty"><span class="big">⚠</span>' +
-      '数据获取失败，请点击「刷新数据」重试。<br><span class="muted">' +
-      esc(err && err.message ? err.message : '网络错误') + '</span></div>';
-    $('notice').hidden = false;
-    $('notice').className = 'notice warn';
-    $('notice').textContent = '暂时无法连接资料馆排片接口，请稍后重试。';
+  })['catch'](failLoad);
+}
+
+/** 加载从今天起、接口已发布的全部排片（跨月） */
+function loadAll(force) {
+  loading = true;
+  state.allEmpty = false;
+  $('refreshBtn').disabled = true;
+  $('progressText').textContent = '正在获取排片…';
+
+  var firstKey = Object.keys(state.cache).sort()[0];
+  if (!firstKey || !state.cache[firstKey].amountFetched) renderSkeleton();
+
+  // 覆盖窗口：从今天所在月起最多 6 个月（接口实际只发布约 2 个月，其余自动为空）
+  var now = new Date();
+  var months = [], y = now.getFullYear(), m = now.getMonth() + 1;
+  for (var i = 0; i < 6; i++) {
+    months.push({ y: y, m: m });
+    m++; if (m > 12) { m = 1; y++; }
+  }
+
+  // 第一步：并发拉取各月每日场次数
+  var amtTasks = months.map(function (mm) {
+    var key = mm.y + '-' + pad2(mm.m);
+    var c = state.cache[key] || (state.cache[key] = { amount: {}, days: {}, done: false });
+    if (force) { c.days = {}; c.done = false; c.amountFetched = false; }
+    if (c.amountFetched) return Promise.resolve();
+    return fetchAmount(mm.y, mm.m).then(function (j) {
+      c.amount = parseAmount(j);
+      c.amountFetched = true;
+    })['catch'](function () {
+      c.amountFetched = true;   // 个别未来月查询失败不阻断整体
+    });
   });
+
+  Promise.all(amtTasks).then(function () {
+    // 第二步：收集「今天及以后、有场次」的日期
+    var today = now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate());
+    var tasks = [];
+    months.forEach(function (mm) {
+      var c = state.cache[mm.y + '-' + pad2(mm.m)];
+      var dim = daysInMonth(mm.y, mm.m);
+      for (var d = 1; d <= dim; d++) {
+        var ds = mm.y + '-' + pad2(mm.m) + '-' + pad2(d);
+        if (ds < today) continue;
+        if ((Number(c.amount[pad2(mm.y) + '-' + pad2(mm.m) + '-' + pad2(d)]) || 0) > 0) {
+          tasks.push({ y: mm.y, m: mm.m, d: d, cache: c });
+        }
+      }
+    });
+
+    // 兜底：今天有排片但 amount 空返回时至少查今天
+    if (!tasks.length) {
+      var t = { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate(),
+                cache: state.cache[now.getFullYear() + '-' + pad2(now.getMonth() + 1)] };
+      tasks.push(t);
+    }
+
+    // 边加载边增量渲染（节流）
+    var lastRender = 0;
+    var throttled = function () {
+      var ts = Date.now();
+      if (ts - lastRender > 500) { lastRender = ts; render(); }
+    };
+
+    return loadDetails(tasks, throttled);
+  }).then(function () {
+    // 标记覆盖月份明细完成，切回单月模式可直接复用
+    months.forEach(function (mm) {
+      var c = state.cache[mm.y + '-' + pad2(mm.m)];
+      if (c && c.amountFetched) c.done = true;
+    });
+    // 检查是否全月为空（兜底任务返回 0 条）
+    var rec = visibleRecords();
+    state.allEmpty = !rec.length;
+    finishLoad();
+  })['catch'](failLoad);
+}
+
+/** 按当前模式分派加载 */
+function load(force) {
+  if (state.scope === 'all') loadAll(force);
+  else loadMonth(force);
 }
 
 function finishLoad() {
@@ -560,7 +678,7 @@ function goMonth(delta) {
   state.year = y; state.month = m;
   renderMonthLabel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  loadMonth(false);
+  load(false);
 }
 
 $('prevMonth').addEventListener('click', function () { goMonth(-1); });
@@ -570,7 +688,7 @@ $('thisMonth').addEventListener('click', function () {
   state.year = n.getFullYear(); state.month = n.getMonth() + 1;
   renderMonthLabel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  loadMonth(false);
+  load(false);
 });
 
 $('venueTabs').addEventListener('click', function (e) {
@@ -592,9 +710,22 @@ $('searchBox').addEventListener('input', function () {
 
 $('refreshBtn').addEventListener('click', function () {
   session.at = 0;
-  loadMonth(true);
+  load(true);
+});
+
+/* 查询范围切换：全部排片 / 按月查看 */
+$('scopeSwitch').addEventListener('click', function (e) {
+  var btn = e.target.closest('.tab');
+  if (!btn || btn.dataset.scope === state.scope) return;
+  Array.prototype.forEach.call(this.querySelectorAll('.tab'), function (t) {
+    t.classList.toggle('is-active', t === btn);
+  });
+  state.scope = btn.dataset.scope;
+  renderMonthLabel();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  load(false);
 });
 
 /* ---------- 启动 ---------- */
 renderMonthLabel();
-loadMonth(false);
+load(false);
