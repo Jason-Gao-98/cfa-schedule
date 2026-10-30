@@ -413,6 +413,13 @@ function renderList(records) {
     var items = list.map(function (r) {
       var mi = r.movieInfo || {};
       var time = r.playTime.slice(11, 16);
+      // 散场时间 = 开始 + 片长（推算，实际以现场为准）
+      var dur = Number(mi.movieMinute) || 0;
+      var endStr = '';
+      if (dur > 0) {
+        var endMin = Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5)) + dur;
+        endStr = pad2(Math.floor(endMin / 60) % 24) + ':' + pad2(endMin % 60);
+      }
       var isJn = r.cinemaInfo === '江南分馆影院';
       var venueShort = isJn ? '江南分馆' :
         (r.cinemaInfo === '小西天艺术影院' ? '小西天' : '百子湾');
@@ -432,6 +439,7 @@ function renderList(records) {
         '<div class="film-main">' +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
+            (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
           '</div>' +
