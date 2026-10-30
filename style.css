@@ -213,6 +213,10 @@ a{color:inherit}
   font-variant-numeric:tabular-nums;color:var(--accent);
   background:var(--accent-soft);padding:2px 10px;border-radius:7px;
 }
+.end-time{
+  font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;
+  padding:2px 8px;border:1px dashed #c6c9d1;border-radius:7px;
+}
 .venue-tag{font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid;font-weight:600}
 .venue-tag.bj{color:var(--bj);border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.08)}
 .venue-tag.jn{color:var(--jn);border-color:rgba(15,157,118,.4);background:rgba(15,157,118,.08)}
