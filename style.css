@@ -264,6 +264,23 @@ a{color:inherit}
 .site-footer p{margin:0 0 7px}
 .muted{color:#9aa0ad;font-size:12px}
 
+/* ---------- changelog ---------- */
+.changelog{display:flex;flex-direction:column;gap:14px}
+.cl-item{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px;box-shadow:var(--shadow);
+}
+.cl-head{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:8px}
+.cl-ver{font-size:17px;font-weight:700;color:var(--accent);letter-spacing:.03em}
+.cl-date{font-size:12px;color:#9aa0ad}
+.cl-badge{
+  font-size:10px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:999px;
+  background:var(--accent);color:#fff;
+}
+.cl-list{margin:0;padding-left:19px;font-size:14px;color:var(--muted)}
+.cl-list li{margin:7px 0}
+.cl-list b{color:var(--txt)}
+
 @media (max-width:760px){
   .header-links{display:none}
   .month-label span{font-size:20px;min-width:130px}
