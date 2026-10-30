@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>更新日志 · 中国电影资料馆排片查询</title>
+<meta name="description" content="中国电影资料馆排片查询网站的版本更新日志。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div class="brand-text">
+        <h1>中国电影资料馆</h1>
+        <p>排片查询 · 更新日志</p>
+      </div>
+    </div>
+    <nav class="header-links">
+      <a href="index.html">返回查询页</a>
+      <a href="https://www.cfa.org.cn/" target="_blank" rel="noopener">资料馆官网</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="calendar-block">
+    <div class="block-head">
+      <h2>更新日志</h2>
+      <span class="block-hint">按版本倒序排列</span>
+    </div>
+
+    <div class="changelog">
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.2.0</span>
+          <span class="cl-date">2026-10-30</span>
+          <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>全部排片（跨月查询）</b>：新增「全部排片 / 按月查看」范围切换，不再限制单月。全部排片模式自动跨月拉取从今天起直到官方发布截止的全部排片，按日期连续展示，边加载边呈现并显示进度。</li>
+          <li>移除「北京总馆」筛选项（小西天 + 百子湾即为北京总馆），影院筛选精简为：全部影院 / 江南分馆 / 小西天 / 百子湾。</li>
+          <li>标题与页头文案由「月度排片查询」更新为「排片查询」。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.1.0</span>
+          <span class="cl-date">2026-10-30</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>视觉改版</b>：由深色模式更换为浅色主题，页面以红色主色调与浅灰为基底，全面重调文字、边框、卡片、悬浮与提示样式。</li>
+          <li>北京（蓝）与江南（绿）场馆标识色适配浅色背景，保证可读性。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.0.0</span>
+          <span class="cl-date">2026-10-30</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>首次发布</b>：中国电影资料馆排片查询网站上线，部署于 GitHub Pages。</li>
+          <li>覆盖三个场馆：北京小西天艺术影院、百子湾艺术影院、苏州江南分馆。</li>
+          <li>月度排片查询：月份导航、当月日历总览（点击日期跳转当日片单）、逐日排片明细。</li>
+          <li>影片搜索（中 / 英文片名）、场次统计、实时数据来自资料馆官网放映日历接口（含签名与时钟校准）。</li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>数据来源于中国电影资料馆官网放映日历接口，仅供查询参考，实际排片与购票请以
+      <a href="https://www.cfa.org.cn/eportal/ui?pageId=14b6b67fc1704838b760c4786a5fb46d" target="_blank" rel="noopener">官方网站</a>为准。</p>
+    <p class="muted"><a href="index.html">返回排片查询</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
