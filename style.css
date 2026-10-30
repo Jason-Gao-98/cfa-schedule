@@ -69,7 +69,20 @@ a{color:inherit}
   box-shadow:var(--shadow);
   display:flex;flex-direction:column;gap:14px;
 }
-.month-nav{display:flex;align-items:center;justify-content:center;gap:16px}
+.month-nav{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.month-nav-group{display:flex;align-items:center;gap:16px}
+.scope-switch{
+  display:flex;gap:4px;padding:4px;border-radius:999px;
+  background:var(--panel-2);border:1px solid var(--line);
+}
+.scope-switch .tab{
+  border:none;background:transparent;padding:6px 15px;font-weight:500;
+}
+.scope-switch .tab:hover{background:#fff;border-color:transparent;color:var(--txt)}
+.scope-switch .tab.is-active{
+  background:var(--accent);color:#fff;border-color:transparent;
+  box-shadow:0 4px 12px rgba(212,32,46,.3);
+}
 .nav-btn{
   width:36px;height:36px;border-radius:10px;flex:none;cursor:pointer;
   background:var(--panel-2);border:1px solid var(--line);color:var(--txt);
