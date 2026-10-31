@@ -518,6 +518,31 @@ function esc(s) {
   });
 }
 
+/* ---------- 豆瓣跳转 ----------
+ * 豆瓣无 CORS 头、无法在浏览器里按片查精确条目（需构建期抓取数据，
+ * 待后续补充）。当前先实现：点击海报在新页签打开该片的豆瓣搜索页，
+ * 片名做关键词，保证每部影片都能一键关联到豆瓣。 */
+function doubanSearchUrl(mi) {
+  var name = mi && mi.movieName;
+  if (!name) return '';
+  return 'https://search.douban.com/movie/subject_search?search_text=' + encodeURIComponent(name);
+}
+
+/** 构造影片海报区：使用资料馆海报，整体包裹为可点击跳转豆瓣（新页签） */
+function posterBlock(mi, isExtra) {
+  var orig = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
+  var inner;
+  if (orig) {
+    inner = '<img class="poster" src="' + esc(orig) + '" alt="' + esc(mi.movieName) + '" loading="lazy">';
+  } else {
+    inner = '<div class="poster-ph">' + (isExtra ? '公众号<br>排片表' : '暂无海报') + '</div>';
+  }
+  var url = doubanSearchUrl(mi);
+  if (!url) return inner;
+  return '<a class="poster-link" href="' + esc(url) + '" target="_blank" rel="noopener" ' +
+         'title="在豆瓣搜索《' + esc(mi.movieName) + '》">' + inner + '</a>';
+}
+
 function renderList(records) {
   seatRecs = records;
   if (!records.length) {
@@ -558,7 +583,6 @@ function renderList(records) {
       var isJn = r.cinemaInfo === '江南分馆影院';
       var venueShort = isJn ? '江南分馆' :
         (r.cinemaInfo === '小西天艺术影院' ? '小西天' : '百子湾');
-      var poster = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
       var fmt = (r.node || []).join(' + ');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
       var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
@@ -570,9 +594,7 @@ function renderList(records) {
       if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
 
       return '<article class="film">' +
-        (poster
-          ? '<img class="poster" src="' + esc(poster) + '" alt="' + esc(mi.movieName) + '" loading="lazy">'
-          : '<div class="poster-ph">' + (isExtra ? '公众号<br>排片表' : '暂无海报') + '</div>') +
+        posterBlock(mi, isExtra) +
         '<div class="film-main">' +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
@@ -1586,6 +1608,7 @@ $('dayList').addEventListener('click', function (e) {
   var rec = seatRecs[Number(btn.dataset.i)];
   if (rec) openSeat(rec);
 });
+/* poster click now opens Douban in a new tab; no fallback listener needed */
 $('seatClose').addEventListener('click', closeSeat);
 window.addEventListener('resize', fitSeatMap);
 $('seatModal').addEventListener('click', function (e) {
