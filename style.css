@@ -250,6 +250,11 @@ a{color:inherit}
   font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;
   background:rgba(15,157,118,.10);border:1px solid rgba(15,157,118,.3);color:var(--jn);
 }
+/* 已放映（来自站内历史存档） */
+.arch-pill{
+  font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;
+  background:#eceef2;border:1px solid var(--line);color:#9aa0ad;
+}
 
 /* ---------- states ---------- */
 .skeleton{padding:6px 0}
