@@ -1199,6 +1199,20 @@ function renderSeatRows(seats) {
 
   $('seatMap').hidden = false;
   $('seatLegend').hidden = false;
+  fitSeatMap();
+}
+
+/** 座位图自适应：弹窗变宽后，如果整排仍超出可视宽度，按比例整体缩放座位图 */
+function fitSeatMap() {
+  var wrap = $('seatScroll'), rows = $('seatRows');
+  if (!wrap || !rows || !$('seatModal') || $('seatModal').hidden) return;
+  rows.style.zoom = '';
+  var avail = wrap.clientWidth - 6;
+  var natural = rows.scrollWidth;
+  if (avail > 0 && natural > avail) {
+    var k = avail / natural;
+    rows.style.zoom = (k < 0.5 ? 0.5 : k).toFixed(3);
+  }
 }
 
 function showSeatResult(r, res) {
@@ -1385,6 +1399,7 @@ $('dayList').addEventListener('click', function (e) {
   if (rec) openSeat(rec);
 });
 $('seatClose').addEventListener('click', closeSeat);
+window.addEventListener('resize', fitSeatMap);
 $('seatModal').addEventListener('click', function (e) {
   if (e.target === this) closeSeat();
 });
