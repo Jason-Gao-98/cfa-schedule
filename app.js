@@ -387,6 +387,7 @@ function esc(s) {
 }
 
 function renderList(records) {
+  seatRecs = records;
   if (!records.length) {
     $('dayList').innerHTML = '<div class="empty"><span class="big">◎</span>' +
       (state.query ? '没有匹配「' + esc(state.query) + '」的排片。'
@@ -401,6 +402,7 @@ function renderList(records) {
     groups[date].push(r);
   });
 
+  var seq = 0;   // 与 .occ-open 的 data-i 对应
   var html = order.map(function (date) {
     var list = groups[date];
     var wk = WEEK[new Date(date.replace(/-/g, '/')).getDay()];
@@ -411,6 +413,7 @@ function renderList(records) {
     if (jnN) badge.push('江南 ' + jnN + ' 场');
 
     var items = list.map(function (r) {
+      var myIdx = seq++;
       var mi = r.movieInfo || {};
       var time = r.playTime.slice(11, 16);
       // 散场时间 = 开始 + 片长（推算，实际以现场为准）
@@ -449,6 +452,7 @@ function renderList(records) {
           '<div class="film-meta">' + meta.join('<span class="sep">／</span>') + '</div>' +
         '</div>' +
         '<div class="film-side">' +
+          '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
           '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>' +
         '</div>' +
       '</article>';
@@ -677,19 +681,19 @@ function finishLoad() {
   state.updatedAt = new Date().toLocaleTimeString('zh-CN', { hour12: false });
   $('updatedAt').textContent = '最近刷新：' + new Date().toLocaleString('zh-CN', { hour12: false });
   render();
-  if (occ.on) loadOccupancy(false);
 }
 
 /* =========================================================
  * 上座率：资料馆 APP 票务接口（需登录）
- * login → token；searchMovie → getProgramDetailsApp(screens)
- * → getCinemaSeat(restmap.sold_count / seat_count)
+ * 不做全量自动计算，只在用户点击某场次的「上座率」入口时查询：
+ * login → searchMovie → getProgramDetailsApp(screens)
+ * → getCinemaSeat(restmap 计数 + 座位明细) → 座位图弹窗
  * ========================================================= */
 var APP_API = 'https://api.guoyingjiaying.cn/api';
 var AUTH_KEY = 'cfa_app_auth';
 var auth = { token: '', uid: '', account: '' };
-var occ = { on: false, loading: false, cache: {} };   // recKey -> {seat,sold} | {none:true}
-var progCache = {};                                   // movieId -> screens[]
+var occ = { on: false, cache: {} };   // recKey -> {seat,sold}（仅缓存用户已查询过的场次）
+var progCache = {};                   // movieId -> screens[]
 
 function appPost(path, data) {
   var h = { 'Content-Type': 'application/json', 'Form-type': 'app' };
@@ -742,6 +746,7 @@ function clearAuth() {
   occ.on = false;
   occ.cache = {};
   progCache = {};
+  pendingSeatRec = null;
   renderOccBtn();
   render();
 }
@@ -786,7 +791,9 @@ function matchScreen(r, screens) {
 function loadScreens(recs) {
   var mi = recs[0].movieInfo || {};
   var gid = mi.movieId || recs[0].movieId || mi.movieName || '';
-  if (progCache[gid]) return Promise.resolve(progCache[gid]);
+  var merged = (progCache[gid] || []).slice();
+  var seen = {};
+  merged.forEach(function (s) { seen[s.id + '|' + s.place_id] = 1; });
 
   var name = mi.movieName || '';
   if (!name) return Promise.resolve([]);
@@ -802,8 +809,6 @@ function loadScreens(recs) {
       return pa - pb;
     });
     var cands = list.slice(0, 4);
-    var merged = [];
-    var seen = {};
 
     function merge(arr) {
       (arr || []).forEach(function (s) {
@@ -830,7 +835,7 @@ function loadScreens(recs) {
           };
         }));
       };
-    })).then(function () { return merged; });
+    })).then(function () { progCache[gid] = merged; return merged; });
   });
 }
 
@@ -839,107 +844,421 @@ function fetchSeatOf(screen) {
     userid: auth.uid, screen_id: screen.id, place_id: screen.place_id
   }).then(function (j) {
     if (authExpired(j)) { var e = new Error('登录已失效'); e.auth = true; throw e; }
-    if (j && j.status === 200 && j.data && j.data.restmap) {
-      var rm = j.data.restmap;
-      var seat = Number(rm.seat_count) || 0;
-      var sold = Number(rm.sold_count) || 0;
-      if (seat > 0) return { seat: seat, sold: sold };
+    if (!j || j.status !== 200 || !j.data) {
+      return { error: (j && j.msg) || '座位接口返回异常' };
     }
-    return null;
+    var d = j.data;
+    var rm = (d.restmap && typeof d.restmap === 'object' && !Array.isArray(d.restmap)) ? d.restmap : {};
+    var seatRaw = rm.seat_count !== undefined ? rm.seat_count : d.seat_count;
+    var soldRaw = rm.sold_count !== undefined ? rm.sold_count : d.sold_count;
+    var seatKnown = seatRaw !== undefined && seatRaw !== null && seatRaw !== '';
+    var soldKnown = soldRaw !== undefined && soldRaw !== null && soldRaw !== '';
+    var seat = Number(seatRaw) || 0;
+    var sold = Number(soldRaw) || 0;
+
+    var seats = extractSeats(d, seat, sold, soldKnown);
+    if (seats.length) {
+      if (!seatKnown) seat = seats.length;
+      if (!soldKnown) sold = seats.filter(function (s) { return s.state === 'sold'; }).length;
+    }
+    return { seat: seat, sold: sold, seats: seats };
   });
 }
 
-/** 拉取当前可见排片的上座率（按影片分组、限流） */
-function loadOccupancy(force) {
-  if (!occ.on || occ.loading) return;
+/* ---------- 座位明细解析（对接口返回结构做防御式兼容） ---------- */
+var ROW_KEYS = ['row', 'rowNo', 'row_no', 'rowNum', 'row_num', 'seatRow', 'seat_row', 'rowName', 'row_name', 'rows', 'hang'];
+var COL_KEYS = ['col', 'column', 'colNo', 'col_no', 'colNum', 'col_num', 'seatCol', 'seat_col', 'colName', 'col_name', 'cols', 'lie'];
+var ROW_FALLBACK = ['y', 'line'];
+var COL_FALLBACK = ['x', 'index', 'no', 'num'];
+var NAME_KEYS = ['name', 'seatName', 'seat_name', 'label', 'seatLabel', 'seatNo', 'seat_no', 'seatCode', 'code', 'seatNum'];
+var STAT_KEYS = ['status', 'state', 'seatStatus', 'seat_status', 'seatState', 'seat_state', 'sellStatus', 'sell_status',
+  'saleStatus', 'sale_status', 'isSold', 'is_sold', 'sold', 'soldStatus', 'sold_status', 'lockStatus', 'lock_status',
+  'isLock', 'is_lock', 'lock', 'usable', 'available', 'isAvailable', 'is_available', 'canBuy', 'can_buy',
+  'booked', 'isBooked', 'orderStatus', 'order_status', 'seatType', 'seat_type', 'type', 'flag', 'category'];
+var SOLD_ORDER = ['sold', 'sold_out', 'soldout', '已售', 'occupied', 'booked', 'unavailable', 'locked', 'lock',
+  'x', 'true', 'y', 'yes', 's', '1', '2', 'n', 'no', 'false', 'free', 'available', 'empty', '0'];
 
-  var recs = visibleRecords().filter(function (r) {
-    var k = recKey(r);
-    if (!force && occ.cache[k]) return false;
-    if (force) delete occ.cache[k];
-    return true;
-  });
-  if (!recs.length) { render(); return; }
+function normVal(v) {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'boolean') return v ? 'true' : 'false';
+  if (typeof v === 'number') return String(v);
+  return String(v).trim().toLowerCase();
+}
 
-  occ.loading = true;
-  renderOccBtn();
+function soldScore(k) {
+  var i = SOLD_ORDER.indexOf(k);
+  return i < 0 ? 40 : i;
+}
 
-  var groups = {};
-  recs.forEach(function (r) {
-    var mi = r.movieInfo || {};
-    var gid = String(mi.movieId || r.movieId || mi.movieName || '?');
-    (groups[gid] = groups[gid] || []).push(r);
-  });
-
-  var gids = Object.keys(groups), gi = 0, active = 0;
-  var LIMIT = 2, done = 0, total = recs.length, lastRender = 0;
-
-  function progress() {
-    $('progressText').textContent = '上座率 ' + done + ' / ' + total;
-    var ts = Date.now();
-    if (ts - lastRender > 500) { lastRender = ts; render(); }
+function unwrapVal(v) {
+  if (v && typeof v === 'object' && !Array.isArray(v)) {
+    if (v.name !== undefined) return v.name;
+    if (v.value !== undefined) return v.value;
+    if (v.id !== undefined) return v.id;
+    return null;
   }
-  function finish(err) {
-    occ.loading = false;
-    renderOccBtn();
-    if (err && err.auth) {
-      clearAuth();
-      openLogin('登录已失效，请重新登录');
-      return;
+  return v;
+}
+
+function firstVal(obj, keys) {
+  for (var i = 0; i < keys.length; i++) {
+    var v = obj[keys[i]];
+    if (v !== undefined && v !== null && v !== '') return unwrapVal(v);
+  }
+  return undefined;
+}
+
+/** "1排5座" / "A5" / "1-5" → {row,col} */
+function seatKeyParse(str) {
+  var s = String(str || '');
+  var m = s.match(/(\d+)\s*排\s*(\d+)/);
+  if (m) return { row: Number(m[1]), col: Number(m[2]) };
+  m = s.match(/^([A-Za-z])\s*[-_]?\s*(\d+)$/);
+  if (m) return { row: m[1].toUpperCase().charCodeAt(0) - 64, col: Number(m[2]) };
+  m = s.match(/(\d+)\s*[-_:,]\s*(\d+)/);
+  if (m) return { row: Number(m[1]), col: Number(m[2]) };
+  return null;
+}
+
+/** 在返回体里收集所有可能是座位表的数组 / 对象 */
+function collectCandidates(root) {
+  var out = [];
+  function walk(node, depth) {
+    if (depth > 7 || node === null || node === undefined) return;
+    if (Array.isArray(node)) {
+      if (node.length) {
+        var f = node[0];
+        if (Array.isArray(f)) out.push({ kind: 'matrix', arr: node });
+        else if (f && typeof f === 'object') out.push({ kind: 'list', arr: node });
+      }
+      for (var i = 0; i < node.length; i++) walk(node[i], depth + 1);
+    } else if (typeof node === 'object') {
+      var keys = Object.keys(node);
+      if (keys.length >= 8) {
+        var prim = keys.every(function (k) {
+          var v = node[k];
+          return v === null || ['string', 'number', 'boolean'].indexOf(typeof v) >= 0;
+        });
+        if (prim) out.push({ kind: 'objmap', obj: node, keys: keys });
+      }
+      for (var j = 0; j < keys.length; j++) walk(node[keys[j]], depth + 1);
     }
-    if (!loading) $('progressText').textContent = '';
-    render();
   }
-  function next() {
-    if (gi >= gids.length && active === 0) { finish(); return; }
-    while (active < LIMIT && gi < gids.length) {
-      (function (gid) {
-        active++;
-        var list = groups[gid];
-        loadScreens(list)
-          .then(function (screens) {
-            // 组内逐场查座位
-            return series(list.map(function (r) {
-              return function () {
-                var screen = matchScreen(r, screens);
-                if (!screen) { occ.cache[recKey(r)] = { none: true }; done++; progress(); return; }
-                return fetchSeatOf(screen).then(function (v) {
-                  occ.cache[recKey(r)] = v ? v : { none: true };
-                  done++; progress();
-                });
-              };
-            }));
-          })
-          .then(function () { active--; next(); })
-          ['catch'](function (err) { active--; finish(err); });
-      })(gids[gi++]);
+  walk(root, 0);
+  return out;
+}
+
+/** 归一化候选结构 → [{row,col,name,raw}] */
+function normalizeCandidate(c) {
+  var seats = [];
+
+  if (c.kind === 'objmap') {
+    var ok = 0;
+    c.keys.forEach(function (k) {
+      var p = seatKeyParse(k);
+      if (p) { ok++; seats.push({ row: p.row, col: p.col, name: k, raw: c.obj[k] }); }
+    });
+    if (!seats.length || ok / c.keys.length < 0.6) return { seats: [] };
+    return { seats: seats };
+  }
+
+  if (c.kind === 'matrix') {
+    for (var i = 0; i < c.arr.length; i++) {
+      var line = c.arr[i];
+      for (var j = 0; j < line.length; j++) {
+        var cell = line[j];
+        if (cell === null || cell === undefined) continue;   // 过道 / 无座位
+        if (cell && typeof cell === 'object') {
+          var row = firstVal(cell, ROW_KEYS), col = firstVal(cell, COL_KEYS);
+          var nm = firstVal(cell, NAME_KEYS);
+          if (row === undefined && nm) {
+            var pp = seatKeyParse(nm);
+            if (pp) { row = pp.row; if (col === undefined) col = pp.col; }
+          }
+          seats.push({
+            row: row !== undefined ? row : i + 1,
+            col: col !== undefined ? col : j + 1,
+            name: nm || '', raw: firstVal(cell, STAT_KEYS)
+          });
+        } else {
+          seats.push({ row: i + 1, col: j + 1, name: '', raw: cell });
+        }
+      }
+    }
+    return { seats: seats };
+  }
+
+  // list：对象数组
+  var missingRow = 0;
+  c.arr.forEach(function (item) {
+    if (!item || typeof item !== 'object') return;
+    var row = firstVal(item, ROW_KEYS), col = firstVal(item, COL_KEYS);
+    var nm = firstVal(item, NAME_KEYS);
+    if (row === undefined && nm) {
+      var p2 = seatKeyParse(nm);
+      if (p2) { row = p2.row; if (col === undefined) col = p2.col; }
+    }
+    if (row === undefined) missingRow++;
+    seats.push({ row: row, col: col, name: nm || '', raw: firstVal(item, STAT_KEYS), _item: item });
+  });
+  if (!seats.length) return { seats: [] };
+  if (missingRow > seats.length * 0.5) return { seats: [] };
+
+  if (missingRow) {   // 行号兜底：再试 x/y 等坐标键
+    seats.forEach(function (s) {
+      if (s.row === undefined) { var v = firstVal(s._item, ROW_FALLBACK); if (v !== undefined) s.row = v; }
+      if (s.col === undefined) { var v2 = firstVal(s._item, COL_FALLBACK); if (v2 !== undefined) s.col = v2; }
+    });
+  }
+  var still = seats.filter(function (s) { return s.row === undefined; }).length;
+  if (still > seats.length * 0.5) return { seats: [] };
+
+  var byRow = {};
+  seats.forEach(function (s) { if (s.row !== undefined) (byRow[s.row] = byRow[s.row] || []).push(s); });
+  Object.keys(byRow).forEach(function (k) {
+    byRow[k].forEach(function (s, idx) { if (s.col === undefined) s.col = idx + 1; });
+  });
+  return { seats: seats.filter(function (s) { return s.row !== undefined && s.col !== undefined; }) };
+}
+
+/** 已售取值子集与 sold_count 的最佳匹配（用于区分「已售 / 可售 / 不可用」） */
+function bestSoldMatch(seats, soldCount) {
+  var counts = {};
+  seats.forEach(function (s) { var k = normVal(s.raw); if (k) counts[k] = (counts[k] || 0) + 1; });
+  var keys = Object.keys(counts);
+  var best = { keys: [], err: Infinity, score: Infinity, size: 0 };
+  if (!keys.length) return best;
+  var full = keys.length <= 10;
+  var total = full ? (1 << keys.length) : keys.length;
+  for (var mask = 0; mask < total; mask++) {
+    var sum = 0, picked = [], score = 0;
+    if (full) {
+      for (var i = 0; i < keys.length; i++) {
+        if (mask & (1 << i)) { sum += counts[keys[i]]; picked.push(keys[i]); score += soldScore(keys[i]); }
+      }
+    } else if (mask < keys.length) {   // 取值过多时只试单键
+      sum = counts[keys[mask]]; picked = [keys[mask]]; score = soldScore(keys[mask]);
+    }
+    var err = Math.abs(sum - soldCount);
+    if (err < best.err ||
+        (err === best.err && (score < best.score || (score === best.score && picked.length < best.size)))) {
+      best = { keys: picked, err: err, score: score, size: picked.length };
     }
   }
-  next();
+  return best;
+}
+
+function scoreCandidate(seats, kind, seatCount, soldCount) {
+  if (seats.length < 6) return 0;
+  var withRC = seats.filter(function (s) { return s.row !== undefined && s.col !== undefined; }).length;
+  var ratio = withRC / seats.length;
+  if (ratio < 0.6) return 0;
+  var sc = ratio > 0.9 ? 4 : 2;
+
+  var rows = {};
+  seats.forEach(function (s) { rows[s.row] = 1; });
+  var rowCount = Object.keys(rows).length;
+  if (rowCount >= 3) sc += 1;
+
+  if (seatCount > 0) {
+    var diff = Math.abs(seats.length - seatCount);
+    if (diff <= Math.max(4, seatCount * 0.05)) sc += 3;
+    else if (diff <= seatCount * 0.3) sc += 1;
+  }
+  if (soldCount > 0) {
+    var err = bestSoldMatch(seats, soldCount).err;
+    if (err === 0) sc += 2;
+    else if (err <= Math.max(2, soldCount * 0.1)) sc += 1;
+  }
+  var named = seats.filter(function (s) { return s.name && /排|座/.test(s.name); }).length;
+  if (named > seats.length * 0.5) sc += 1;
+  return sc;
+}
+
+function applyStates(seats, soldCount, soldKnown) {
+  var withRaw = seats.filter(function (s) { return normVal(s.raw) !== ''; }).length;
+  if (!withRaw) {
+    seats.forEach(function (s) { s.state = 'unknown'; });
+    return;
+  }
+  var counts = {};
+  seats.forEach(function (s) { var k = normVal(s.raw); if (k) counts[k] = (counts[k] || 0) + 1; });
+  var keys = Object.keys(counts);
+
+  var soldKeys;
+  if (soldKnown && soldCount > 0) {
+    soldKeys = bestSoldMatch(seats, soldCount).keys;
+  } else {
+    var sorted = keys.slice().sort(function (a, b) { return soldScore(a) - soldScore(b); });
+    soldKeys = (sorted.length && soldScore(sorted[0]) <= 20) ? [sorted[0]] : [];
+  }
+
+  var rest = keys.filter(function (k) { return soldKeys.indexOf(k) < 0; });
+  rest.sort(function (a, b) { return counts[b] - counts[a]; });   // 余下数量最多的是可售
+  var freeKey = rest.length ? rest[0] : null;
+  var blocked = rest.slice(1);
+
+  seats.forEach(function (s) {
+    var k = normVal(s.raw);
+    if (!k) s.state = 'unknown';
+    else if (soldKeys.indexOf(k) >= 0) s.state = 'sold';
+    else if (k === freeKey) s.state = 'free';
+    else if (blocked.indexOf(k) >= 0) s.state = 'blocked';
+    else s.state = 'unknown';
+  });
+}
+
+/** 从接口返回里提取座位明细；识别不出有效座位表时返回 [] */
+function extractSeats(root, seatCount, soldCount, soldKnown) {
+  var bestSeats = null, bestScore = -1;
+  collectCandidates(root).forEach(function (c) {
+    var seats = normalizeCandidate(c).seats;
+    if (!seats.length) return;
+    var sc = scoreCandidate(seats, c.kind, seatCount, soldCount);
+    if (sc > bestScore) { bestScore = sc; bestSeats = seats; }
+  });
+  if (!bestSeats || bestScore < 4) return [];
+  applyStates(bestSeats, soldCount, !!soldKnown);
+  return bestSeats;
+}
+
+/* ---------- 上座率弹窗（点击影片上的入口才查询） ---------- */
+var seatRecs = [];          // 列表渲染时的记录索引（对应 .occ-open 的 data-i）
+var pendingSeatRec = null;  // 未登录时先记住用户点的场次，登录成功后自动打开
+
+function seatStatusText(text, warn) {
+  var st = $('seatStatus');
+  st.hidden = false;
+  st.className = 'seat-status' + (warn ? ' warn' : '');
+  st.textContent = text;
+}
+
+function renderSeatRows(seats) {
+  var rows = {}, rowKeys = [];
+  seats.forEach(function (s) {
+    var k = String(s.row);
+    if (!rows[k]) { rows[k] = []; rowKeys.push(k); }
+    rows[k].push(s);
+  });
+  var allNum = rowKeys.every(function (k) { return /^\d+$/.test(k); });
+  rowKeys.sort(allNum
+    ? function (a, b) { return Number(a) - Number(b); }
+    : function (a, b) { return String(a).localeCompare(String(b)); });
+
+  $('seatRows').innerHTML = rowKeys.map(function (k) {
+    var list = rows[k].slice().sort(function (a, b) { return a.col - b.col; });
+    var cells = '', prev = null;
+    list.forEach(function (s) {
+      if (prev !== null && s.col - prev > 1) cells += '<i class="seat-gap"></i>';   // 过道
+      prev = s.col;
+      var cn = /^\d+$/.test(String(s.col)) && Number(s.col) < 100 ? s.col : '';
+      var tip = s.name || (s.row + '排' + s.col + '座');
+      cells += '<i class="seat ' + s.state + '" title="' + esc(tip) + '">' + cn + '</i>';
+    });
+    var label = /^\d+$/.test(k) ? k + '排' : k;
+    return '<div class="seat-row"><span class="row-label">' + esc(label) + '</span>' +
+      '<div class="seat-cells">' + cells + '</div>' +
+      '<span class="row-label">' + esc(label) + '</span></div>';
+  }).join('');
+
+  $('seatMap').hidden = false;
+  $('seatLegend').hidden = false;
+}
+
+function showSeatResult(r, res) {
+  if (res && res.nomatch) {
+    seatStatusText('未在购票系统中匹配到该场次，可能尚未开售或该渠道暂不提供座位数据。', true);
+    return;
+  }
+  if (res && res.error) {
+    seatStatusText('查询失败：' + res.error, true);
+    return;
+  }
+  var hasMap = res && res.seats && res.seats.length;
+  if (!res || (!res.seat && !hasMap)) {
+    seatStatusText('该场次暂时没有座位数据（可能尚未开售）。', true);
+    return;
+  }
+
+  var total = res.seat || (hasMap ? res.seats.length : 0);
+  var sold = res.sold || 0;
+  var pct = total > 0 ? Math.min(100, Math.round(sold / total * 100)) : 0;
+
+  if (total > 0) occ.cache[recKey(r)] = { seat: total, sold: sold };   // 供列表徽章显示
+
+  var sum = $('seatSummary');
+  sum.hidden = false;
+  sum.innerHTML =
+    '<div class="occ-big"><b>' + pct + '%</b><span>上座率</span></div>' +
+    '<div class="occ-bar"><i style="width:' + pct + '%"></i></div>' +
+    '<div class="occ-nums">已售 <b>' + sold + '</b> 座 ／ 总座位 <b>' + total +
+      '</b> 座 · 余票 <b>' + Math.max(0, total - sold) + '</b> 座</div>';
+
+  if (hasMap) {
+    $('seatStatus').hidden = true;
+    renderSeatRows(res.seats);
+  } else {
+    $('seatMap').hidden = true;
+    $('seatLegend').hidden = true;
+    seatStatusText('该接口未返回座位明细，这里只显示数量统计。', false);
+  }
+  render();   // 更新列表里该场次的上座率徽章
+}
+
+function openSeat(r) {
+  if (!auth.token) {
+    pendingSeatRec = r;
+    openLogin('查询上座率需先登录（使用你的资料馆 APP 账号）');
+    return;
+  }
+  var mi = r.movieInfo || {};
+  var isJn = r.cinemaInfo === '江南分馆影院';
+  $('seatTitle').textContent = mi.movieName || '上座率';
+  $('seatSub').textContent = r.playTime.slice(0, 16) + ' · ' +
+    (isJn ? '江南分馆' : (r.cinemaInfo === '小西天艺术影院' ? '小西天' : '百子湾')) +
+    ' · ' + (r.movieHall || '');
+
+  $('seatSummary').hidden = true;
+  $('seatSummary').innerHTML = '';
+  $('seatMap').hidden = true;
+  $('seatLegend').hidden = true;
+  $('seatRows').innerHTML = '';
+  seatStatusText('正在查询座位…', false);
+  $('seatModal').hidden = false;
+  document.body.classList.add('modal-open');
+
+  loadScreens([r])
+    .then(function (screens) {
+      var screen = matchScreen(r, screens);
+      if (!screen) return { nomatch: true };
+      return fetchSeatOf(screen);
+    })
+    .then(function (res) { showSeatResult(r, res || { nomatch: true }); })
+    ['catch'](function (err) {
+      if (err && err.auth) {
+        closeSeat();
+        clearAuth();
+        openLogin('登录已失效，请重新登录');
+        return;
+      }
+      showSeatResult(r, { error: err && err.message ? err.message : '网络错误' });
+    });
+}
+
+function closeSeat() {
+  $('seatModal').hidden = true;
+  document.body.classList.remove('modal-open');
 }
 
 function renderOccBtn() {
-  var b = $('occBtn');
-  if (occ.loading) {
-    b.textContent = '上座率 · 查询中…';
-    b.disabled = true;
-    $('occLogout').hidden = true;
-  } else if (occ.on) {
-    b.textContent = '上座率 · 已显示';
-    b.disabled = false;
-    $('occLogout').hidden = false;
-  } else {
-    b.textContent = '上座率 · 登录查看';
-    b.disabled = false;
-    $('occLogout').hidden = true;
-  }
+  $('occBtn').hidden = occ.on;
+  $('occLogout').hidden = !occ.on;
 }
 
 function occBadge(r) {
   if (!occ.on) return '';
   var v = occ.cache[recKey(r)];
-  if (!v) return occ.loading ? '<span class="occ-pill pending">上座 …</span>' : '';
-  if (v.none) return '<span class="occ-pill none" title="未开售或暂无座位数据">上座率 —</span>';
+  if (!v || !v.seat) return '';
   var pct = Math.round(v.sold / v.seat * 100);
   var cls = pct >= 90 ? ' high' : (pct >= 70 ? ' mid' : '');
   return '<span class="occ-pill' + cls + '" title="已售 ' + v.sold + ' / ' + v.seat + ' 座">上座 ' + pct + '%</span>';
@@ -1013,16 +1332,30 @@ function openLogin(errMsg) {
 function closeLogin() {
   $('loginModal').hidden = true;
   $('loginError').hidden = true;
+  pendingSeatRec = null;
 }
 
-$('occBtn').addEventListener('click', function () {
-  if (!occ.on) { openLogin(); return; }
-  // 已开启：清缓存重新查询（座位数据保鲜）
-  loadOccupancy(true);
-});
+$('occBtn').addEventListener('click', function () { openLogin(); });
 
 $('occLogout').addEventListener('click', function () {
   clearAuth();
+});
+
+/* ---------- 上座率弹窗交互 ---------- */
+$('dayList').addEventListener('click', function (e) {
+  var btn = e.target.closest ? e.target.closest('.occ-open') : null;
+  if (!btn) return;
+  var rec = seatRecs[Number(btn.dataset.i)];
+  if (rec) openSeat(rec);
+});
+$('seatClose').addEventListener('click', closeSeat);
+$('seatModal').addEventListener('click', function (e) {
+  if (e.target === this) closeSeat();
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  if (!$('seatModal').hidden) closeSeat();
+  else if (!$('loginModal').hidden) closeLogin();
 });
 
 $('loginCancel').addEventListener('click', closeLogin);
@@ -1041,11 +1374,12 @@ function submitLogin() {
   appLogin(account, password).then(function () {
     btn.disabled = false;
     btn.textContent = '登录';
+    var rec = pendingSeatRec;          // 登录前点过的场次
     closeLogin();
     occ.on = true;
     renderOccBtn();
     render();
-    loadOccupancy(true);
+    if (rec) openSeat(rec);            // 登录成功后直接打开它的座位弹窗
   })['catch'](function (err) {
     btn.disabled = false;
     btn.textContent = '登录';
@@ -1074,7 +1408,6 @@ $('loginPassword').addEventListener('keydown', function (e) {
       auth.uid = d.uid || d.user_id || d.id || d.userid || '';
       occ.on = true;
       render();
-      if (!loading) loadOccupancy(false);
     } else {
       clearAuth();
     }
