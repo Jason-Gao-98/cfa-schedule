@@ -195,6 +195,7 @@ var state = {
   venue: 'all',
   query: '',
   cache: {},          // "2026-11" -> { amount:{}, days:{1:[..]}, done:bool }
+  archives: {},       // "2026-11" -> 存档记录数组 | null（null=无存档）
   loadedDays: 0,
   totalDays: 0,
   allEmpty: false
@@ -260,6 +261,73 @@ function mergeExtras() {
       movieInfo: { movieName: e.title, movieTime: e.year, movieMinute: e.min, note: e.note || '' }
     });
   });
+}
+
+/**
+ * 读取站内历史存档 archive/YYYY-MM.json（由 GitHub Actions 每日保存）。
+ * 资料馆接口会剔除已放映的场次，存档用于把它们补回来。
+ */
+function loadArchive(key) {
+  if (Object.prototype.hasOwnProperty.call(state.archives, key)) {
+    return Promise.resolve(state.archives[key]);
+  }
+  return fetch('archive/' + key + '.json').then(function (r) {
+    return r.ok ? r.json() : null;
+  })['catch'](function () { return null; }).then(function (j) {
+    var recs = (j && j.records) || null;
+    state.archives[key] = recs;
+    return recs;
+  });
+}
+
+/** 当前时间戳（"YYYY-MM-DD HH:mm:ss"，与 playTime 同格式，可直接字符串比较） */
+function nowStamp() {
+  var d = new Date();
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) +
+    ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+}
+
+/**
+ * 把存档记录并入缓存（接口已有同一时刻/影厅/影院的场次则跳过）。
+ * 「已放映」按开始时间早于当前时刻判定；返回值为补入/标记的已放映场次数。
+ */
+function mergeArchive(cache, arch) {
+  var added = 0;
+  var nowStr = nowStamp();
+  (arch || []).forEach(function (a) {
+    if (!a || !a.playTime) return;
+    var day = Number(a.playTime.slice(8, 10));
+    var list = cache.days[day] || (cache.days[day] = []);
+    var key = a.playTime + '|' + a.cinema + '|' + (a.hall || '');
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].playTime + '|' + list[i].cinemaInfo + '|' + (list[i].movieHall || '') === key) {
+        // 已存在（接口数据或先前并入的补充场次）：若确属过去的场次，补上「已放映」标记
+        if (a.playTime < nowStr && !list[i].archived) { list[i].archived = true; added++; }
+        return;
+      }
+    }
+    var past = a.playTime < nowStr;
+    list.push({
+      archived: past,
+      extra: !!a.extra,
+      cinemaInfo: a.cinema,
+      movieHall: a.hall || '',
+      playTime: a.playTime,
+      node: a.formats || [],
+      movieId: a.movieId || '',
+      movieInfo: {
+        movieId: a.movieId || '',
+        movieName: a.name || '',
+        englishName: a.en || '',
+        movieTime: a.year || '',
+        movieMinute: a.min || 0,
+        pictureBig: a.poster || '',
+        note: a.note || ''
+      }
+    });
+    if (past) added++;   // 仅统计已放映的场次（未来场次本就该在列表里，不算“补档”）
+  });
+  return added;
 }
 
 /** 收集当前筛选条件下、已加载的排片记录（all 模式跨所有已加载月份） */
@@ -352,6 +420,12 @@ function renderNotice() {
   if (!cache.done) { el.hidden = true; return; }
 
   if (total === 0) {
+    if (cache.archiveAdded) {   // 接口已无数据，当前显示全部来自站内存档
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = '该月排片已过接口可查期，以下为站内每日自动保存的历史存档（含已放映场次）。';
+      return;
+    }
     el.hidden = false;
     var thisYear = now.getFullYear(), thisMonth = now.getMonth() + 1;
     var cmp = state.year * 12 + state.month, cur = thisYear * 12 + thisMonth;
@@ -365,6 +439,12 @@ function renderNotice() {
       el.className = 'notice';
       el.textContent = '该月暂未查到排片数据，可能尚未排定或已停售，请稍后再试。';
     }
+    return;
+  }
+  if (cache.archiveAdded) {   // 接口有数据，但已放映的场次来自存档
+    el.hidden = false;
+    el.className = 'notice';
+    el.textContent = '其中已放映的场次来自站内每日自动保存的历史存档。';
     return;
   }
   el.hidden = true;
@@ -492,6 +572,7 @@ function renderList(records) {
             '<span class="time-pill">' + esc(time) + '</span>' +
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
             occBadge(r) +
+            (r.archived ? '<span class="arch-pill">已放映</span>' : '') +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
           '</div>' +
@@ -503,8 +584,11 @@ function renderList(records) {
         '</div>' +
         '<div class="film-side">' + (isExtra
           ? '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>'
-          : '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
-            '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>') +
+          : (r.archived
+            // 已放映场次不再提供上座率入口
+            ? '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>'
+            : '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
+              '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>')) +
         '</div>' +
       '</article>';
     }).join('');
@@ -605,7 +689,20 @@ function failLoad(err) {
 /** 加载指定单月的排片 */
 function loadMonth(force) {
   var cache = getCache();
-  if (!force && cache.done) { render(); return; }
+  if (!force && cache.done) {
+    // 已加载过该月：若还没接过存档（例如先在「全部排片」里加载过），补拉一次再渲染
+    var k = cacheKey();
+    if (!state.archives.hasOwnProperty(k)) {
+      loadArchive(k).then(function (arch) {
+        var c = getCache();
+        if (arch && arch.length && !c.archiveAdded) c.archiveAdded = mergeArchive(c, arch);
+        render();
+      });
+      return;
+    }
+    render();
+    return;
+  }
 
   loading = true;
   $('refreshBtn').disabled = true;
@@ -613,6 +710,9 @@ function loadMonth(force) {
   if (!cache.done) renderSkeleton();
 
   var y = state.year, m = state.month, dim = daysInMonth(y, m);
+
+  // 存档与接口并行拉取：已放映的场次接口不再返回，靠存档补全
+  var archP = loadArchive(cacheKey());
 
   fetchAmount(y, m).then(function (amtJson) {
     var amount = parseAmount(amtJson);
@@ -630,14 +730,13 @@ function loadMonth(force) {
       tasks.push({ y: y, m: m, d: now.getDate(), cache: cache });
     }
 
-    if (!tasks.length) {
-      cache.done = true;
-      finishLoad();
-      return;
-    }
+    if (!tasks.length) return;
     return loadDetails(tasks);
   }).then(function () {
+    return archP;
+  }).then(function (arch) {
     var cache2 = getCache();
+    if (arch && arch.length) cache2.archiveAdded = mergeArchive(cache2, arch);
     cache2.done = true;
     finishLoad();
   })['catch'](failLoad);
