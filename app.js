@@ -871,7 +871,7 @@ var COL_KEYS = ['col', 'column', 'colNo', 'col_no', 'colNum', 'col_num', 'seatCo
 var ROW_FALLBACK = ['y', 'line'];
 var COL_FALLBACK = ['x', 'index', 'no', 'num'];
 var NAME_KEYS = ['name', 'seatName', 'seat_name', 'label', 'seatLabel', 'seatNo', 'seat_no', 'seatCode', 'code', 'seatNum'];
-var STAT_KEYS = ['status', 'state', 'seatStatus', 'seat_status', 'seatState', 'seat_state', 'sellStatus', 'sell_status',
+var STAT_KEYS = ['statu', 'status', 'state', 'seatStatus', 'seat_status', 'seatState', 'seat_state', 'sellStatus', 'sell_status',
   'saleStatus', 'sale_status', 'isSold', 'is_sold', 'sold', 'soldStatus', 'sold_status', 'lockStatus', 'lock_status',
   'isLock', 'is_lock', 'lock', 'usable', 'available', 'isAvailable', 'is_available', 'canBuy', 'can_buy',
   'booked', 'isBooked', 'orderStatus', 'order_status', 'seatType', 'seat_type', 'type', 'flag', 'category'];
@@ -1075,15 +1075,29 @@ function scoreCandidate(seats, kind, seatCount, soldCount) {
   return sc;
 }
 
+/* 本接口的数值语义：-1 = 非座位占位、0 = 可售、1 = 已售 */
+var EXPLICIT_STATE = { '-1': 'blocked', '0': 'free', '1': 'sold' };
+
 function applyStates(seats, soldCount, soldKnown) {
   var withRaw = seats.filter(function (s) { return normVal(s.raw) !== ''; }).length;
   if (!withRaw) {
     seats.forEach(function (s) { s.state = 'unknown'; });
     return;
   }
+
   var counts = {};
   seats.forEach(function (s) { var k = normVal(s.raw); if (k) counts[k] = (counts[k] || 0) + 1; });
   var keys = Object.keys(counts);
+
+  // 取值全部命中已知数值语义时直接按语义着色
+  var allExplicit = keys.every(function (k) { return EXPLICIT_STATE.hasOwnProperty(k); });
+  if (allExplicit) {
+    seats.forEach(function (s) {
+      var k = normVal(s.raw);
+      s.state = k ? EXPLICIT_STATE[k] : 'unknown';
+    });
+    return;
+  }
 
   var soldKeys;
   if (soldKnown && soldCount > 0) {
@@ -1094,9 +1108,12 @@ function applyStates(seats, soldCount, soldKnown) {
   }
 
   var rest = keys.filter(function (k) { return soldKeys.indexOf(k) < 0; });
-  rest.sort(function (a, b) { return counts[b] - counts[a]; });   // 余下数量最多的是可售
-  var freeKey = rest.length ? rest[0] : null;
-  var blocked = rest.slice(1);
+  // 优先在「可售语义」的取值里选（n/no/false/free/available/empty/0），避开语义未知的取值
+  var freeish = rest.filter(function (k) { var sc = soldScore(k); return sc >= 16 && sc < 40; });
+  var freePool = (freeish.length ? freeish : rest).slice();
+  freePool.sort(function (a, b) { return counts[b] - counts[a]; });   // 数量最多的可售
+  var freeKey = freePool.length ? freePool[0] : null;
+  var blocked = rest.filter(function (k) { return k !== freeKey; });
 
   seats.forEach(function (s) {
     var k = normVal(s.raw);
@@ -1145,17 +1162,36 @@ function renderSeatRows(seats) {
     ? function (a, b) { return Number(a) - Number(b); }
     : function (a, b) { return String(a).localeCompare(String(b)); });
 
+  function isPlace(s) { return s.state === 'sold' || s.state === 'free' || s.state === 'unknown'; }
+
   $('seatRows').innerHTML = rowKeys.map(function (k) {
     var list = rows[k].slice().sort(function (a, b) { return a.col - b.col; });
-    var cells = '', prev = null;
-    list.forEach(function (s) {
-      if (prev !== null && s.col - prev > 1) cells += '<i class="seat-gap"></i>';   // 过道
-      prev = s.col;
-      var cn = /^\d+$/.test(String(s.col)) && Number(s.col) < 100 ? s.col : '';
-      var tip = s.name || (s.row + '排' + s.col + '座');
-      cells += '<i class="seat ' + s.state + '" title="' + esc(tip) + '">' + cn + '</i>';
-    });
     var label = /^\d+$/.test(k) ? k + '排' : k;
+
+    // 该排里真正有座位的区间（去掉接口两侧的占位留白，按各厅实际座位数排布）
+    var placeIdx = [];
+    list.forEach(function (s, i) { if (isPlace(s)) placeIdx.push(i); });
+
+    if (!placeIdx.length) {   // 整排都是占位 → 空排 / 过道行
+      return '<div class="seat-row seat-row-empty"><span class="row-label">' + esc(label) + '</span>' +
+        '<div class="seat-cells"><i class="aisle-line"></i></div>' +
+        '<span class="row-label">' + esc(label) + '</span></div>';
+    }
+
+    var lo = placeIdx[0], hi = placeIdx[placeIdx.length - 1];
+    var cells = '', seq = 0, lastGap = false;
+    for (var i = lo; i <= hi; i++) {
+      var s = list[i];
+      if (isPlace(s)) {
+        seq++;
+        var tip = s.name || (label + seq + '座');
+        cells += '<i class="seat ' + s.state + '" title="' + esc(tip) + '">' + (seq < 100 ? seq : '') + '</i>';
+        lastGap = false;
+      } else if (!lastGap) {   // 座位之间的不可用位 → 过道
+        cells += '<i class="seat-gap"></i>';
+        lastGap = true;
+      }
+    }
     return '<div class="seat-row"><span class="row-label">' + esc(label) + '</span>' +
       '<div class="seat-cells">' + cells + '</div>' +
       '<span class="row-label">' + esc(label) + '</span></div>';
