@@ -37,9 +37,23 @@
 
       <article class="cl-item">
         <div class="cl-head">
-          <span class="cl-ver">v1.4.0</span>
+          <span class="cl-ver">v1.5.0</span>
           <span class="cl-date">2026-10-31</span>
           <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>上座率按需查询</b>：不再打开页面就批量拉取所有影片的上座率，改为每条排片右侧一个「上座率」按钮，点击后才查询该场次，数据量大也不卡。</li>
+          <li><b>影厅座位图弹窗</b>：点击按钮弹出座位图，直接标出每个座位的状态——已售（红）、可售（蓝）、不可用（灰）、状态未知（浅灰），顶部显示座位数 / 已售 / 余票 / 上座率汇总。</li>
+          <li><b>按各厅实际座位排布</b>：每排按该厅真实座位数渲染，裁去接口两侧占位留白，中间占位显示为过道断位，整排无座位的排渲染为过道虚线；座位内显示排内序号，悬停可见「X排N座」。</li>
+          <li><b>修复</b>：识别选座接口的 <code>statu</code> 字段（1 = 已售、0 = 可售、-1 = 非座位占位），已售座位此前全部被渲染成灰色的问题已解决。</li>
+          <li>查询过的场次缓存为列表徽章（上座 XX%），未查询过的不显示，避免重复请求。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.4.0</span>
+          <span class="cl-date">2026-10-31</span>
         </div>
         <ul class="cl-list">
           <li><b>上座率</b>：接入资料馆官方 APP 票务接口，登录后每场排片显示「上座 XX%」（来自选座接口的已售 / 总座位数，悬浮可见具体数值）；≥70% 橙色、≥90% 红色高亮。</li>
