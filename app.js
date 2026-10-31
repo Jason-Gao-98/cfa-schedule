@@ -1202,14 +1202,27 @@ function renderSeatRows(seats) {
   fitSeatMap();
 }
 
-/** 座位图自适应：弹窗变宽后，如果整排仍超出可视宽度，按比例整体缩放座位图 */
+/** 座位图自适应：弹窗宽度贴合座位图（小厅窗口小、大厅窗口大），整排超宽时再整体缩放 */
 function fitSeatMap() {
-  var wrap = $('seatScroll'), rows = $('seatRows');
-  if (!wrap || !rows || !$('seatModal') || $('seatModal').hidden) return;
+  var modal = $('seatModal'), wrap = $('seatScroll'), rows = $('seatRows');
+  if (!modal || !wrap || !rows || modal.hidden) return;
+
   rows.style.zoom = '';
+  modal.style.width = '';
+
+  var natural = 0;
+  Array.prototype.forEach.call(rows.querySelectorAll('.seat-row'), function (r) {
+    if (r.offsetWidth > natural) natural = r.offsetWidth;
+  });
+  if (!natural) return;
+
+  var vw = document.documentElement.clientWidth;
+  var maxW = Math.min(1180, vw - 40);
+  var desired = Math.min(maxW, Math.max(360, natural + 70));
+  modal.style.width = desired + 'px';
+
   var avail = wrap.clientWidth - 6;
-  var natural = rows.scrollWidth;
-  if (avail > 0 && natural > avail) {
+  if (natural > avail) {
     var k = avail / natural;
     rows.style.zoom = (k < 0.5 ? 0.5 : k).toFixed(3);
   }
