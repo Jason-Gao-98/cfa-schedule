@@ -1,0 +1,40 @@
+# 排片存档：每天定时把「当月 + 下月」的完整排片保存到 archive/ 目录。
+# 背景：资料馆官方接口会剔除已放映的场次，历史排片无法回查，
+# 因此每天快照一次，网站端用它补全「按月查看」里已放映的日期。
+name: Daily schedule snapshot
+
+on:
+  schedule:
+    - cron: '0 17 * * *'   # 每天 17:00 UTC = 北京时间次日 01:00
+  workflow_dispatch:        # 支持手动触发，可指定月份
+    inputs:
+      months:
+        description: '要快照的月份（空格分隔，如 2026-11 2026-12；留空 = 当月 + 下月）'
+        required: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 生成快照
+        run: node scripts/snapshot.mjs ${{ inputs.months }}
+
+      - name: 提交变更
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add archive
+          if git diff --cached --quiet; then
+            echo "存档无变化，跳过提交"
+          else
+            git commit -m "快照：更新排片存档（每日）"
+            git push
+          fi
