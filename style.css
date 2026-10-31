@@ -14,6 +14,8 @@
 }
 
 *{box-sizing:border-box}
+/* hidden 属性必须压过元素自身的 display（如 .month-nav-group{display:flex} 否则隐藏不生效） */
+[hidden]{display:none!important}
 html,body{margin:0;padding:0}
 body{
   background:
