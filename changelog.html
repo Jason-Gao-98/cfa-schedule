@@ -37,9 +37,21 @@
 
       <article class="cl-item">
         <div class="cl-head">
-          <span class="cl-ver">v1.6.0</span>
+          <span class="cl-ver">v1.7.0</span>
           <span class="cl-date">2026-10-31</span>
           <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>点击跳转豆瓣</b>：每部影片的海报现在整体可点击，点击后在新页签打开该片的豆瓣搜索页（片名做关键词），一键从排片跳到豆瓣。无海报的占位框同样可点。</li>
+          <li>海报悬浮时有轻微放大与阴影反馈，提示当前可点击。</li>
+          <li>豆瓣评分徽章、默认带出豆瓣海报等功能依赖按片抓取的豆瓣数据，待后续版本补充。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.6.0</span>
+          <span class="cl-date">2026-10-31</span>
         </div>
         <ul class="cl-list">
           <li><b>排片历史存档</b>：资料馆接口会把已放映的场次逐渐剔除，历史排片原本无从查起。现由 GitHub Actions 每天自动把「当月 + 下月」的完整排片（片名、时间、影厅、年份、片长、制式、公众号补充场次等，不含上座率等动态数据）保存到仓库 <code>archive/</code> 目录。</li>
