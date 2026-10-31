@@ -226,8 +226,45 @@ function matchQuery(film) {
          (film.movieInfo.englishName || '').toLowerCase().indexOf(q) >= 0;
 }
 
+/**
+ * 把站内手工补充场次（extra-schedule.js，来源：江南分馆公众号排片表）
+ * 合并进已加载的接口数据。幂等：接口同日已有同片名或同开始时间的场次
+ * 就跳过，官网日后上架这些场次也不会重复显示。
+ */
+function mergeExtras() {
+  var list = window.EXTRA_SCHEDULE;
+  if (!list || !list.length) return;
+  list.forEach(function (e) {
+    var cache = state.cache[e.d.slice(0, 7)];   // 该月尚未加载时跳过，加载后自然合入
+    if (!cache) return;
+    var day = Number(e.d.slice(8, 10));
+    var recs = cache.days[day];
+    var name = String(e.title || '').toLowerCase();
+    var stamp = e.d + ' ' + e.t;
+    if (recs) {
+      for (var i = 0; i < recs.length; i++) {
+        if (recs[i].cinemaInfo !== '江南分馆影院') continue;   // 去重只针对江南（补充场次均为江南）
+        var mi = recs[i].movieInfo || {};
+        if (String(mi.movieName || '').toLowerCase() === name) return;   // 已有同片名
+        if (recs[i].playTime.slice(0, 16) === stamp) return;             // 已有同时刻
+      }
+    } else {
+      recs = cache.days[day] = [];
+    }
+    recs.push({
+      extra: true,
+      cinemaInfo: '江南分馆影院',
+      movieHall: e.hall,
+      playTime: stamp + ':00',
+      node: [],
+      movieInfo: { movieName: e.title, movieTime: e.year, movieMinute: e.min, note: e.note || '' }
+    });
+  });
+}
+
 /** 收集当前筛选条件下、已加载的排片记录（all 模式跨所有已加载月份） */
 function visibleRecords() {
+  mergeExtras();
   var out = [];
   var caches = state.scope === 'month' ? [getCache()] : Object.keys(state.cache).sort().map(function (k) { return state.cache[k]; });
   caches.forEach(function (cache) {
@@ -438,16 +475,18 @@ function renderList(records) {
       var poster = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
       var fmt = (r.node || []).join(' + ');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
+      var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
 
       var meta = [];
       if (mi.movieTime) meta.push(esc(mi.movieTime) + ' 年');
       if (mi.movieMinute) meta.push(esc(mi.movieMinute) + ' 分钟');
       if (fmt) meta.push('<span class="fmt">' + esc(fmt) + '</span>');
+      if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
 
       return '<article class="film">' +
         (poster
           ? '<img class="poster" src="' + esc(poster) + '" alt="' + esc(mi.movieName) + '" loading="lazy">'
-          : '<div class="poster-ph">暂无海报</div>') +
+          : '<div class="poster-ph">' + (isExtra ? '公众号<br>排片表' : '暂无海报') + '</div>') +
         '<div class="film-main">' +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
@@ -456,13 +495,16 @@ function renderList(records) {
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
           '</div>' +
-          '<h3 class="film-title"><a href="' + link + '" target="_blank" rel="noopener">' + esc(mi.movieName) + '</a></h3>' +
+          '<h3 class="film-title">' + (isExtra
+            ? esc(mi.movieName)
+            : '<a href="' + link + '" target="_blank" rel="noopener">' + esc(mi.movieName) + '</a>') + '</h3>' +
           (mi.englishName ? '<p class="film-en">' + esc(mi.englishName) + '</p>' : '<p class="film-en"></p>') +
           '<div class="film-meta">' + meta.join('<span class="sep">／</span>') + '</div>' +
         '</div>' +
-        '<div class="film-side">' +
-          '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
-          '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>' +
+        '<div class="film-side">' + (isExtra
+          ? '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>'
+          : '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
+            '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>') +
         '</div>' +
       '</article>';
     }).join('');
