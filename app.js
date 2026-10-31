@@ -403,10 +403,16 @@ function renderNotice() {
   var now = new Date();
 
   if (state.scope === 'all') {
+    var archShown = false;
+    Object.keys(state.cache).forEach(function (k) { if (state.cache[k].archiveAdded) archShown = true; });
     if (state.allEmpty && !loading) {
       el.hidden = false;
       el.className = 'notice';
       el.textContent = '暂未查到未来排片。资料馆官方接口仅提供从今天起约两个月的排片，更早的已过期、更远的尚未发布。';
+    } else if (archShown && !loading) {
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = '其中已放映的场次来自站内每日自动保存的历史存档。';
     } else {
       el.hidden = true;
     }
@@ -760,6 +766,13 @@ function loadAll(force) {
     m++; if (m > 12) { m = 1; y++; }
   }
 
+  // 存档与接口并行拉取：已放映的场次接口不再返回，靠存档补全
+  // （每日任务只保存当月+下月，更远的月份没有存档文件，直接跳过避免 404）
+  var archPs = months.map(function (mm, i) {
+    if (i > 1) return Promise.resolve(null);
+    return loadArchive(mm.y + '-' + pad2(mm.m));
+  });
+
   // 第一步：并发拉取各月每日场次数
   var amtTasks = months.map(function (mm) {
     var key = mm.y + '-' + pad2(mm.m);
@@ -805,6 +818,15 @@ function loadAll(force) {
     };
 
     return loadDetails(tasks, throttled);
+  }).then(function () {
+    // 合并历史存档：补回接口已剔除的已放映场次，并标记「已放映」
+    return Promise.all(archPs).then(function (archList) {
+      months.forEach(function (mm, i) {
+        var c = state.cache[mm.y + '-' + pad2(mm.m)];
+        var arch = archList && archList[i];
+        if (c && arch && arch.length) c.archiveAdded = mergeArchive(c, arch);
+      });
+    });
   }).then(function () {
     // 标记覆盖月份明细完成，切回单月模式可直接复用
     months.forEach(function (mm) {
