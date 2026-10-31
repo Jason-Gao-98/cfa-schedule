@@ -341,3 +341,88 @@ a{color:inherit}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
 .ghost-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .ghost-btn.primary:hover{background:#b81a27;border-color:#b81a27;color:#fff}
+
+/* ---------- 影片上的「上座率」入口 ---------- */
+.occ-open{
+  font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(212,32,46,.4);color:var(--accent);background:var(--accent-soft);
+  transition:.18s;white-space:nowrap;
+}
+.occ-open:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.occ-open:active{transform:translateY(1px)}
+
+/* ---------- 上座率座位图弹窗 ---------- */
+body.modal-open{overflow:hidden}
+.seat-modal{
+  max-width:760px;max-height:88vh;padding:20px 20px 16px;
+  display:flex;flex-direction:column;
+}
+.seat-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+.seat-head h3{margin:0;font-size:19px;letter-spacing:.02em}
+.seat-sub{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+.modal-x{
+  width:32px;height:32px;flex:none;border-radius:9px;cursor:pointer;font-size:20px;line-height:1;
+  background:var(--panel-2);border:1px solid var(--line);color:var(--muted);transition:.18s;
+}
+.modal-x:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.seat-summary{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:13px 16px;margin-bottom:14px;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:12px;
+}
+.occ-big{text-align:center;min-width:74px}
+.occ-big b{display:block;font-size:30px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.occ-big span{font-size:11px;color:var(--muted);letter-spacing:.1em}
+.occ-bar{flex:1;min-width:150px;height:9px;border-radius:999px;background:#e2e5ea;overflow:hidden}
+.occ-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#f4707a,var(--accent));transition:width .4s}
+.occ-nums{width:100%;font-size:12.5px;color:var(--muted)}
+.occ-nums b{color:var(--txt);font-variant-numeric:tabular-nums}
+
+.seat-scroll{flex:1;min-height:0;overflow:auto;padding-bottom:2px}
+.seat-status{padding:34px 12px;text-align:center;color:var(--muted);font-size:14px}
+.seat-status.warn{color:#a81622}
+
+.seat-screen{margin:2px auto 16px;text-align:center}
+.seat-screen span{
+  display:inline-block;font-size:11px;letter-spacing:.5em;color:#9aa0ad;
+  padding:6px 24px 9px;border:1px solid #dfe2e8;border-top:none;
+  border-radius:0 0 44px 44px/0 0 26px 26px;
+  background:linear-gradient(180deg,#eceef2,#f8f9fa);
+}
+.seat-rows{width:max-content;min-width:100%;display:flex;flex-direction:column;gap:5px;align-items:center;padding-bottom:6px}
+.seat-row{display:flex;align-items:center;gap:8px}
+.row-label{flex:none;min-width:30px;text-align:center;font-size:10px;color:#9aa0ad}
+.seat-cells{display:flex;align-items:center;gap:3px}
+.seat-gap{display:block;width:13px;flex:none}
+.seat{
+  width:20px;height:20px;flex:none;border-radius:5px 5px 3px 3px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;font-style:normal;border:1px solid transparent;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.08);transition:transform .12s;
+}
+.seat.free{background:#e3ebfa;border-color:#b9caeb;color:#5b6b8c}
+.seat.sold{background:var(--accent);border-color:#b01b26;color:#fff}
+.seat.blocked{background:#e6e8ec;border-color:#d3d6dd;color:#a3a8b3}
+.seat.unknown{background:#f3f4f6;border-color:#dfe2e8;color:#b3b8c2}
+.seat:hover{transform:scale(1.35);z-index:2;box-shadow:0 3px 8px rgba(20,24,40,.25)}
+
+.seat-legend{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:8px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:12px;color:var(--muted);
+}
+.seat-legend span{display:flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:13px;height:13px;border-radius:4px;border:1px solid transparent}
+.sw.free{background:#e3ebfa;border-color:#b9caeb}
+.sw.sold{background:var(--accent);border-color:#b01b26}
+.sw.blocked{background:#e6e8ec;border-color:#d3d6dd}
+.sw.unknown{background:#f3f4f6;border-color:#dfe2e8}
+
+@media (max-width:760px){
+  .seat-modal{padding:16px 14px 12px}
+  .seat{width:17px;height:17px;font-size:7px}
+  .seat-gap{width:10px}
+  .row-label{min-width:24px;font-size:9px}
+  .occ-big b{font-size:26px}
+}
