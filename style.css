@@ -240,6 +240,17 @@ a{color:inherit}
 }
 .detail-link:hover{color:var(--accent);border-color:rgba(212,32,46,.5);background:var(--accent-soft)}
 
+/* 手工补充场次（公众号 · 淘票票渠道，官网 APP 未上架） */
+.src-badge{
+  font-size:11px;font-weight:600;letter-spacing:.03em;padding:6px 11px;border-radius:999px;
+  background:rgba(15,157,118,.12);border:1px solid rgba(15,157,118,.45);color:var(--jn);
+  white-space:nowrap;cursor:help;
+}
+.extra-note{
+  font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;
+  background:rgba(15,157,118,.10);border:1px solid rgba(15,157,118,.3);color:var(--jn);
+}
+
 /* ---------- states ---------- */
 .skeleton{padding:6px 0}
 .sk-row{
