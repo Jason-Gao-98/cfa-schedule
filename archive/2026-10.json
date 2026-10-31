@@ -1,0 +1,39 @@
+{
+    "month":  "2026-10",
+    "generatedAt":  "2026-10-31T12:39:50Z",
+    "count":  2,
+    "records":  [
+                    {
+                        "playTime":  "2026-10-31 16:30:00",
+                        "cinema":  "江南分馆影院",
+                        "hall":  "2号厅",
+                        "name":  "天伦",
+                        "en":  "",
+                        "year":  "1935",
+                        "min":  47,
+                        "formats":  [
+
+                                    ],
+                        "movieId":  "",
+                        "poster":  "",
+                        "extra":  true,
+                        "note":  "4K · ★映后交流"
+                    },
+                    {
+                        "playTime":  "2026-10-31 18:30:00",
+                        "cinema":  "江南分馆影院",
+                        "hall":  "1号厅",
+                        "name":  "假凤虚凰",
+                        "en":  "",
+                        "year":  "1947",
+                        "min":  91,
+                        "formats":  [
+
+                                    ],
+                        "movieId":  "",
+                        "poster":  "",
+                        "extra":  true,
+                        "note":  "★映后交流"
+                    }
+                ]
+}
