@@ -1,0 +1,197 @@
+{
+ "month": "2026-12",
+ "count": 13,
+ "records": [
+  {
+   "playTime": "2026-12-05 11:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "战国妖姬",
+   "en": "Senso",
+   "year": "1954",
+   "min": 123,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "a01f88f0f24923660feeb921569dd6ba%3A8WhdIeOkNzuCzmzwuRYx8g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/6366c20260805091233822.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "一代人",
+   "en": "Pokolenie",
+   "year": "1955",
+   "min": 87,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "70c10daae8cf422defd669443398d203%3AEOKWbpjK3fUF7%2B%2FltduH7A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 13:40:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "白夜",
+   "en": "White Nights",
+   "year": "1957",
+   "min": 102,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "d006e2c19d0524045e5bfdf54fe047f6%3AW26ZcNHAjHF8ggcxDazbEA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/f61ee202608060958118506.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 15:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "下水道",
+   "en": "Kanał",
+   "year": "1957",
+   "min": 91,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "26518b68f59b26c59d0c77d6f1af7c01%3ADB7E8n4jWcvBEhgb6TJcPw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 16:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "北斗七星",
+   "en": "Sandra",
+   "year": "1965",
+   "min": 101,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "b4417bf218f7a85b781218de474b7b37%3AoVFOdq3TUqJ7QJXVsEx8Pg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b2dff202608071035197528.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 17:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "灰烬与钻石",
+   "en": "Ashes and Diamonds",
+   "year": "1958",
+   "min": 103,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "9a94a3fa8eb0eb35e248754fb3afd86f%3ALFcBLkQXjdA5d2sy%2FWUHFQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 18:30:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "纳粹狂魔",
+   "en": "The Damned",
+   "year": "1969",
+   "min": 158,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "28ac27174060f591b714ba84a9694992%3ANU48Eg6Hbw369wDWm7f0EQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b519e202608071059375462.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 13:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "路德维希",
+   "en": "Ludwig",
+   "year": "1973",
+   "min": 239,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "9642849a270259c8e49f4bc2862e0200%3At1Z6DM82jxdzH8SY8glTNA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/3d83f202608111047313712.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "丹东",
+   "en": "Danton",
+   "year": "1983",
+   "min": 136,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "44c69106cea63a30d3b49d0a575524c5%3Ap6%2FD8TON6iHWpgJvIcrcRg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 15:45:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "科扎克医生",
+   "en": "Korczak",
+   "year": "1990",
+   "min": 118,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "e039b5a7f05b2839c484d509d8761507%3AaY9SFyeOaP2zvLGIA5ob0Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/bee13202609271645455699.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 17:30:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "家族的肖像",
+   "en": "Conversation Piece",
+   "year": "1974",
+   "min": 122,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "ca2e93d437dc3a29bc98fe2ffe2a3a5e%3AaG6ALBMPmKecsLE%2B58Vj2w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/de29a202608111125566406.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 18:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "残影余像",
+   "en": "Afterimages",
+   "year": "2016",
+   "min": 98,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "aec83163350c5439b5de2b6371c10fd6%3AuGFVq3OCSENjP1RJwz65gg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/6afa3202609271722457652.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 20:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "无辜",
+   "en": "The Innocent",
+   "year": "1976",
+   "min": 129,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "291375dbce295e41a33b19da42cb174c%3AAOdC83OJD0AEUWJ74G4gFQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/7a1362026081209330821.jpeg"
+  }
+ ],
+ "generatedAt": "2026-10-31T20:23:00.354Z"
+}
