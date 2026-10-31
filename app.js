@@ -249,13 +249,18 @@ var $ = function (id) { return document.getElementById(id); };
 
 function renderMonthLabel() {
   if (state.scope === 'all') {
+    // 全部排片模式没有月份切换：保留标题、隐藏左右箭头
     $('monthText').textContent = '全部排片';
     $('thisMonth').hidden = true;
-    $('monthNavWrap').hidden = true;
+    $('monthNavWrap').hidden = false;
+    $('prevMonth').hidden = true;
+    $('nextMonth').hidden = true;
     $('calendarBlock').hidden = true;
     return;
   }
   $('monthNavWrap').hidden = false;
+  $('prevMonth').hidden = false;
+  $('nextMonth').hidden = false;
   $('calendarBlock').hidden = false;
   $('monthText').textContent = state.year + ' 年 ' + state.month + ' 月';
   var now = new Date();
@@ -269,7 +274,11 @@ function renderStats(records) {
   var films = {};
   records.forEach(function (r) {
     if (r.cinemaInfo === '江南分馆影院') jn++; else bj++;
-    films[r.movieInfo.movieId || r.movieInfo.movieName] = 1;
+    // 影片数按片名去重（movieId 每场唯一，不能用来数影片）
+    var mi = r.movieInfo || {};
+    var name = String(mi.movieName || mi.englishName || '')
+      .replace(/\s+/g, ' ').trim().toLowerCase();
+    films[name || ('k:' + recKey(r))] = 1;
   });
   total = bj + jn;
   var chips = [
