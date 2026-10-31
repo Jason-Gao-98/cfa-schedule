@@ -395,6 +395,9 @@ body.modal-open{overflow:hidden}
 .row-label{flex:none;min-width:30px;text-align:center;font-size:10px;color:#9aa0ad}
 .seat-cells{display:flex;align-items:center;gap:3px}
 .seat-gap{display:block;width:13px;flex:none}
+.seat-row-empty{opacity:.7}
+.seat-row-empty .row-label{color:#c0c4cc}
+.aisle-line{display:block;width:170px;height:0;border-top:1px dashed #b9bdc7}
 .seat{
   width:20px;height:20px;flex:none;border-radius:5px 5px 3px 3px;
   display:flex;align-items:center;justify-content:center;
