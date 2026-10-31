@@ -1202,13 +1202,15 @@ function renderSeatRows(seats) {
   fitSeatMap();
 }
 
-/** 座位图自适应：弹窗宽度贴合座位图（小厅窗口小、大厅窗口大），整排超宽时再整体缩放 */
+/** 座位图自适应：弹窗宽度贴合座位图（小厅小窗、大厅大窗），整排超宽时再整体缩放 */
 function fitSeatMap() {
-  var modal = $('seatModal'), wrap = $('seatScroll'), rows = $('seatRows');
-  if (!modal || !wrap || !rows || modal.hidden) return;
+  var mask = $('seatModal'), wrap = $('seatScroll'), rows = $('seatRows');
+  if (!mask || !wrap || !rows || mask.hidden) return;
+  var box = mask.querySelector('.seat-modal');
+  if (!box) return;
 
   rows.style.zoom = '';
-  modal.style.width = '';
+  box.style.width = '';
 
   var natural = 0;
   Array.prototype.forEach.call(rows.querySelectorAll('.seat-row'), function (r) {
@@ -1218,8 +1220,7 @@ function fitSeatMap() {
 
   var vw = document.documentElement.clientWidth;
   var maxW = Math.min(1180, vw - 40);
-  var desired = Math.min(maxW, Math.max(360, natural + 70));
-  modal.style.width = desired + 'px';
+  box.style.width = Math.min(maxW, Math.max(360, natural + 70)) + 'px';
 
   var avail = wrap.clientWidth - 6;
   if (natural > avail) {
@@ -1286,6 +1287,8 @@ function openSeat(r) {
   $('seatMap').hidden = true;
   $('seatLegend').hidden = true;
   $('seatRows').innerHTML = '';
+  var box = $('seatModal').querySelector('.seat-modal');
+  if (box) box.style.width = '';
   seatStatusText('正在查询座位…', false);
   $('seatModal').hidden = false;
   document.body.classList.add('modal-open');
