@@ -55,7 +55,7 @@
       <input type="search" id="searchBox" class="search-box" placeholder="搜索片名（中 / 英文）…" autocomplete="off">
       <button type="button" id="refreshBtn" class="ghost-btn">刷新数据</button>
       <button type="button" id="occBtn" class="ghost-btn occ-btn">上座率 · 登录查看</button>
-      <button type="button" id="occLogout" class="link-btn" hidden>退出</button>
+      <button type="button" id="occLogout" class="link-btn" hidden>上座率已登录 · 退出</button>
     </div>
   </section>
 
@@ -105,6 +105,35 @@
     <div class="modal-actions">
       <button type="button" class="ghost-btn" id="loginCancel">取消</button>
       <button type="button" class="ghost-btn primary" id="loginSubmit">登录</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="seatModal" hidden>
+  <div class="modal seat-modal" role="dialog" aria-modal="true" aria-labelledby="seatTitle">
+    <div class="seat-head">
+      <div class="seat-headtext">
+        <h3 id="seatTitle">上座率</h3>
+        <p class="seat-sub" id="seatSub"></p>
+      </div>
+      <button type="button" class="modal-x" id="seatClose" aria-label="关闭">&times;</button>
+    </div>
+
+    <div class="seat-summary" id="seatSummary" hidden></div>
+
+    <div class="seat-scroll" id="seatScroll">
+      <div class="seat-status" id="seatStatus">正在查询座位…</div>
+      <div class="seat-map" id="seatMap" hidden>
+        <div class="seat-screen"><span>银　幕</span></div>
+        <div class="seat-rows" id="seatRows"></div>
+      </div>
+    </div>
+
+    <div class="seat-legend" id="seatLegend" hidden>
+      <span><i class="sw free"></i>可售</span>
+      <span><i class="sw sold"></i>已售</span>
+      <span><i class="sw blocked"></i>不可用</span>
+      <span><i class="sw unknown"></i>状态未知</span>
     </div>
   </div>
 </div>
