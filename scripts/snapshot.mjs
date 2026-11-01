@@ -56,9 +56,29 @@ async function fetchDay(y, m, d) {
   return (j?.data?.records) || [];
 }
 
+/** 票价静态表（prices.js 里 window.PRICES，来源：江南分馆官方排片表） */
+let PRICE_MAP = {};
+function loadPrices() {
+  globalThis.window = {};
+  // eslint-disable-next-line no-eval
+  eval(fs.readFileSync(path.join(ROOT, 'prices.js'), 'utf8'));
+  PRICE_MAP = globalThis.window.PRICES || {};
+}
+function normName(s) { return String(s ?? '').replace(/\s+/g, '').trim().toLowerCase(); }
+
+/** 查某场次票价（元）：键「日期|影厅|片名」优先，退回「日期|片名」 */
+function priceOf(date, hall, name) {
+  const nn = normName(name);
+  if (!date || !nn) return 0;
+  const hk = date + '|' + normName(hall) + '|' + nn;
+  return Number(PRICE_MAP[hk] || PRICE_MAP[date + '|' + nn] || 0) || 0;
+}
+
 /** 归一化接口记录 → 存档结构 */
 function norm(r) {
   const mi = r.movieInfo || {};
+  const playTime = r.playTime || '';
+  const price = priceOf(playTime.slice(0, 10), r.movieHall || '', mi.movieName || '');
   return {
     playTime: r.playTime,
     cinema: r.cinemaInfo,
@@ -70,6 +90,7 @@ function norm(r) {
     formats: r.node || [],
     movieId: mi.movieId || r.movieId || '',
     poster: mi.pictureBig || '',
+    ...(price ? { price } : {}),
     ...(r.extra ? { extra: true, note: mi.note || '' } : {})
   };
 }
@@ -112,6 +133,7 @@ function mergeExtrasInto(dayRecords, monthKey) {
 }
 
 async function snapshotMonth(monthKey) {
+  loadPrices();
   const [y, m] = monthKey.split('-').map(Number);
   const dim = new Date(y, m, 0).getDate();
   const dayRecords = new Map();
