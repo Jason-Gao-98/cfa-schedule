@@ -208,12 +208,18 @@ a{color:inherit}
   width:76px;height:104px;border-radius:8px;border:1px dashed #c6c9d1;
   display:grid;place-items:center;color:#9aa0ad;font-size:11px;text-align:center;padding:6px;
 }
-/* 豆瓣跳转：海报整体可点击，新页签打开该片的豆瓣搜索页 */
+/* 豆瓣关联：海报整体可点击，新页签跳转对应豆瓣详情页 */
 .poster-link{display:block;text-decoration:none;border-radius:8px}
 .poster-link .poster{transition:transform .18s, box-shadow .18s}
 .poster-link:hover .poster{transform:scale(1.03);box-shadow:0 6px 18px rgba(20,24,40,.22)}
 .poster-link .poster-ph{transition:border-color .18s, background .18s, color .18s}
 .poster-link:hover .poster-ph{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+/* 豆瓣评分徽章 */
+.douban-pill{
+  font-size:12px;font-weight:600;color:#0b8a3d;cursor:help;
+  background:rgba(10,183,60,.10);border:1px solid rgba(10,183,60,.34);
+  padding:2px 8px;border-radius:7px;white-space:nowrap;
+}
 .film-main{min-width:0}
 .film-time{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px}
 .time-pill{
@@ -256,10 +262,11 @@ a{color:inherit}
   font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;
   background:rgba(15,157,118,.10);border:1px solid rgba(15,157,118,.3);color:var(--jn);
 }
-/* 已放映（来自站内历史存档） */
-.arch-pill{
-  font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;
-  background:#eceef2;border:1px solid var(--line);color:#9aa0ad;
+/* 票价（来自江南分馆官方排片表） */
+.price-pill{
+  font-size:12px;font-weight:600;color:#b45309;cursor:help;
+  background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);
+  padding:2px 8px;border-radius:7px;white-space:nowrap;
 }
 
 /* ---------- states ---------- */
