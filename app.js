@@ -518,29 +518,73 @@ function esc(s) {
   });
 }
 
-/* ---------- 豆瓣跳转 ----------
- * 豆瓣无 CORS 头、无法在浏览器里按片查精确条目（需构建期抓取数据，
- * 待后续补充）。当前先实现：点击海报在新页签打开该片的豆瓣搜索页，
- * 片名做关键词，保证每部影片都能一键关联到豆瓣。 */
-function doubanSearchUrl(mi) {
+/* ---------- 豆瓣关联（数据来自构建期生成的 douban-map.js，前端零请求） ----------
+ * 豆瓣无 CORS 头、无法在浏览器里实时查询，因此由
+ * scripts/build-douban-map.ps1 在构建期把 豆瓣ID/评分/海报 固化成
+ * window.DOUBAN_MAP 静态表，前端查表即可。 */
+var DOUBAN_MAP = window.DOUBAN_MAP || {};
+
+/** 片名归一化：去掉全部空白 + 小写（与构建脚本保持一致） */
+function normName(s) {
+  return String(s == null ? '' : s).replace(/\s+/g, '').trim().toLowerCase();
+}
+
+/** 依据「片名 + 年份」查映射表；年份不中时回退「仅片名」兜底键 */
+function doubanOf(mi) {
+  var name = mi && mi.movieName;
+  if (!name) return null;
+  var nn = normName(name);
+  var yr = String((mi && mi.movieTime) || '');
+  return DOUBAN_MAP[nn + '|' + yr] || DOUBAN_MAP[nn] || null;
+}
+
+/** 豆瓣链接：命中精确条目跳 subject 详情页，否则退到豆瓣搜索页，保证每片都能关联 */
+function doubanUrlOf(mi, db) {
+  if (db && db.i) return 'https://movie.douban.com/subject/' + db.i + '/';
   var name = mi && mi.movieName;
   if (!name) return '';
   return 'https://search.douban.com/movie/subject_search?search_text=' + encodeURIComponent(name);
 }
 
-/** 构造影片海报区：使用资料馆海报，整体包裹为可点击跳转豆瓣（新页签） */
-function posterBlock(mi, isExtra) {
+/** 豆瓣评分徽章 HTML（无评分返回空串） */
+function doubanPill(db) {
+  if (!db || !db.r) return '';
+  return '<span class="douban-pill" title="豆瓣评分">豆瓣 ' + esc(db.r) + '</span>';
+}
+
+/* ---------- 票价（数据来自江南分馆官方排片表，构建期整理进 prices.js，前端零请求） ---------- */
+var PRICE_MAP = window.PRICES || {};
+
+/**
+ * 查某场次的票价（元）。资料馆接口不返回票价，这里查静态表：
+ * 键优先「日期|影厅|片名」，同日同厅同名多场时再退回「日期|片名」。
+ */
+function priceOf(r) {
+  var date = String(r.playTime || '').slice(0, 10);
+  var name = normName((r.movieInfo || {}).movieName);
+  if (!date || !name) return 0;
+  var hall = normName(r.movieHall);
+  return Number(PRICE_MAP[date + '|' + hall + '|' + name] || PRICE_MAP[date + '|' + name] || 0) || 0;
+}
+
+/** 构造影片海报区：优先豆瓣海报（失败回退资料馆海报），整体包裹为可点击跳转豆瓣 */
+function posterBlock(mi, db, dbUrl, isExtra) {
   var orig = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
+  var doub = (db && db.p) ? db.p : '';
+  var primary = doub || orig;
+  var fb = (doub && orig && orig !== doub) ? orig : '';   // 豆瓣海报加载失败时回退
+
   var inner;
-  if (orig) {
-    inner = '<img class="poster" src="' + esc(orig) + '" alt="' + esc(mi.movieName) + '" loading="lazy">';
+  if (primary) {
+    inner = '<img class="poster" src="' + esc(primary) + '" alt="' + esc(mi.movieName) + '" loading="lazy"' +
+            (fb ? ' data-fb="' + esc(fb) + '"' : '') + '>';
   } else {
     inner = '<div class="poster-ph">' + (isExtra ? '公众号<br>排片表' : '暂无海报') + '</div>';
   }
-  var url = doubanSearchUrl(mi);
-  if (!url) return inner;
-  return '<a class="poster-link" href="' + esc(url) + '" target="_blank" rel="noopener" ' +
-         'title="在豆瓣搜索《' + esc(mi.movieName) + '》">' + inner + '</a>';
+  if (!dbUrl) return inner;
+  var tip = (db && db.i) ? ('在豆瓣打开《' + mi.movieName + '》') : '在豆瓣搜索该片';
+  return '<a class="poster-link" href="' + esc(dbUrl) + '" target="_blank" rel="noopener" title="' +
+         esc(tip) + '">' + inner + '</a>';
 }
 
 function renderList(records) {
@@ -583,6 +627,8 @@ function renderList(records) {
       var isJn = r.cinemaInfo === '江南分馆影院';
       var venueShort = isJn ? '江南分馆' :
         (r.cinemaInfo === '小西天艺术影院' ? '小西天' : '百子湾');
+      var db = doubanOf(mi);                    // 豆瓣映射表命中项（可能为 null）
+      var dbUrl = doubanUrlOf(mi, db);          // 豆瓣链接（精确条目 / 搜索兜底，可能为空）
       var fmt = (r.node || []).join(' + ');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
       var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
@@ -594,13 +640,14 @@ function renderList(records) {
       if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
 
       return '<article class="film">' +
-        posterBlock(mi, isExtra) +
+        posterBlock(mi, db, dbUrl, isExtra) +
         '<div class="film-main">' +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
             occBadge(r) +
-            (r.archived ? '<span class="arch-pill">已放映</span>' : '') +
+            doubanPill(db) +
+            (function () { var p = priceOf(r); return p ? '<span class="price-pill">' + p + ' 元</span>' : ''; })() +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
           '</div>' +
@@ -1608,7 +1655,15 @@ $('dayList').addEventListener('click', function (e) {
   var rec = seatRecs[Number(btn.dataset.i)];
   if (rec) openSeat(rec);
 });
-/* poster click now opens Douban in a new tab; no fallback listener needed */
+/* 豆瓣海报加载失败时回退到资料馆海报（error 事件不冒泡，需在捕获阶段监听） */
+$('dayList').addEventListener('error', function (e) {
+  var t = e.target;
+  if (t && t.tagName === 'IMG' && t.classList && t.classList.contains('poster') &&
+      t.dataset.fb && !t.dataset.fbd) {
+    t.dataset.fbd = '1';
+    t.src = t.dataset.fb;
+  }
+}, true);
 $('seatClose').addEventListener('click', closeSeat);
 window.addEventListener('resize', fitSeatMap);
 $('seatModal').addEventListener('click', function (e) {
