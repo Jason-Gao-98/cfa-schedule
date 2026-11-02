@@ -1,7 +1,35 @@
 {
  "month": "2026-11",
- "count": 212,
+ "count": 227,
  "records": [
+  {
+   "playTime": "2026-11-01 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "四渡赤水",
+   "en": "Crossing the Chishui River Four Times",
+   "year": "1983",
+   "min": 162,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "57e8e81d3433b2f36fccb754837a4764%3Apj0NpEWIRJL9mmcbsScsVw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/935e6202607141440258232.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 11:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "黄昏之恋",
+   "en": "Love in the Afternoon",
+   "year": "1957",
+   "min": 130,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "f510ad2fb63f5058977faafd12840186%3AJaqVc%2BZ1Vr0C4ZMVkUSbpA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3fb04202607291532013011.jpeg"
+  },
   {
    "playTime": "2026-11-01 13:00:00",
    "cinema": "江南分馆影院",
@@ -15,6 +43,134 @@
    "poster": "",
    "extra": true,
    "note": "4K · ★映后交流"
+  },
+  {
+   "playTime": "2026-11-01 13:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "2号厅",
+   "name": "四渡赤水",
+   "en": "Crossing the Chishui River Four Times",
+   "year": "1983",
+   "min": 162,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "a92fa323af3175216c675929f7c1e564%3AZ0FlciHcLv5RSAPUuDbeIw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/935e6202607141440258232.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 13:30:00",
+   "cinema": "百子湾艺术影院",
+   "hall": "1号厅",
+   "name": "圆月映花都",
+   "en": "Full Moon in Paris",
+   "year": "1984",
+   "min": 101,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "a794fa149e64896ce0e4a942097f3d66%3APvWfQU4mvQ3%2BPhB%2BXSY3Pg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/2da080ea5852478aa9e2536905e89c06.jpg"
+  },
+  {
+   "playTime": "2026-11-01 13:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "五至七时的克莱奥",
+   "en": "Cleo from 5 to 7",
+   "year": "1962",
+   "min": 90,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "3b7bb0f4877dde6f22db754eff336389%3A84NGhVoXAN0VsIjPCm40oA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/01/457b5202501141521089424.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 13:50:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "热情如火",
+   "en": "Some Like It Hot",
+   "year": "1959",
+   "min": 121,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "238c521060787131a54961d2cf38daee%3A3DxesumC%2FUvBEukWs189hw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/e8f99202607301642159372.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 14:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "叶甫盖尼·奥涅金",
+   "en": "Eugene Onegin",
+   "year": "2013",
+   "min": 206,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "ee9039dfba03f3845db6742dd84fe43a%3AOg1uu%2BhXMNS7zOkLOCtTag%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/06/895b9202606121053429122.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 15:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "尼诺",
+   "en": "Nino",
+   "year": "2025",
+   "min": 97,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "099e30a5e99dc7704e41973d56314512%3Ay4WApDMj67EkbQfr9kRJlA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/4d2ef202607141506011293.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 15:40:00",
+   "cinema": "百子湾艺术影院",
+   "hall": "1号厅",
+   "name": "绿光",
+   "en": "The Green Ray",
+   "year": "1986",
+   "min": 98,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "68e56b59df4b9efffa9aaae58bc5993c%3ARtN5kCC25XBKQvJOk4dWKg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg"
+  },
+  {
+   "playTime": "2026-11-01 16:00:00",
+   "cinema": "小西天艺术影院",
+   "hall": "2号厅",
+   "name": "短片集“女主角”",
+   "en": "Short Films Program “Héroïnes”",
+   "year": "1905",
+   "min": 79,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "d2bc5fff894b2895e23f34076ea97b5c%3AF7%2BPzVTZJNz7GaeSjlM38w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1d2e9202609201118406269.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 16:30:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "桃色公寓",
+   "en": "The Apartment",
+   "year": "1960",
+   "min": 125,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "5f387da8391b40507700ff335d6bd79e%3ANCxDcliTf399F%2BAbiZRZyQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/203bd202608041038155387.jpeg"
   },
   {
    "playTime": "2026-11-01 17:00:00",
@@ -31,6 +187,64 @@
    "note": "4K · ★映后交流"
   },
   {
+   "playTime": "2026-11-01 17:50:00",
+   "cinema": "百子湾艺术影院",
+   "hall": "1号厅",
+   "name": "女友的男友",
+   "en": "My Girlfriends Boyfriend",
+   "year": "1987",
+   "min": 103,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "ff8c0bb69410f9cd3b5d0872fa26c471%3A2bkd8pnBHrWh0X5s1tUzGg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg"
+  },
+  {
+   "playTime": "2026-11-01 17:50:00",
+   "cinema": "小西天艺术影院",
+   "hall": "2号厅",
+   "name": "纳博布",
+   "en": "Le nabab",
+   "year": "1913",
+   "min": 55,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "b67832790255c5a77825f6e849c17737%3AgflY149kx4c3aIeUtLhmgw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/403fc202609141417282575.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 18:10:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "疯狂的账单",
+   "en": "Mad Bills to Pay (or Destiny, dile que no soy malo)",
+   "year": "2025",
+   "min": 101,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "121c252b7c75c3963a7520fe11b725a9%3AJOBX91ICzLHhkw6rMnqW7A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/523f2202607091045293884.jpeg"
+  },
+  {
+   "playTime": "2026-11-01 19:10:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "飞来福",
+   "en": "The Fortune Cookie",
+   "year": "1966",
+   "min": 125,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "7fb92c4f563d22965b4121b6f9ae1775%3A9jjb3vH1V7TCHMKssCRkWw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/dc5a2202608041058433165.jpeg"
+  },
+  {
    "playTime": "2026-11-02 18:30:00",
    "cinema": "小西天艺术影院",
    "hall": "2号厅",
@@ -41,7 +255,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "220729bf8e42cfdcc45e4902390c0b93%3ABsYQqZhnhYaKMswNl9dQLg%3D%3D",
+   "movieId": "e6996faf5971cdbdb5d22e35b0704673%3ASUCgNs5z96Qupxn%2Fm2ZBiA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
   },
   {
@@ -56,7 +270,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "9e6413b2a65d9532c5393b13652a4961%3A8Jn%2Fu31fyD6TqGLxRdi5hA%3D%3D",
+   "movieId": "1634913be1eeb0e6c1c2117cb5b3703c%3AbHe%2BQLYWpRnlHyTgXfiUOA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
   },
   {
@@ -71,7 +285,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "0f58f53515020e6460ccae4d5d388e77%3AAg7jYG84Eh1t61ABbcW9Zg%3D%3D",
+   "movieId": "784064385ceb2543ff60b3f33c424aa7%3AnVrCZNQZa2zzPgoZBtd%2Ffg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
   },
   {
@@ -85,7 +299,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "be854646eb85184d18aef781b3846ef1%3AkX4C8uIyT1KjxVl02KpfZA%3D%3D",
+   "movieId": "726da3e813b06b333ee0d9b7cafb1ef6%3AnDJvrim%2FdZfD7iq%2FiFvdfw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/a9b53ade268c471fad73ae1ce6a224c9.jpg"
   },
   {
@@ -100,7 +314,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "2b127e391213c7816f02be7f7710d4f5%3AuSdM%2FNyokg7oP7YxxqYuXw%3D%3D",
+   "movieId": "2e5289ebc321952d1acecdbc0d1e04b1%3ADToJ%2FBa03jygiA8ITzjnqA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d550aeb293d94316ac58c80461737cf2.jpg"
   },
   {
@@ -114,7 +328,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "3033b71f42677b0b9b03bf1c18d11136%3A1iToc0%2FuDR8kmkWB%2BmTglg%3D%3D",
+   "movieId": "e5242ecf7fb76d444e3de0ef17373132%3AHAvDkbO3V3%2BNz61IgFel9w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/c8595202412091626276524.jpeg"
   },
   {
@@ -128,7 +342,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "24fc47f36e32e2303ca2c334d0c97a87%3AdO2D8Lu851liCxplSvAPNQ%3D%3D",
+   "movieId": "9a5b757978b1ef4300a0986256a97a4f%3AsLOwtd7oLd21dMjMaC1EXQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/122e0a9f80de4f75bf11d7d8739c4c72.jpg"
   },
   {
@@ -142,7 +356,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "1a482ebc2bf6c81fe8e2010327eb81c9%3AS%2BAaK4Nr9iLIYmIUhbtq1w%3D%3D",
+   "movieId": "2ce9a062ea53b0545428af249968d375%3AexpfPz9NGz6AF67FPB%2F8hg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/26ecbd377ed0419b9fce29aae1b0c5a6.jpg"
   },
   {
@@ -156,7 +370,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "7a3fc3056c9ca8414782115c17fbed62%3AGHgtd%2B4H4MpGV10NuSZt1w%3D%3D",
+   "movieId": "e5fcb6dd42b17cb82f3cba304d95e320%3A40nDw7tRHmtCb9CN5Hi%2BNw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/a9b53ade268c471fad73ae1ce6a224c9.jpg"
   },
   {
@@ -171,7 +385,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b8584de9b6f84536a3fd03649c7b57a0%3Aj9icBp2MruavkNELeWB4JQ%3D%3D",
+   "movieId": "1e1ea80db0e423c5b6150704051c8ee8%3A9tduKddmwRkWiLW2md0%2B9w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/03ba1202605191332028897.jpeg"
   },
   {
@@ -185,7 +399,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a5f3304905c1139f523de58a990d5c4d%3A5rHCOQmPwNp9uKCkh5Wppw%3D%3D",
+   "movieId": "129ea0bebb637d3fd8faf31df538a91c%3A4QyWBWrkjSVk%2BvgqTlGa3Q%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/097ab42d480b4126a87f571fe879b127.jpg"
   },
   {
@@ -200,7 +414,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "25124bb224d5f44809b389574f710d4e%3At7vasJSNQM%2Fb8p19xnJkkQ%3D%3D",
+   "movieId": "d704dacacf6f0f06be4d50dfdcfe1328%3AR5N0FyYC97raV34gDxWKZg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
   },
   {
@@ -214,7 +428,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "573358860136c6d9b732d1683f39658a%3AZCkOywkRmayAKp1hrNs5Zg%3D%3D",
+   "movieId": "a7f2240281e8aad7148b45746ffd243e%3ApOVEcZimTr%2Fd29w1wLwKUQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg"
   },
   {
@@ -228,7 +442,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "66d22bf29eaf313426f7ce219cdf87d6%3A9g2Tt3s%2BViuPRv3s7bxwaQ%3D%3D",
+   "movieId": "5a87986c7f8da06bb892bdc84a4cb625%3APIJMOHf1vbGdStWMXvaOEQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/608af8bc9a7e4e40b552c58a75a324ea.jpg"
   },
   {
@@ -243,7 +457,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "1c12efb5fe2dc430a34fd98fc4330183%3ApfCQ8sUsHxz10WFw6raN3A%3D%3D",
+   "movieId": "fc32414de3170a8a8588375434c21b77%3Ad%2BGJNF9hvjd8nhXKgaWH2A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
   },
   {
@@ -257,7 +471,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "775a636ead13d44f1ef5ae9828029985%3AE0c1teOO1CF%2BR8voSAuN9Q%3D%3D",
+   "movieId": "49b3d56e219f891fdc66b1a0dc90d703%3AO6PPYsSE1IBGS1kzhftvWg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/10/b42cd202510171031057101.jpeg"
   },
   {
@@ -272,7 +486,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "81c58de77c2a952e6c6db6d5f0c90cd1%3AUfrhu7CkBqzT3TpuVkrbWA%3D%3D",
+   "movieId": "643aa10e27a098cb03762655205b1b73%3ADBfLw%2FfczUUPI0IyKmX2EQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/b536520260727162859261.jpeg"
   },
   {
@@ -286,7 +500,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "35064fb0af63500a83e751cdfa78e29a%3ArNMZ1sz48LevV%2Bv3KaR6Zw%3D%3D",
+   "movieId": "92b19f24ebfba6dbe45bdb505d9926c3%3Aej6XSrdVE4%2FZl%2FtHeZrQUg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/245d1202508151424339196.jpeg"
   },
   {
@@ -300,7 +514,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "aa6d21b4564e6dc67e3af1542db9fc2f%3AR12p5XBOpmni8QGd5ldeYw%3D%3D",
+   "movieId": "7c3ff65d2d20e4e023c93cc3236c4c83%3AW5I89%2BhzIHv5TTdeMrnR%2BA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/31ceb202412271649341422.jpeg"
   },
   {
@@ -314,7 +528,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4ff666ce89dbce20734c3485f37be7e2%3ATPcxAf1CPGCU5NWfhyUp6g%3D%3D",
+   "movieId": "13d16472011a9e34410be88dfccc5963%3AsDq6VJuCGi4V4YoK0OH0eg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/5a90467757d24e8ca505eba1c818507e.jpg"
   },
   {
@@ -328,7 +542,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a40bcc94f1ed2cc89561237229e0b8d9%3ANbfVIMnxavDjr%2FuduZf5Jg%3D%3D",
+   "movieId": "ae93c13c35ea8f78f8f1a60d6d6be247%3Aj1uAYSnGvCs%2BL7AvHS8XNg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/bdf1daf084d64db5872eb9638ffccf0c.jpg"
   },
   {
@@ -343,7 +557,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7a346e889e6cd673418a77d70ecfed54%3AAiDxiAhTstrXgGihsYBRNQ%3D%3D",
+   "movieId": "35717c0838de60dffb54107c3f617b62%3Ad44WJ74SrMmRRMgvMGZpjg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a63ba202607271430369880.jpeg"
   },
   {
@@ -357,7 +571,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0f653ffb76cd8eda03ce435d2af75768%3A2Os%2BrYQ%2BCGREtbqELm6V1w%3D%3D",
+   "movieId": "0155722d07f3890d023d2380f1bb3cff%3A0AqFXS28CZ8JnOq0ZSSdzQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/33956202609141036237698.jpeg"
   },
   {
@@ -385,7 +599,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e9eac77f4a87c05f353e2a23e9c01e7d%3AnQYxq12t9bgz%2Bo01Y2uvuA%3D%3D",
+   "movieId": "d890a4cb07fe0304d9c231c6068ec7aa%3A06w3m4BaCIzWUm9gA3qNDQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/40cce6d8540440a5bd0003e1a6931660.jpg"
   },
   {
@@ -399,7 +613,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "80f4dd4c709a2fe795abdaddd7ebc6d3%3AamoIQ9GMeDh0Qp%2FImMVY0g%3D%3D",
+   "movieId": "b897794ef41468dc9bd26ef937e5dc4e%3Ax0Yu1%2ByFjvCBBJJvbLtWQQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/851f0202609161028548098.jpeg"
   },
   {
@@ -413,7 +627,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "6f188633ff66fc3a08138cd7404f9d32%3AjuhHb051giIWLpnFTkim3A%3D%3D",
+   "movieId": "1e221cf1f92f34b4c5787cf8024af7b7%3AqE31jMJHWjR1PvgbKCsUjw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/96ba820250815134525701.jpeg"
   },
   {
@@ -428,7 +642,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "85468e8fdffb00498d36caa9cb9cc23c%3AUZ8SnzDOfS234PJ8g1s%2F9w%3D%3D",
+   "movieId": "5646ffbd87e0261596a3d90720de5633%3Aj9FXX5xvbplPzDHW7Grorw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ede70202607221001222003.jpeg"
   },
   {
@@ -442,7 +656,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "975028136fbf7221d26030c21bc1b40a%3ABnmZEbK7Elv16REM7Hckig%3D%3D",
+   "movieId": "050188edae8a4afa2c37e217fa51354e%3A0yeHc9KK7BeJj9wm9ol9vA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
   },
   {
@@ -471,7 +685,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c20e60c7349b61b1e35971af59d15c44%3AVY3px9HVcM%2Bt4euZfs6blQ%3D%3D",
+   "movieId": "b8cdd1d0e69f60faea8aa58c52fcb768%3AzfniJR6DioS2VoaeK5dj5w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/403fc202609141417282575.jpeg"
   },
   {
@@ -486,7 +700,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "8082b5b434aac24b048906d93a61e5d0%3AYT5wwBvyw3aYYupDDpigOw%3D%3D",
+   "movieId": "b35675bd6f66690dbeedb5aca7126501%3ASIJ8jGWbvNful4cyBj%2BDKA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/5eecf202609091016411956.jpeg"
   },
   {
@@ -500,7 +714,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e0df07df11097f685e6e9cbcfb396c59%3Ar1sCN0l0wmRQUxS4UG5cXw%3D%3D",
+   "movieId": "963e60a1c1a4badac36631baf89f226c%3AIPJsmjxQU%2B9DvX0OMiEFDg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/ac41820250815120419628.jpeg"
   },
   {
@@ -529,7 +743,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "584f9699ecdabdee8ee60dea10271933%3A5S0He2F4171JQiYM4yBj%2BQ%3D%3D",
+   "movieId": "8187f542440f3725204e6c242cedf222%3AXQsC60bVCvY17HFoXPitcQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/2ee27202608131628198701.jpeg"
   },
   {
@@ -558,7 +772,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "fae15d4006879fbb68ee6abd3b9fb139%3AuJA9RR7J4t5SPkEaDVRiDQ%3D%3D",
+   "movieId": "ed32514cc80b542f91d65ecebe6ecf06%3AH6xku3eB%2BkpyreeTpU1ViQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/0e2d5202609151251272630.jpeg"
   },
   {
@@ -573,7 +787,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3dbf50467676b999874132aa4b27a919%3AxQnFC6SgTckNdWPqWQroXg%3D%3D",
+   "movieId": "98afe29f2164f86b942f55383d982b2c%3AQEWUOHqLxf%2BUk%2F0Y%2Frc48A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1e9f8202609081528401723.jpeg"
   },
   {
@@ -587,7 +801,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "15136b451babec3998126cb1d0640552%3An5n5nGE%2B6ufXB6cZv6stpg%3D%3D",
+   "movieId": "e06f0b8ecd652b1ba68f9365360b825b%3Akr4QQsWNyc%2BMAraJCRZXug%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/4710e20250815113208393.jpeg"
   },
   {
@@ -601,7 +815,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "12a19bdd67def35ec09a385f87b871d6%3AMuyzPvK66rwI1BFodUHxEw%3D%3D",
+   "movieId": "c5b4a510ab57435aebc4c9a46f548cb1%3AazqPDfBGaGOXSpVuNtm5uA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3b6af202607231023558100.jpeg"
   },
   {
@@ -615,7 +829,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "bfcedf2762e764842627de789d4402de%3A7wJ37bTPhhxNqJX0bqQxkg%3D%3D",
+   "movieId": "55fab97789afdc7abba05d022b3146f0%3AiAHR7EjMHonjXPnS6vOnbw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/868df202607101059427260.jpeg"
   },
   {
@@ -630,7 +844,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4ff4d79078e43e8a9181782d31034ad0%3AbTSK6LdzqluBLgu6RLsbWg%3D%3D",
+   "movieId": "3ac64aa1eee5d24d059135c2cfe53962%3AzmO6C45%2FKXtXixCEJtJyjg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ae3ad202607271348214017.jpeg"
   },
   {
@@ -658,7 +872,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b41dd8d55d9b3e0906cbba2a4262aa39%3A6e406CXa2PXFIncVKIUoVw%3D%3D",
+   "movieId": "7df840f420d22e24b18129aa99968dd7%3AiCxZSteUqCX6bxncZ16Qug%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/800e3e924fa54d75976cf556fbf6f13b.jpg"
   },
   {
@@ -673,7 +887,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "cd59c5c2b257d0de22c1c0cc1e0326df%3AFfuVyhcnHIrEsbHWGG08Lg%3D%3D",
+   "movieId": "ed6fed0536f865e2798ccdf423ae46f0%3Ab1zp%2FvyuRmbdmn05mVCHuA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/5eecf202609091016411956.jpeg"
   },
   {
@@ -688,7 +902,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "5f7e80dfab80bb822a8b17fe19e9a63f%3Ak8WmoGsuaLHxhfvw3ADz6w%3D%3D",
+   "movieId": "54424f6f14809ec738bd0a0f97f58547%3AYh%2FaBIq7joeC%2FHDp5o1kqg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg"
   },
   {
@@ -702,7 +916,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "438681fc483a60376b93d4afa5bf82eb%3APx3bMGs195Iecbf%2BhTPu8w%3D%3D",
+   "movieId": "78d63beaf6f1376cc7cd2b9c2d8bbdd6%3A0z9j%2BHM6x1pXJcslakoiCQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/08/ca3584e1-305a-45b9-b6a7-1b155a0e5ac2.jpeg"
   },
   {
@@ -717,7 +931,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "1dea9f1d8d959b54a0dcfe25a6df70e1%3A8f0k0J8oCH7jv5knKTeQRg%3D%3D",
+   "movieId": "a9ffbc28c771b8897fa578289a4cb8b3%3ABykHvdxrtg6LbtN2UOFaUg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/09/6079a01a-fc98-414f-98ae-800fc5153c1c.jpeg"
   },
   {
@@ -731,7 +945,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "53435ade234eb1fe19e71773d99764e1%3AUeRsABdvIs9KRVJwoKBh%2FA%3D%3D",
+   "movieId": "cdf1534a69c3db477c1db76e6949dfc5%3ANBg%2FhtOHRRBOz%2BS7vQrmFQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
   },
   {
@@ -745,7 +959,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "54e7e16d40ce45c94d3c8b7180e7726e%3ANxifoWmhMzu5UjaB2%2F8aaA%3D%3D",
+   "movieId": "bd02bf41060a87598d309e733e493ed2%3A2EHotXxc95Ltgqtb0VFiZg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/1f09a88bf8d14528aa9d98671ff8d546.jpg"
   },
   {
@@ -760,7 +974,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7f830ce1a81a610de8b3afa492a1c302%3A72hrZ6XeDTpM94WizzebHQ%3D%3D",
+   "movieId": "5ef9ab258e7e6fca5cf6377124080955%3AidZAqkQdKj9d1wrgpP9DHQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/0e2d5202609151251272630.jpeg"
   },
   {
@@ -775,7 +989,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "73d5d8c01d3ec4b469503127689806a8%3A%2BTueqNibxqO%2Bch%2FtSO8X%2FA%3D%3D",
+   "movieId": "f924c3c99bf1c88a9e88a4bbdf5753c1%3AJy%2F1BKPNnddkCqxU7N7FVg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg"
   },
   {
@@ -790,7 +1004,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "61ccb10b0f8cc097930d44925c6d394d%3Af9WB9p9U2d9nWB9Yx%2BJWbQ%3D%3D",
+   "movieId": "891c774735e9e44716364a3f985c6c98%3AqsZ9sNMPcM%2FytwL3XLRRZA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96e3a202609151254323597.jpeg"
   },
   {
@@ -805,7 +1019,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "8294117659fd7bdb37a3521cd548750b%3AQSZf%2Fhy8WHeZ4MGhlhYe%2Fw%3D%3D",
+   "movieId": "c1d4b4c21fded4c97b0c3e5ed4a5ff41%3AtchifSjqESpJb3H3svBfCA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/09/e9ab3db1-d80b-48ea-acc0-cf52cba2a2d6.jpeg"
   },
   {
@@ -820,7 +1034,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c1065d60b76ce5ffe2164bcb52d1e1d3%3Af7sEu558u9ca3kFSzte23g%3D%3D",
+   "movieId": "c4b6124dd3a322d0273c5eb49e875de1%3ADMrvxTmhPWpgJpvDZ7k9Fg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96e3a202609151254323597.jpeg"
   },
   {
@@ -834,7 +1048,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "95cf87310a6ce45a4df1838d75320db6%3A884yDRpMcG4yqscSZkOBJw%3D%3D",
+   "movieId": "6be4d0a2d989c1651e9b6d0b1f93137f%3AGPGX97%2BkhCaDjJF9AmI4oA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/2c942442279d42acb41b122e3cc29a6d.jpg"
   },
   {
@@ -849,7 +1063,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "687b4dca1913e6d2c79e7f3be08eb5d6%3ATVMzpO%2FIVrph%2Fr77ZfbIWQ%3D%3D",
+   "movieId": "f739580d1c3c045b94190545ee53b48c%3AJoQRAhvzbmmpCL6f0k9Yrg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e538a202609091651144785.jpeg"
   },
   {
@@ -864,7 +1078,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "dc1f9fd4ae4c8d9c8212ac8454a9c03a%3Ak2F92Sdc0i56bNx13JhdlQ%3D%3D",
+   "movieId": "bee0c38ad7c3d929bd5e5c9766768905%3ANDzhzgPphXSOCRa0rECMuQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg"
   },
   {
@@ -879,7 +1093,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "1bc5f1b4234e803a28d8876dce108c53%3ABprvym3iD8kWB8qrAdUMRA%3D%3D",
+   "movieId": "1514dc947b21411a8926b009d38e8ec3%3A%2F%2BILhiaiXWE51HZros8jxw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/85bae202607231139121324.jpeg"
   },
   {
@@ -893,7 +1107,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f04ea91e00ee8c10022ef80a6675fc0a%3A0%2F0svyFVPCKwDgDc0BpoeA%3D%3D",
+   "movieId": "42c17f79edbb83934f34c7448c5b8eca%3AJXg3FTzVP6P2oDq5LTw47w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/5c4ebb15b3034059b5ed8efcc64ebc62.jpg"
   },
   {
@@ -908,7 +1122,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "e01e93e45d43a574b854b50f41f7ba80%3Aqbzzsudy67LKjiDyYqieLw%3D%3D",
+   "movieId": "7c7e665cde7d4fd55a5c61b32491e583%3AMGdXRjxGxiTF2BuUZI0Wkg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/d1661202412251000163541.jpeg"
   },
   {
@@ -922,7 +1136,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "30899e739f433f8acbac42503cbe9826%3ActpEjaQhQMK8Jc%2Bi8l8Yvw%3D%3D",
+   "movieId": "2199937fb4e77bd3838ccbe948d33092%3A8WCYKkPwT9ypwQn1vcBTRg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/09/2078f202509121054168875.jpeg"
   },
   {
@@ -936,7 +1150,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9c7d4af25fdfc2b8393243b715813b49%3AGxwzYKRcGgA1T9x%2FJKMAZA%3D%3D",
+   "movieId": "b5982da517666dcf87384fa4c944413b%3Axncmvdip51DPudl42rZyvQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/76482202605071445397899.jpeg"
   },
   {
@@ -950,7 +1164,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "87dc8a234427a990dfe98f1d204e1219%3ASALgufm3TUNdi3jLgysHYg%3D%3D",
+   "movieId": "b36fc0362da0c55009070fafbc0861b1%3A3HN4iF2Bw903N624QV7D6Q%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/536b89bfafe74d63a28d9d527c0fee9c.jpg"
   },
   {
@@ -964,7 +1178,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "abac90a61f2641288a6e0d4622834313%3AwOW24XpSVs%2BZg99Fqhpqzg%3D%3D",
+   "movieId": "c550d3d6719bd633d96f44365ffae8f2%3A%2Bw93mfzA6tjBbmrTd7WQnw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/2199f202603100951598500.jpeg"
   },
   {
@@ -978,7 +1192,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4b0a7dd8c9d9e44273906f67a2ed4d59%3AFYoUuJxKPIu8jEVkkCCBHQ%3D%3D",
+   "movieId": "09b3568fd43fc93d19343c2cfc731feb%3AtHyIhW6c%2FLI7XbKdpC3xfw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b4b408a2c63341d78ee8cec5ded25b55.jpg"
   },
   {
@@ -993,7 +1207,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "8b0a272633ee1a960c9ada47e868c943%3Awrw2J8PaP%2B5m0wwlQyK0lw%3D%3D",
+   "movieId": "83fb4463124c6c415d4e4efd2a3b17ac%3AtsBNy7PWrm2m1m6yZQS5TQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/cf92cc44d15640ad9956de7b0f5ebedd.jpg"
   },
   {
@@ -1021,7 +1235,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "dd992a2943d6d178bed4572d3b3b6620%3AYBpf6ZO2JMK4GgLwOvU9CA%3D%3D",
+   "movieId": "7818a6eefc4e228c13864374c225d70b%3A7kd8D6QfsONvY3G2b0BGvA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/258d5202605071503495536.jpeg"
   },
   {
@@ -1035,7 +1249,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "6bb565c2aa8fdbae3aa069e4bdda08fb%3ACyYrKCE2qb3mx1fJ6oXCmg%3D%3D",
+   "movieId": "c2449c7bf7ad6c477a7d91f4e403ba70%3AkVOfo6RRiUuCLSNaupoL9g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
   },
   {
@@ -1050,7 +1264,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "5b46244df4e59e70e6013d235b4dcc21%3Aw4LGlVZqPSIB7QegoJ32bQ%3D%3D",
+   "movieId": "7f105aa8a737e37edc527ac0bbf11bb5%3AmDsWZIwuYzQFtUQE2ur7Iw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/04/40a7b202604031036086038.jpeg"
   },
   {
@@ -1064,7 +1278,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "bc06a37a1ccb59d77a8cf35881cf9fc9%3AE16JaGDauy%2BVnX4toAtTRA%3D%3D",
+   "movieId": "00f033874f6fe61a8e55f3f2164ec217%3AGtTV7wQ%2F%2BaJem2z0SIl5Nw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
   },
   {
@@ -1079,7 +1293,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "56a77baca26dfdb940133a2bf2598d02%3AxNmHDisHLuoIwFDdqqJTJg%3D%3D",
+   "movieId": "1f0d3efc6b9e214fbb5246ac34b16619%3AIh8cBZ0rjlpQU3LMhf3YYA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/21354aa677c344e7826178269fcefd34.jpg"
   },
   {
@@ -1093,7 +1307,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "809104a8f1c1420126fd88e05c47f364%3Aey1cWXsCM%2BZLp1nb08vhhg%3D%3D",
+   "movieId": "92e250dffe51fbb019e006a4dafecb42%3AwI%2BhbMcycqKyPcIX3doc4g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/fb370202605071519515964.jpeg"
   },
   {
@@ -1107,7 +1321,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "cff9be4a97799194b47f6840a8726142%3AkJyrGbsOJfMPeklz9287bA%3D%3D",
+   "movieId": "acd4807f35bd4d325a734f25229ffa31%3A90YArgJGIVH0npFBtdCkYw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/17b76e37bc5543dda6199d0b728f5800.png"
   },
   {
@@ -1121,7 +1335,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "65d156911738ea6ddb93b635010897e9%3Ayl4C7%2BYAMaHrfr%2BnIQRBdA%3D%3D",
+   "movieId": "6f2c26bb9f4204211af9449e8a8c47e6%3AJ01G7OBSpE7NKHOmtC4yIw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg"
   },
   {
@@ -1135,7 +1349,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "04582c7777fe19b1c791de0760ce0aae%3A4rScR6yVK693mxoSNBzIkg%3D%3D",
+   "movieId": "bd3de885944dc0ecc64e131535abfa22%3AfJYKOYP27SqFEH15mE4hrA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/c123bb32b2f14b1a888ffd96c9f51e99.jpg"
   },
   {
@@ -1150,7 +1364,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b6cd764142cca25943839c82077c6772%3A5Ia0UsNEKKDL3fm%2By7ieug%3D%3D",
+   "movieId": "df70d9ba65fc30ada124c0f046b51a89%3Aju0wxde3wovPMs7jHBvJQA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/fb8ff202607270945318734.jpeg"
   },
   {
@@ -1164,7 +1378,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "91ba7961f2d7f93bf09cc12dfae61b76%3AWjTpZOcOvc4jYoQk5g8D5A%3D%3D",
+   "movieId": "05c68d68411fdb62983f3204726a5b30%3A0Pwt%2BH79AKMiqM0r1rhIPQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96f34202609251335078184.jpeg"
   },
   {
@@ -1178,7 +1392,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ab14c7b2c9057e3600959221c1fa2b53%3AHUnPluAN%2F1aOuMjilzKYqQ%3D%3D",
+   "movieId": "886fed36df95a8a2f653877e00dde016%3AoGSYjtkhrUQ82n2aO%2B4dVA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/4191e8c0f92c417383f8684a7952263e.jpg"
   },
   {
@@ -1192,7 +1406,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "dd5c7488771edebecfc78c079932fb87%3A4oux3HeiR7fWwYJKVP4VVA%3D%3D",
+   "movieId": "7c6767f9d8eaa555e299cf41f509e666%3AfAbG%2BoWr5cAnqbOo0LmkXw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg"
   },
   {
@@ -1207,7 +1421,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "2ccecd9d7825548e7be051d815e1c700%3ACSpFCSwZHAoBizZTsPbWEw%3D%3D",
+   "movieId": "ce72d56b894d15afac1ef5729db32486%3AFNBkSlVxhpqvQn%2FFPjWMSw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg"
   },
   {
@@ -1221,7 +1435,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c7a2b8810b70b89d5d1212e14653b6ec%3AEUVR9xq59MCzVzbUydUSXw%3D%3D",
+   "movieId": "d24ff70d8e227bbf00db2a6df84a6bd8%3AyUJ2aE9iSADbwdINki%2FocQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/42cff65442fb4bf888f78140e12e22ae.jpg"
   },
   {
@@ -1235,7 +1449,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "222ff870c763c8b0d9d79e685066a2a3%3AbfmBnJiSjSkNVQScjxMZ5g%3D%3D",
+   "movieId": "97a91f7174e0a137d1c5818d2a64d239%3A6QmWRQM6i%2BreCgzbsktwZQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/7ae40abd895e4584bc2ab5e7daaf3621.webp"
   },
   {
@@ -1249,7 +1463,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "37e7749a1bf08c6fb3dff6461a07265a%3AHLDHSCyaJC64O8wI1TuKeA%3D%3D",
+   "movieId": "c8764c1100d39fbc979d20f0480e661c%3AVTjzHQrUWMy0ccRnOGfRQQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1d2e9202609201118406269.jpeg"
   },
   {
@@ -1263,7 +1477,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d9ad37261311cf535cf7421dd9718c29%3AEMxA9QCz5dFEW15hpl9FIw%3D%3D",
+   "movieId": "4161a944b91680adaf7fb3b2cf03e7be%3AKdsFv2GYSqujy00y%2FKL%2Buw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg"
   },
   {
@@ -1277,7 +1491,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "098e771f79c99f25bc75660da3cd9ad1%3AvXclFuoYOjILKAnTxS8EFg%3D%3D",
+   "movieId": "25d14a689f71204eea62ad2736fa4b91%3AeC6lKLO52Rd2L%2BZaFUXktA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
   },
   {
@@ -1292,7 +1506,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "179b318db6aeccaeed5298af0224964c%3ArXk6RfC5%2FKgh1chYLuhc9Q%3D%3D",
+   "movieId": "4a4d5f3c2feef4cd272ccf552bb632c7%3A6MkNL%2BLf0Se7LCSty75rwA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/3e34a202609091604029395.jpeg"
   },
   {
@@ -1306,7 +1520,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "51fca79871a8df9777a20023d56e26b1%3Aj6NwLI4RMizo%2BJj6sMEuEQ%3D%3D",
+   "movieId": "9a63a597fbb971384225a73576cfa99b%3AzDcJD06ZZgIkr82ZJvO1IA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/906ec202608272002225709.jpeg"
   },
   {
@@ -1334,7 +1548,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d148de66204886c827fca6d0ec61fccf%3AMrTMsg299Vi9JBaRQXI7Yw%3D%3D",
+   "movieId": "5f9b4c2068150cf2b1dde50e579d7757%3Aw1L2uU%2FmZMYiY853rPmKYg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/8cae3202609241619334210.jpeg"
   },
   {
@@ -1349,7 +1563,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "111f91fbd7d2d6a5bb5e0bf9fc19daf2%3AwOi8vXey4gowIkLz2mlTjg%3D%3D",
+   "movieId": "b86e1aa4893712852d26b0a289881fc3%3AVuDQ7NhCmAr5WNgOinTrnw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e538a202609091651144785.jpeg"
   },
   {
@@ -1363,7 +1577,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "43329373e05991bbc8638b330b368386%3AB3f5d0LOOvPylWinufRKSg%3D%3D",
+   "movieId": "49f8785562fe9d5b754b20eac543ded7%3AaG4uP72Ff%2FINiHTvpAi7oQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/06/ec1c1202506031501534305.jpeg"
   },
   {
@@ -1378,7 +1592,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "1242cc3f664cc2ed17d2dd3eb3d3fb33%3AX2gp46tw61uk713iTupg9w%3D%3D",
+   "movieId": "007f5529c0674aa35ede04121913ba55%3AIBTsVo4yCrMFEyCyZtyh%2FQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg"
   },
   {
@@ -1392,7 +1606,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "249a5576852eae3f4290632f08fc9394%3AYsB6nY2qu6UqV1xiNoxqng%3D%3D",
+   "movieId": "92d972d4ed5e9f2085b17b34fb179c30%3AcXC9eVgCKVQbO579CBDIiQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
   },
   {
@@ -1406,7 +1620,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d7f97d181f42d4f4a1751162bab37cec%3AyRo9ZlhwIYcA4qG%2FzWcAoQ%3D%3D",
+   "movieId": "132b0cda9c4f662cf1af3788f8e03a4d%3ANtdX6nwUFL88Qh%2FWdR%2F7mQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/cf1e8202609251410323687.jpeg"
   },
   {
@@ -1420,7 +1634,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c82b1b9011dffe97e647b7f17ffe593a%3A%2BTxwbZzbaV7a5tbTlXvz1A%3D%3D",
+   "movieId": "1aaa4c0bb18e980fa8288fb54a133db1%3AHGrSFDsQW4mvwx5YCMLdJA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a19ef202607131833552015.jpeg"
   },
   {
@@ -1435,7 +1649,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b6e79605655512c0b3c93143d1408c46%3Axo8apAceoc%2B1m01bVYf9Iw%3D%3D",
+   "movieId": "aa14578fd4706448d36ec1870699fc60%3AJT5Pc5elTTfDK3jIfhJadw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/04/40a7b202604031036086038.jpeg"
   },
   {
@@ -1449,7 +1663,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "12e43fb9d3320ef180856964b6458511%3AoNF1CeXrqpDVC2u8MnN23w%3D%3D",
+   "movieId": "f184572de3a24b13dde6a4a600c80017%3ALmrY%2Fqkmkc2EjDwrXCdV3g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
   },
   {
@@ -1463,7 +1677,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4dd33aa291ea118f6cf11db1567ecb32%3AS1ePmLw%2FRcxN8CSzIG5Auw%3D%3D",
+   "movieId": "3970ba1b3966ba1ea3e766ab3a4a3f3c%3Ao0BX81ElqxH44uf2XC%2B71g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/c4d745e8dc8a45c4a2c684b6638d49ad.jpg"
   },
   {
@@ -1477,7 +1691,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "050e4bcdb3cea3efc8a06d6b7235a940%3AKPez7pkm1lEfzRuLHGFHBA%3D%3D",
+   "movieId": "e780e82a5ebd24c9c5702da2fd04ee62%3A9eP%2BidGlHs%2BFMmJyiT2mpA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d17adc8f2ca94ba2a92b68e00fab8610.jpg"
   },
   {
@@ -1491,7 +1705,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0d2bc33626568cccced2e823db9f09e9%3A45RlAQ8IA5ROpIWv6dBc9w%3D%3D",
+   "movieId": "70d8114a232e652486768f48b86012c4%3Au%2B8rlsDMzWOZIf%2Fvh93i5A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg"
   },
   {
@@ -1506,7 +1720,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b23f34319e0f213bac4528e9179b7df2%3A5dkny0nI5XQa1GiDSm1Kog%3D%3D",
+   "movieId": "a3ba8867f0f3dca07df57c4855515d38%3AqjCZcU4FJifYoyVk1bOl8g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
   },
   {
@@ -1520,7 +1734,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "74505804ebdaea9268d6a37a7415bff2%3AA2R3nk4ceOncvb5Td04%2BgA%3D%3D",
+   "movieId": "2c4473d5aa6ab20d344d5c3f0f7f0b0b%3ATOT6aa5%2BoRTrGNfEYwbpBw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
   },
   {
@@ -1534,7 +1748,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b057f65b6b5bad49f7d6cb5dac453493%3AApD0e6AAaYMcrEEHLWk9XA%3D%3D",
+   "movieId": "7c7cfddf89b4257ae183271678ff97c4%3AwoGl9%2BM6BFbriH%2Fk4864PQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/dc017fb0f5454850bfdac6c58660315f.jpg"
   },
   {
@@ -1548,7 +1762,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "68c480ccfc8c830677ac5985fb3aad89%3AT67A3iLmdICOBc13MqTqRQ%3D%3D",
+   "movieId": "9424c72b81e00f76dbf607d32bb6538d%3AD8P%2F72V8tF0iy0FjdANm%2Fg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/d3f46202608121618031949.jpeg"
   },
   {
@@ -1562,7 +1776,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "166bbded4451e3e8edb38d0b75bc44d8%3AJjYxj2f%2Fpp9onjiD%2FoFwrA%3D%3D",
+   "movieId": "4bb300b5fe50266e6e558ec419579442%3A11%2FgxoHPsL4tsukaC%2BPb8w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e1d1620260926100432260.jpeg"
   },
   {
@@ -1577,7 +1791,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "379f3b915c48f1654004cbe855518422%3A6vZ56vIdKFffx8xsQXWuLA%3D%3D",
+   "movieId": "c80c88fdbbc341715d6d12639b879f02%3A%2BooO8epy1K7zEikEye53yA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg"
   },
   {
@@ -1591,7 +1805,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "fa664b1aa027636692e68b3e9ecb0230%3AS09YGzDjA7uVBWiO4wvaXw%3D%3D",
+   "movieId": "b8e5dfa9d4248a36a705df1ef4ad3e2f%3A2Da1EjEAlb%2BdiiTxVoOK7w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/02/0e631202602031550329799.jpeg"
   },
   {
@@ -1606,7 +1820,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "898c4e0fd77ef80f2e89f79a81278d4e%3AKtThPI67qci9darwr6iVEQ%3D%3D",
+   "movieId": "a694bfbe326e4c5d73f4fd27c8cfe271%3A1MxyXWYznGf5HNQe6Mu7MA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/09/9dbfe40a-d26a-43cf-9f43-680440fdc646.jpeg"
   },
   {
@@ -1620,7 +1834,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "76424b850ce29f0b4a20343caca8d670%3AjbBUZGmzPxbA8sbGocwAaQ%3D%3D",
+   "movieId": "2b2636684d45cffb8ad75957e051d1a6%3AsdtSWvfArf89Qzraru9YYw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/67c70202609271051042991.jpeg"
   },
   {
@@ -1634,7 +1848,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d050d3fbb17b3c07e1b44bed76cdae45%3AgEokWZE0GWWdx71%2BWv0GAg%3D%3D",
+   "movieId": "e7d17fd75a5b219a3997a5186500579e%3A70E4ZSTXOLk41JZSckpgCA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/08/5883003a-c281-4ea7-a774-c8ae39422d84.jpeg"
   },
   {
@@ -1649,7 +1863,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "bf247a19e3db10c06bfcac2bad0d0224%3A%2Fu5Hsqs6i3LYQmV%2BSEG2yA%3D%3D",
+   "movieId": "3efa81ebce1017ed6feda3472f448c19%3Apn5dx35qIkrHC7GeyQlElA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg"
   },
   {
@@ -1663,7 +1877,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c9ad4b48c77cdc1ad73d2f241ad4f89c%3AW2YmyHWh5hqwoKZPmxUp1g%3D%3D",
+   "movieId": "56c216fa149a3cb983df039250fe95a3%3Ae%2BM3OWW%2BVXE53PiDNmXxLg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/03/fede5202503101218476717.jpeg"
   },
   {
@@ -1677,7 +1891,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ed7fc79199ad37287550c5696528a9ad%3AR5JwlbEUbj49V1yHOnX7rg%3D%3D",
+   "movieId": "0bbed194bba1c32634a73cf488da38a0%3AFep3H%2FMcpxnhLLoWz99U3w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/08/ba4f35a8-8f98-40d9-b397-c7ff0be0b8dd.jpeg"
   },
   {
@@ -1691,7 +1905,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "7d296488846ccd14cf3bbee24e7f5842%3AYFkFrVJEQQl1i19Uhl8VFQ%3D%3D",
+   "movieId": "75e17c888b3d0e19c28b4d366ffcc2aa%3AbxAdEbnzInKeXj2dMtpIQQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d17adc8f2ca94ba2a92b68e00fab8610.jpg"
   },
   {
@@ -1705,7 +1919,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b832d07b67b086acf7931724b91a9b55%3AfDHzeCpgmqQ2dqw%2FagRixQ%3D%3D",
+   "movieId": "f9d6977a2cd3a4125e058fdc4ac89d4e%3A0z4t8rKo5TlA1y2H%2FKNrQQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/868df202607101059427260.jpeg"
   },
   {
@@ -1719,7 +1933,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "92e229e2974fa4924e4d90bf537f7f85%3AXgtMGABgHdVANwglGiDZsA%3D%3D",
+   "movieId": "953b52da64de00955930635fbb61c789%3AVpbnr6HxZNLxsZ0pLpmFkw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/5a90467757d24e8ca505eba1c818507e.jpg"
   },
   {
@@ -1747,7 +1961,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "66d673f12167e43f917a3bf4a05cb566%3AiDYp35ajV4azPifEBYmnqw%3D%3D",
+   "movieId": "83199a0ca6436eb552dff0cd6eb8c4a4%3AuYqXBIU6UhpKW7GX4PcG8g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/96ba820250815134525701.jpeg"
   },
   {
@@ -1761,7 +1975,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f93a41317a667c9aa8ff161484e893ac%3AMyduWPPCQsf6tRjMV0%2FIBQ%3D%3D",
+   "movieId": "260292bbf4d59fc06218744900e8a035%3Av0gzBaP%2BKEQvbVIW7oQ0vA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/17b76e37bc5543dda6199d0b728f5800.png"
   },
   {
@@ -1776,7 +1990,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "a3d75367be4c4fb856d58e26c576a2c2%3AnIvmyZ446Pja3wPv9YCJPg%3D%3D",
+   "movieId": "465aef97652c5548a2cc7ab0cbabef08%3AVNL3CyBzpfjiCIrrWs0rBw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/bee13202609271645455699.jpeg"
   },
   {
@@ -1790,7 +2004,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e4e8fee6e3dcc12692129c1f10b5f283%3AH2SgN9TXIcVPzM%2F5yUm0iw%3D%3D",
+   "movieId": "aa6d55935918d24f0c1b5940ab9cda53%3AnHkY0cgHVfzNmt8UaSRoWA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/c123bb32b2f14b1a888ffd96c9f51e99.jpg"
   },
   {
@@ -1804,7 +2018,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "36c3686ec9a175402f5885f3b6a39482%3AaXHNAC2j1SCJ%2F4qjiWORvQ%3D%3D",
+   "movieId": "c45504d49364d6793496c59bd02bf1ec%3AJzMWZDTzPXk53Zolb9p2AQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
   },
   {
@@ -1818,7 +2032,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "011c47a105424bd75e0a88f280f2f69c%3AAc7EMZ4ZMVE7AkeQ7Wos6Q%3D%3D",
+   "movieId": "12a64a267d1753a7b9d9bb34268ec552%3APTlr%2BM4qcfGf8m5ORWrDqA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/ac41820250815120419628.jpeg"
   },
   {
@@ -1833,7 +2047,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "15a333afe4045ecdadf1c6648cd0ccbd%3A6paQM5LkmsBGVM82sWZcVg%3D%3D",
+   "movieId": "0c50e2bba501ae2abd03509f68e257e7%3AbvVxnIJSjHf75pt2zH%2FC1A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg"
   },
   {
@@ -1848,7 +2062,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4423a6218e2a12fcff921718f9144239%3AO2YADSHzBE1hLvnQrHZKEg%3D%3D",
+   "movieId": "a1c0fb8e3f57e996148fad86ae139c07%3AUmBn8pBB71fhBmETnWlVSw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/6afa3202609271722457652.jpeg"
   },
   {
@@ -1862,7 +2076,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "07e1cbaf58bcb422b6e6d338d3bdbd2e%3ArZGt%2BkL%2BHuH5yt1IHTdUkQ%3D%3D",
+   "movieId": "322704ed0ba9c02848d6c812bdfde843%3AJLqHFI%2Fm0SSOTN9%2Bvz1m2g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/02/0e631202602031550329799.jpeg"
   },
   {
@@ -1877,7 +2091,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "fd1a491f3a23e15ad59a2fc65d2547b3%3AC6lHIKYRnM95hhlojBJlBQ%3D%3D",
+   "movieId": "b2207dd759510f099e4c8a73f5e9015a%3AW0MnOWuc7f7tGf6LMK%2BL3g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/21354aa677c344e7826178269fcefd34.jpg"
   },
   {
@@ -1891,7 +2105,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "47bcf09bc337b1802d90abc057a656df%3Ae2UAnVYdn%2BOEAZimhzzHRQ%3D%3D",
+   "movieId": "ed6935e4a6b3aa8d70e2d8dad7cbb3f5%3AUWS8uhx9fIkiO5h2wm6M2g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg"
   },
   {
@@ -1905,7 +2119,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a0a2ebd9855809e1befa2a888369a691%3A%2F5OrTglgnGKrRnT6gBJ0HA%3D%3D",
+   "movieId": "2a114e0938e412adf6e78bdff330830a%3ABFcIQyGX%2B9XEArj2va9DHg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/298b7202508181218516868.jpeg"
   },
   {
@@ -1919,7 +2133,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "eacab312360bfbd4aba245694070f8be%3A4jJdIdfjPLzCAjY1Fecu4Q%3D%3D",
+   "movieId": "09ea4fe124873c85de6d2e574938153e%3Avp%2Fi7imGkBKxuTDI6O9lqg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg"
   },
   {
@@ -1934,7 +2148,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b8ba0a8d34dc8b282fcbbf5e1d4929d8%3Aq4DoEDQsj5srH68%2BMYASMQ%3D%3D",
+   "movieId": "a60e604a06d6d1e388d832a73f30de57%3A2Xb9KQAjapG7MDsiN2ELEg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ae3ad202607271348214017.jpeg"
   },
   {
@@ -1948,7 +2162,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "25de9a4d3d37cfc62209b83c6933fb09%3AF8qz7N0SRqABJwZuL%2FvUqg%3D%3D",
+   "movieId": "5ae74c70d78880ed3ee6db524e9b293d%3APtQoj%2BQAQQiEK2IWYB%2FgDA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/7084ecbd4fb041f8b44a7362f05bcfda.jpg"
   },
   {
@@ -1963,7 +2177,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "48b00ac0e763fd32e2ef11d7bc587131%3A%2FpKiDbyjC6yzv5kHqkoBSw%3D%3D",
+   "movieId": "1ccb6fdc761f471789a98bb9f2a06946%3AxOtQ1ow4S3kWWayvCfgKtQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg"
   },
   {
@@ -1977,7 +2191,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a03ce8f7832a68ab348a2b4055eb474d%3AQ0tBKnuAd9n6mYhknY4VGg%3D%3D",
+   "movieId": "4858cecde4382d1ddc715234db2a5417%3AdpWI20e2K9KQ3NN%2BZ0sB3A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/45b44f2920da4db8b85e1cb7e8f744c4.jpg"
   },
   {
@@ -1991,7 +2205,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8f7c09bcaf898785947e485a66a838ba%3AJJtL826PmwHTwzcWHAfJHQ%3D%3D",
+   "movieId": "fae14279997fb8235e512d5cc2334a5c%3AwjcusFODJsljvqWJX5Tf3Q%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg"
   },
   {
@@ -2005,7 +2219,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ebc5d12719a5d70ebd961917d8025d6f%3AcsHU4TrP9XM6OHXgyEwu%2Fg%3D%3D",
+   "movieId": "f5898db6b43d7eb809d54d63a571e1ba%3AL2ClD%2FS75QtYYLHtgSBG2A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/245d1202508151424339196.jpeg"
   },
   {
@@ -2020,7 +2234,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "551e9e314fe0f24261d87162d58d72d8%3ANQj7eB0Qd6uvW3VbV85Ofg%3D%3D",
+   "movieId": "95d9215ee8353e0c1c6b9db995fc5940%3Ahl1OM8jW7E73F4xBdcsRdg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg"
   },
   {
@@ -2034,7 +2248,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "29b389546ceac0514f319009e4472006%3AXnBijdpZLti0UzCFDGqy3g%3D%3D",
+   "movieId": "82cba4600c88bfdbf8cb654b80da7fbb%3Ak6yiwEejgJYut8PNPa8HnA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
   },
   {
@@ -2049,7 +2263,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3d1a763fc7fe3a4cbc71a4b5fbb5aa5c%3Ae%2Fbaa1xkMNDBOb35cuajQg%3D%3D",
+   "movieId": "5819a0c718614f453cde3da808c42007%3Ab0bnD041ejeKLJ4q8qL71w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/09/6079a01a-fc98-414f-98ae-800fc5153c1c.jpeg"
   },
   {
@@ -2063,7 +2277,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d89c6910f4a828c59fdc1e9ed3dc775d%3A4GkO8XYRq9JXgGHnNn7dIg%3D%3D",
+   "movieId": "58d17c47b5c1f88389391225e3224f30%3AsKBSFBn1zmz8QgFmDCfhyQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/9053ebd31263443c97dac9049623b136.jpg"
   },
   {
@@ -2077,7 +2291,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ee82ee5dda33de7cc10002520487601a%3AB40%2B4vkyrguR4LFLUEJHBQ%3D%3D",
+   "movieId": "4e5cb81bfadc3c456786aa9c1fba84b9%3AkImZhhD8amm%2FZjF7yYwT6w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96f34202609251335078184.jpeg"
   },
   {
@@ -2092,7 +2306,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "ca1be054430639005f23148c582ca889%3Ad3w4DwjmeX3uB2Y7CQjMSw%3D%3D",
+   "movieId": "29ed8aa6b789c23fc85ff7e92de83241%3Ab%2BkJj7m3eM8UBaYD%2FIgKfw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg"
   },
   {
@@ -2107,7 +2321,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4823c5e0fdae2d7fb9abdeae6fd97d2c%3ASH0cEinK8XjplPvTw8ZCCQ%3D%3D",
+   "movieId": "962adebdf00d56de3d4cef063b9b6b47%3A2fZ%2Bu2mpXwWtjJFGMbUxMw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a63ba202607271430369880.jpeg"
   },
   {
@@ -2121,7 +2335,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2545a1386f3c347b2e95317508011dc9%3AWbufXtejSNT4dnswuQVPjA%3D%3D",
+   "movieId": "43a173f93cd66baf6e01ff53a885b0ff%3AB4SEL2J605XVWW%2BWx7XvtA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/13ad2e6fd2dd4f3491a6320987368f5d.jpg"
   },
   {
@@ -2136,7 +2350,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "e4afe00e9c666b41012b5d1f85ac7b8c%3A6px6tdS7LttesF7%2FLBo1pg%3D%3D",
+   "movieId": "82fc162c3f1797407260d7b5d868e639%3A5v0NFg3kJzmZByZXmg6szg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/d963a20261013210931816.jpeg"
   },
   {
@@ -2151,7 +2365,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "8f16bf89a5b380f8be07243d70b7bf4c%3AFvavCywWZRfLedzm9yii3A%3D%3D",
+   "movieId": "939df673b6eb6944a2a6b80296cfb0a5%3AGjitjRuQ3JhUNEpDknhAxg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg"
   },
   {
@@ -2165,7 +2379,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "123c6288e2d269b99d2cc270d8885e7a%3A3wrsc%2BRGUBK4K5MzFbD7Hw%3D%3D",
+   "movieId": "b84ca52d407fe56d4242b139df82ec53%3AKJpRD406zCu3mOgchX8GSA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b4b408a2c63341d78ee8cec5ded25b55.jpg"
   },
   {
@@ -2194,7 +2408,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "610fedde9f3e524f008612e7ff7cb3d3%3Amo3eKekkHUO9cDYZ5iMm5A%3D%3D",
+   "movieId": "46b3d38d405839a42dba0d321b9040c9%3AKDYjLz%2FxvCoX1idsz8q73A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ede70202607221001222003.jpeg"
   },
   {
@@ -2208,7 +2422,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ac4fec403d8e36533ffae32e01c4e9b5%3AzNDAXORHFsi8n1XwEXIwtg%3D%3D",
+   "movieId": "1897b39c9af079b5605adc3cc77ab87a%3AApvdfYhY1IwgnnVaMYimqg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/6e4713ae625e4aa7a6ac826ba1c239dd.jpg"
   },
   {
@@ -2222,7 +2436,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "932170c1120ee7f9c1c5f797629fedb0%3AShpA7OTRMGrk5R6rZ1%2BUNA%3D%3D",
+   "movieId": "5ab53d44a984c80bc74a5b56480a7463%3AVprFe2M0cp35e%2FdkikBu3w%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/cf1e8202609251410323687.jpeg"
   },
   {
@@ -2236,7 +2450,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "6954363cf742830731d75fb240f585c8%3AFlNUGoGwBssNfJBOMin6Dg%3D%3D",
+   "movieId": "242d1047638bb2643967a67779d60fba%3A0FZnZqM01LeA28p1pvfcSg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/7ae40abd895e4584bc2ab5e7daaf3621.webp"
   },
   {
@@ -2250,7 +2464,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "667b2f96e6a80be62ff4fa5b48f866cc%3AWzo5MlDAPgaIJilDWLheZA%3D%3D",
+   "movieId": "48c5ccd09594c66361d5036fdf205f92%3AeUvQX2j6P0plpcHOHofSCw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/2da080ea5852478aa9e2536905e89c06.jpg"
   },
   {
@@ -2264,7 +2478,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c9705f5f0b42f636155ad6e7a1953443%3AJaii%2BUETYQF1WL1Om6B27w%3D%3D",
+   "movieId": "25aff3ef5fe1bd9d3505134649057f58%3A7JHzFj4H1v3TlwMXkyNsCQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/4710e20250815113208393.jpeg"
   },
   {
@@ -2278,7 +2492,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "76849875d4fe2d96a5d3b1b1a4457d4e%3AC4%2FaXuUO2xUCAZQrao7VfQ%3D%3D",
+   "movieId": "742b33bbad8b7dd222fb816a327c4aeb%3A%2F1jBiwTCeq%2B7RT9oZawJ0A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
   },
   {
@@ -2292,7 +2506,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "29479d5ca574c96b81776aae6fa7e22a%3A89CGHqiQdeeLERS%2F%2F3lqHQ%3D%3D",
+   "movieId": "665c8286f0b003c03a9f0fe9f1395bb3%3AeiPJx0bUApwLkdM6GJ0%2FqQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg"
   },
   {
@@ -2307,7 +2521,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7f282686f2ccce644403c79a5434775e%3AeBJNDyZrxNnnhd%2F6zcNpoA%3D%3D",
+   "movieId": "1f23bd8d67f93a2918c441c8135e36ba%3AE%2B0h3Whc0d0%2F5HBDWcjITg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/2ee27202608131628198701.jpeg"
   },
   {
@@ -2321,7 +2535,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "739113d20e20746a6523223cc03c30aa%3AOi5ktN1mVqgwGMSSgAQ0kQ%3D%3D",
+   "movieId": "49d65ce316baecffb596afb767444224%3AzApJ0AZk2uXuvSRZDq9Hdw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg"
   },
   {
@@ -2335,7 +2549,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a7aea920d9b98e373d408e026dadbd37%3ANdIBo%2Fy1ctFGHvV%2BXq%2FhJQ%3D%3D",
+   "movieId": "b605f1105df83a7007f80b3464c0f27c%3AQL%2FId6zF3sYcYh%2BtEoUJfg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg"
   },
   {
@@ -2349,7 +2563,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "48cd4b9cfde7d5fe1bda102dcc03a47d%3A9DApOAsRQcccYAc9%2FpLa0Q%3D%3D",
+   "movieId": "fbe1bf0d635d872669478e0d91b9995f%3ArZyXNGP6lOd7vierleLSFQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3b6af202607231023558100.jpeg"
   },
   {
@@ -2364,7 +2578,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b7bedf40557e871e39f341676d81d9d6%3A1f93skHvBhv671P1KFDATg%3D%3D",
+   "movieId": "9ff14ed71e1e7574e6ab4aa0ddfbf0e0%3A2XCFf6M8jS0lO1YjW2AkZg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg"
   },
   {
@@ -2378,7 +2592,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "7034435304d513294b4e9408d51a8d0b%3AIGDzau%2BSvatyH1oBUwELjA%3D%3D",
+   "movieId": "197bca8b3cdc499295626094b74e2f0a%3A%2B1ZBAGizqVkgoD9ZInhMLw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/03/99fbc20250320165225900.jpeg"
   },
   {
@@ -2392,7 +2606,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0fe80d8f0c8e68e2a9b354a1da1d6ce8%3ASV6mj%2F5lbCnFvOVsaJEtiQ%3D%3D",
+   "movieId": "b812504a7165ba73cd612f4f9b7a5a40%3AIIa9z%2FkIWFZLSxxhzBsbGg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/09/cf4c2202509270928071726.jpeg"
   },
   {
@@ -2406,7 +2620,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2a13e0fbcd2bda4b3150485bd875344b%3Aa1Ov%2FN7z6QUJ6CZ1snYjfg%3D%3D",
+   "movieId": "a5d0d748bccc0628dadb5eafc0cf7460%3AyNPMDdAh7edCdz8g8sJ4tg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/69fd0202603271540333713.jpeg"
   },
   {
@@ -2421,7 +2635,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "79479ba7c585a3d14f4e1587ce6eb154%3A5kfa%2BzT0KFz4bXyzXkAV4Q%3D%3D",
+   "movieId": "9cf560d1d61427c997be311a3ffc6f6f%3Au8opqeyHsC28Qkj89tS1jA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ef02c091f8ff4bcea82071e41676f774.png"
   },
   {
@@ -2436,7 +2650,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "983c282464e8982d93edd9ea3a4c31d9%3A6ABvNVXhggko04IQDnTfJA%3D%3D",
+   "movieId": "a6c9fdd634c1a0d88dc43beb8c65cb3e%3Aa7RKhyh2VXA1Pr%2FN8pitAg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/67d2f9a4161b4a31b7e5123c5e37b003.jpg"
   },
   {
@@ -2450,7 +2664,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "64f7e72cbc79c66cabb63dfdd1ca63f3%3AXx1pVINRv9gJf8ncJc5MfA%3D%3D",
+   "movieId": "4c2bee51d8561b0a7387b8d5aac66a62%3AzrRNTvSkqdbGBDL8YAYSdw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a19ef202607131833552015.jpeg"
   },
   {
@@ -2465,7 +2679,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4a7e307498cc5f7cab13cbf2c4e43bd6%3AyUIvr58JQiRH%2FRhcQ%2FM2tg%3D%3D",
+   "movieId": "bd1b3f2728da18e4176838acd088ab9b%3A9oULNlMB3kWnaX8KZNGClA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/cf92cc44d15640ad9956de7b0f5ebedd.jpg"
   },
   {
@@ -2479,7 +2693,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "45b4761719b73bb32981a92f74f9b4b9%3AlPZDVnfrdD8eW750i%2BwLeQ%3D%3D",
+   "movieId": "1751d6d165115ef0427dba40309290e5%3A0RczWTY%2BbNYzGAvXdbQDYQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/343e8202603271037411194.jpeg"
   },
   {
@@ -2493,7 +2707,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b177803b45b57a68e09f7bf2f29d8f7c%3A6zlWd8c3r8eRr2N20fwuIw%3D%3D",
+   "movieId": "46244ec36c4431c23ec5e3ca7156dbe1%3A%2FG7%2F0BoIB1nVB1Ta2E5HCA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/08/5883003a-c281-4ea7-a774-c8ae39422d84.jpeg"
   },
   {
@@ -2507,7 +2721,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "5880f354715c5625b7fc079a3028680f%3AZZQ3%2Fj242thrE9pMQUVjUg%3D%3D",
+   "movieId": "05cb0f6fe27b044c22af16c49fb246b8%3Aju3fANNxkHDQZ%2F7hZPqy3A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/dc017fb0f5454850bfdac6c58660315f.jpg"
   },
   {
@@ -2521,7 +2735,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e6aeb320cfd710f8c15d10c986602e65%3A71P0hup9xns8vplDLfYPXg%3D%3D",
+   "movieId": "e5f95602e193dc9ee70ac4272ac50dee%3AyjCpdGNgosr5NhwrX1dvWg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg"
   },
   {
@@ -2536,7 +2750,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c337852c0060a328be19db73c081427f%3AEdv4Bn2SvR8o%2FEDfLaRwlQ%3D%3D",
+   "movieId": "a7a83ba08193909ebdf9f1fecb715c05%3AVPRDEFUSlcEOkj1WBaHlGg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
   },
   {
@@ -2550,7 +2764,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8e4b03e459958d5aa5a2a43c669c21ac%3AJkYL480yCeWHjF8y2tIXSQ%3D%3D",
+   "movieId": "b772d36da0dcd7d84cd4b58efe48c4b1%3AmW6Fi8qBC5t1FIvbYhKMNg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/6366c20260805091233822.jpeg"
   },
   {
@@ -2564,7 +2778,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "3f659d67a186b90c3d83c371a07f1931%3ANtRuaZaxpoHNDy4XfK38PA%3D%3D",
+   "movieId": "3ba66fbc64c5cba86c4e6ba4e0930e45%3AfBKdaE2cjspQQnquIXUf4A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg"
   },
   {
@@ -2579,7 +2793,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c008c412ca2dae9b9c3a0a28eaa7a581%3A6gQ%2BJ1AcYsXFopSsi5g%2BJA%3D%3D",
+   "movieId": "45fa1fff617fc643dadab8e9ae8725e9%3A%2Fmrl06guhvH1O2ApP30epA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/03ba1202605191332028897.jpeg"
   },
   {
@@ -2593,7 +2807,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a738b4f5fdf76d62cda0bad858790509%3A9K4paaiR%2BKhItK0fLwe6ug%3D%3D",
+   "movieId": "1e709d33ce5a77e5e7c4fab0cbbc6b13%3AtaUM7%2F9ah3b%2FY6AeJiu1Iw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/07/a4873202507021613529236.jpeg"
   },
   {
@@ -2607,7 +2821,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b21ec5081dc463812adb4428c7d7f804%3A5JSPOa%2FVDLF4CCx4%2Fm1C8g%3D%3D",
+   "movieId": "2c9b6193e09edbddef2ff1505f97fdaa%3A4cYvPmg%2BESndvE6G2IRuNQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/d3f46202608121618031949.jpeg"
   },
   {
@@ -2622,7 +2836,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "6cc3695d58e83c01a983ea627b58d47e%3AUNgWlJCy2qnNKRGQLtbLvw%3D%3D",
+   "movieId": "e1e1e624012c69d130eadffbf7f6dc0e%3Ac7Tja%2BAJgHJywzZqbgn4Kg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/2024/09/e9ab3db1-d80b-48ea-acc0-cf52cba2a2d6.jpeg"
   },
   {
@@ -2636,7 +2850,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "67090939a4e2d3ceb989aceded372ff1%3AGZWphHVkPnV7FBJFXGlBKA%3D%3D",
+   "movieId": "6722560447e87ad29a6529b05c7f4e82%3ARnh0Sy9N8OajUAHB4gp4UA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/da687202608050949432655.jpeg"
   },
   {
@@ -2650,7 +2864,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ca99c78066ddd8cf37c1b6e723303e72%3AXwyw1%2B95iI4tUNGLs6hBrg%3D%3D",
+   "movieId": "19dd4194a8592d1a320e6abec7b98c36%3A%2Bn77gSB7sTicUeMIOegvog%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/76482202605071445397899.jpeg"
   },
   {
@@ -2664,7 +2878,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "93606d2099ad9e036b79867751c12f4d%3AkHmo%2BcnjKaVsCeeBGFSDYA%3D%3D",
+   "movieId": "419a77bed61b1639b1e9eab81145960e%3A5fVheYBeZGkkMIlSS%2Bbw0A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d293da281a184d519417ec60f56334b0.png"
   },
   {
@@ -2679,7 +2893,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "d7e8c61b00c14d5b5b1d9b3eb4fd6d94%3A7Mof7KdL61PpakSZGZZ2vg%3D%3D",
+   "movieId": "84c0ac219f3012894b2905e58baaf7d8%3AH4w3IDYI66lO%2BicVAMJFxw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/f61ee202608060958118506.jpeg"
   },
   {
@@ -2693,7 +2907,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "71f535058f6af9370862db900067edd3%3A4VHk%2FPggS%2Bzmf8WC%2FqrJnA%3D%3D",
+   "movieId": "255f89a7891432c2c5f87f17cddb83b5%3AoSCVMKM3mu%2FfTvmbhoAJxw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
   },
   {
@@ -2707,7 +2921,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f59523b30ff53524ce2faa0841b910b0%3ApVjsnVOEQVliw3%2BVcWKy%2Bw%3D%3D",
+   "movieId": "370b3424336db3777d5107b1a26d2516%3AP9w0g%2Fj%2B8Pa%2BolbwIX1U6g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/258d5202605071503495536.jpeg"
   },
   {
@@ -2722,7 +2936,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "41fc5ec7f7a4fed539aaaae816cb63f4%3ASczahis6IakCJoWZdW93Lg%3D%3D",
+   "movieId": "6a57f51174d1929f63e3ec1621d847a2%3A3wUeIVhLW1ZndB8%2BxIQQaw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/fb8ff202607270945318734.jpeg"
   },
   {
@@ -2737,7 +2951,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "e6226d9128a157c563f35b715a6b4fd7%3AtCxBNJxpweVTqRCqOuj%2BZQ%3D%3D",
+   "movieId": "fb4ee28c922f44d5f61cab9b5c8439e1%3AGdJoAEC4rkh7aJGoyg%2BB9g%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b2dff202608071035197528.jpeg"
   },
   {
@@ -2752,7 +2966,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "07e35007560afad07b81c728b76af29d%3ABRNkd5EYyHLk3BOdp1uCAg%3D%3D",
+   "movieId": "014ce1d1005c126c5723d59f80807a2c%3AvwwhVOc08I8ePeqD81plTA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/85bae202607231139121324.jpeg"
   },
   {
@@ -2766,7 +2980,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2a66b5a0f196663ce0e7edd383e35a2b%3AfKlNagWaqoJZJIqXlvTPPg%3D%3D",
+   "movieId": "1db96dcf3123ca438ebc3b0da0cdac48%3AvrtKATI5h5eqSiFm4vXk0A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/fb370202605071519515964.jpeg"
   },
   {
@@ -2780,7 +2994,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "dd6b986422efdf3a5f717546db3e8242%3AMcHQ083RBjvEmqtusgvG5w%3D%3D",
+   "movieId": "b26ce9a710286edf500dc2ba71ccafe0%3AXGqeCt2hplGC8Uy4%2BqLyvw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b519e202608071059375462.jpeg"
   },
   {
@@ -2795,7 +3009,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "2d6eb995f3c4aac03705b68391581fa5%3AJv07lxoGouCm7rtbwU7tPg%3D%3D",
+   "movieId": "fdb5e2aece30b053fca9ddc04d857ce8%3A0MaSDb0%2F7auT7tBDCDMDgw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
   },
   {
@@ -2810,7 +3024,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "37dc206d5e9204f62241dcbbc071c71a%3AVr%2FLu8MnsVO%2FCDms2fzDjw%3D%3D",
+   "movieId": "fc9d447a47c9608049e9bb775af76a05%3AACSPRf%2BKpCVKCMjXwi0fZA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/b536520260727162859261.jpeg"
   },
   {
@@ -2824,7 +3038,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a98054c7eedb9bac5e3d36fada912f5b%3AN9hbUdgIjCXkBj2k%2B6Bjsg%3D%3D",
+   "movieId": "e7e1ffb0eba2b992721b6355f1338f16%3ArxaZcKAUpB1RdpcElRjuHg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
   },
   {
@@ -2838,7 +3052,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0af8ecd265f65b6fe2830e835adb2d8f%3Almf1I%2BIS%2F6oxXpm2zfAtGw%3D%3D",
+   "movieId": "5b73adb6606bcef6398b178cb8115c85%3Afohgw38oEWm5CojqFEp8iA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/608af8bc9a7e4e40b552c58a75a324ea.jpg"
   },
   {
@@ -2853,7 +3067,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "cb3fb8b7b57b953e5d32e99b7798aa04%3AHT%2BKFn75OLqVFbs0gzOd%2Bg%3D%3D",
+   "movieId": "fefb7d0cb2370cdced26034340e3ad38%3Au5X1xCrGTpAFCrGDhPD9rQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/3d83f202608111047313712.jpeg"
   },
   {
@@ -2867,7 +3081,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "51b7acd700aada7ed994c25cff2f82bc%3AGQEMrVttxEA%2FyB5qOoziCA%3D%3D",
+   "movieId": "47704dd57d6b0cf1233dfe3afca0a7c4%3AZaxY%2Fhql73toGcxB8tsOKQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg"
   },
   {
@@ -2881,7 +3095,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "586f863e015951ed582e1e9f4bc20d2d%3A5JFiM6u2D9A%2B4YmCNIONeA%3D%3D",
+   "movieId": "77035b53897a1829f9a9a26dd78b964d%3AebUab0Rkpl%2BoOlh63GaCKw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/20916fcb0cb045328f2f42a91067dc78.jpg"
   },
   {
@@ -2896,7 +3110,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "72edacb3f7f83de7080d1ac87577df4d%3Arb%2B0FX3nF9XUCLr5jukisA%3D%3D",
+   "movieId": "af3e5b006b45641569c3ca961f0ce9d7%3AtqPzB6EzU2cw7KFDzBymgw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/d1661202412251000163541.jpeg"
   },
   {
@@ -2910,7 +3124,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ef71e1e2a2a263dd64720a96469b2638%3APSagjGcRP90EzP7M4a1FIg%3D%3D",
+   "movieId": "a00ba29030e586b01aeb0ccf40cb8f61%3Ap7%2FP5FXA1GNWBlJnuC%2FPgw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/69fd0202603271540333713.jpeg"
   },
   {
@@ -2924,7 +3138,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "5cea3f087813205c899c73bc9266ada2%3A6caS77hBdi4dX6zB7RZmtw%3D%3D",
+   "movieId": "590ce87f827780f99e46bbb5bf46944e%3AcholaKJBFoboov0dgPMcfw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
   },
   {
@@ -2938,7 +3152,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f0716f176d67eb8895fa6739de6d9853%3A%2FZ2m2DQ178hK3i5Bnr4RRA%3D%3D",
+   "movieId": "33cc912600aaaa679cc64b0fcc43c89e%3AorhIGdcnyCqWgDBHV1w8bA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/31ceb202412271649341422.jpeg"
   },
   {
@@ -2953,7 +3167,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3d0088f8530a7d72de9aa6b9bb2ff3bf%3Ai3VbnypbBXxvrtSTOk3ICw%3D%3D",
+   "movieId": "17ddf806250aee0862775bd2f1b54002%3A7PnRSMc4ovK12X%2BF4Lz7rQ%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
   },
   {
@@ -2967,7 +3181,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2d24d63a8bf0c588e59d4a688472346c%3AfNnpH%2FaupuGO38ODzZWBaQ%3D%3D",
+   "movieId": "2761242d2de9038aefc8cb7d2f58066d%3ARkJQfRaluHNN%2BrUS7EbQ9A%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e1d1620260926100432260.jpeg"
   },
   {
@@ -2982,7 +3196,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "e37dc3bb53e9436e19e63916d57eb2ea%3ASa0gEMU%2B%2FpfbTuRcoPpXUw%3D%3D",
+   "movieId": "143fa6782c101642b77775fecc36bb57%3A%2Bo6fVzAFN%2FO6mWjs28vHXA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/de29a202608111125566406.jpeg"
   },
   {
@@ -2997,7 +3211,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "fa95c8710be2c44b5afa375f3b603d71%3ADlQM%2F9BcjcOMXfvTQCwHYA%3D%3D",
+   "movieId": "0ae65c417bf54eb32301abc7846f5e6b%3A8Awqg%2B9XEys8q49RFIuoXA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
   },
   {
@@ -3012,7 +3226,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4ef327f50724fde18e314e5dc9a83377%3AodN1FBe6rdIqYQpaKGbozg%3D%3D",
+   "movieId": "d5d7b505998f9f6a50d0ea2fdce219aa%3ASYHL%2FmX8rUsyg9TZnjm%2FQg%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
   },
   {
@@ -3026,7 +3240,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "706716a231892cc4a7a7360138c4e573%3AIvFzwNj9SNeL7sB6Mp5FPg%3D%3D",
+   "movieId": "829b83fbd0f0cb17e4bd8d6ebc55bc58%3AkhXWxUN%2FbPPciFHsbGQSaw%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/67c70202609271051042991.jpeg"
   },
   {
@@ -3041,9 +3255,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "d4e916be08c37b04ccb73f14f24a88e3%3AY%2BNpw2JNXeiY6Xta%2BjAbkw%3D%3D",
+   "movieId": "b636784db8976f127db6c47c629cad53%3AqUv1BOpIgI5fJa27CWZP%2BA%3D%3D",
    "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/7a1362026081209330821.jpeg"
   }
  ],
- "generatedAt": "2026-11-01T20:55:13.704Z"
+ "generatedAt": "2026-11-02T14:22:31.394Z"
 }
