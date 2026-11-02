@@ -199,18 +199,24 @@ a{color:inherit}
   padding:14px 16px;border-bottom:1px solid rgba(228,230,235,.8);
   position:relative;overflow:hidden;   /* 水印层裁切在卡片内，不溢出 */
 }
-/* 影厅水印：右侧大号浅色数字，纯装饰层（厅号文字仍由 .hall 标签承载） */
+/* 影厅水印：位于信息列（.film-main）右缘的空白带、按钮列左侧，纯装饰层（厅号由 sr-only 文本承载） */
 .hall-wm{
-  position:absolute;right:10px;bottom:-8px;z-index:0;pointer-events:none;
-  font-size:80px;font-weight:200;line-height:1;letter-spacing:-.02em;
+  position:absolute;right:2px;top:50%;transform:translateY(-46%);z-index:-1;
+  pointer-events:none;
+  font-size:72px;font-weight:200;line-height:1;letter-spacing:-.02em;
   font-family:"Helvetica Neue",Arial,sans-serif;user-select:none;
 }
 .hall-wm.h0{color:rgba(120,126,138,.13)}   /* 中性（无数字厅/4号及以上） */
 .hall-wm.h1{color:rgba(59,130,246,.13)}    /* 1 号厅 · 浅蓝 */
 .hall-wm.h2{color:rgba(13,157,168,.14)}    /* 2 号厅 · 浅青 */
 .hall-wm.h3{color:rgba(217,119,6,.15)}     /* 3 号厅 · 浅琥珀 */
-/* 内容层压到水印之上 */
+/* 内容层（文字在水印之上，按钮列不受水印影响） */
 .film > .poster,.film-main,.film-side{position:relative;z-index:1}
+/* 屏幕阅读器专用文本（厅号等信息不靠水印传达） */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
 .film:last-child{border-bottom:none}
 .film:hover{background:rgba(212,32,46,.03)}
 .poster{
@@ -257,7 +263,6 @@ a{color:inherit}
 .venue-tag{font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid;font-weight:600}
 .venue-tag.bj{color:var(--bj);border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.08)}
 .venue-tag.jn{color:var(--jn);border-color:rgba(15,157,118,.4);background:rgba(15,157,118,.08)}
-.hall{font-size:12px;color:var(--muted)}
 .film-title{font-size:17px;font-weight:700;margin:0 0 2px;letter-spacing:.02em}
 .film-title a{text-decoration:none}
 .film-title a:hover{color:var(--accent)}
@@ -351,8 +356,8 @@ a{color:inherit}
   .poster,.poster-ph,.sk-poster{width:60px;aspect-ratio:2/3;height:auto}
   .film-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start}
   .film-title{font-size:16px}
-  /* 窄屏水印缩小并右移：底部按钮行靠左排布，右侧留白仍够放小号水印 */
-  .hall-wm{font-size:52px;right:4px;bottom:-6px}
+  /* 窄屏信息列窄、右侧还有整行按钮，水印易压字：隐藏水印，厅号由 sr-only 文本承载 */
+  .hall-wm{display:none}
 }
 
 /* ---------- 上座率徽章 ---------- */
