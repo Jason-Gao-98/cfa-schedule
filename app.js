@@ -567,17 +567,21 @@ function priceOf(r) {
   return Number(PRICE_MAP[date + '|' + hall + '|' + name] || PRICE_MAP[date + '|' + name] || 0) || 0;
 }
 
-/** 构造影片海报区：优先豆瓣海报（失败回退资料馆海报），整体包裹为可点击跳转豆瓣 */
+/** 构造影片海报区：优先本地缓存的豆瓣海报（构建期已下载，避开 ORB/防盗链），整体包裹为可点击跳转豆瓣 */
 function posterBlock(mi, db, dbUrl, isExtra) {
   var orig = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
   var doub = (db && db.p) ? db.p : '';
-  var primary = doub || orig;
-  var fb = (doub && orig && orig !== doub) ? orig : '';   // 豆瓣海报加载失败时回退
+  // 本地副本 assets/posters/<id>.jpg 存在时优先；失败逐级回退：豆瓣 CDN -> 资料馆
+  var local = (db && db.i) ? ('assets/posters/' + db.i + '.jpg') : '';
+  var primary = local || doub || orig;
+  var fb = [];
+  if (local && doub && doub !== local) fb.push(doub);
+  if (primary && orig && orig !== primary) fb.push(orig);
 
   var inner;
   if (primary) {
     inner = '<img class="poster" src="' + esc(primary) + '" alt="' + esc(mi.movieName) + '" loading="lazy"' +
-            (fb ? ' data-fb="' + esc(fb) + '"' : '') + '>';
+            (fb.length ? ' data-fb="' + esc(fb.join('|')) + '"' : '') + '>';
   } else {
     inner = '<div class="poster-ph">' + (isExtra ? '公众号<br>排片表' : '暂无海报') + '</div>';
   }
@@ -1655,13 +1659,22 @@ $('dayList').addEventListener('click', function (e) {
   var rec = seatRecs[Number(btn.dataset.i)];
   if (rec) openSeat(rec);
 });
-/* 豆瓣海报加载失败时回退到资料馆海报（error 事件不冒泡，需在捕获阶段监听） */
+/* 海报加载失败时逐级回退：本地缺失 -> 豆瓣 CDN -> 资料馆；全部失败显示占位（error 事件不冒泡，需捕获阶段） */
 $('dayList').addEventListener('error', function (e) {
   var t = e.target;
-  if (t && t.tagName === 'IMG' && t.classList && t.classList.contains('poster') &&
-      t.dataset.fb && !t.dataset.fbd) {
+  if (!(t && t.tagName === 'IMG' && t.classList && t.classList.contains('poster'))) return;
+  var chain = (t.dataset.fb || '').split('|').filter(Boolean);
+  if (chain.length) {
+    t.dataset.fb = chain.slice(1).join('|');
+    t.src = chain[0];
+    return;
+  }
+  if (!t.dataset.fbd) {
     t.dataset.fbd = '1';
-    t.src = t.dataset.fb;
+    var ph = document.createElement('div');
+    ph.className = 'poster-ph';
+    ph.textContent = '暂无海报';
+    if (t.parentNode) t.parentNode.replaceChild(ph, t);
   }
 }, true);
 $('seatClose').addEventListener('click', closeSeat);
