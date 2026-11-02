@@ -9,6 +9,10 @@
  * 回查，因此每天把当月/下月的完整排片存档到仓库，网站端在
  * 「按月查看」时用它补全已放映的场次。
  *
+ * 重要：每次运行都与既有存档取并集（键：playTime|cinema|hall），
+ * 只增不减——接口对已放映日期返回 0 条是正常现象，若直接用接口
+ * 结果整体覆盖存档，每天跑一次就会把昨天的排片删光。
+ *
  * 内容无变化时不改写文件（generatedAt 保持不变），
  * 避免每日产生无意义的提交。
  *
@@ -157,28 +161,41 @@ async function snapshotMonth(monthKey) {
 
   const extraAdded = mergeExtrasInto(dayRecords, monthKey);
 
-  const records = [];
+  const fetched = [];
   for (const [day, recs] of dayRecords) {
-    for (const r of recs) records.push(norm(r));
+    for (const r of recs) fetched.push(norm(r));
   }
-  records.sort((a, b) => (a.playTime === b.playTime ? String(a.hall).localeCompare(b.hall) : a.playTime.localeCompare(b.playTime)));
 
   const outFile = path.join(OUT_DIR, monthKey + '.json');
+  const recKey = (r) => r.playTime + '|' + r.cinema + '|' + (r.hall || '');
+
+  // 与既有存档取并集：接口返回 0 条（日期已过/已剔除）时保留历史记录
+  let oldRecords = [];
+  if (fs.existsSync(outFile)) {
+    try { oldRecords = JSON.parse(fs.readFileSync(outFile, 'utf8')).records || []; } catch { /* 旧文件损坏则重建 */ }
+  }
+  const fetchedKeys = new Set(fetched.map(recKey));
+  const merged = new Map();
+  for (const r of oldRecords) if (r && r.playTime) merged.set(recKey(r), r);
+  for (const r of fetched) {
+    const prev = merged.get(recKey(r));
+    // 已有正式场次记录时不被公众号补充（extra）记录覆盖，正式数据字段更全
+    if (!prev || !(prev.extra && !r.extra)) merged.set(recKey(r), r);
+  }
+  const retained = oldRecords.filter((r) => r && r.playTime && !fetchedKeys.has(recKey(r))).length;
+
+  const records = Array.from(merged.values());
+  records.sort((a, b) => (a.playTime === b.playTime ? String(a.hall).localeCompare(b.hall) : a.playTime.localeCompare(b.playTime)));
+
   const next = { month: monthKey, count: records.length, records };
 
-  let changed = true;
-  if (fs.existsSync(outFile)) {
-    try {
-      const old = JSON.parse(fs.readFileSync(outFile, 'utf8'));
-      changed = JSON.stringify(old.records) !== JSON.stringify(records);
-    } catch { /* 旧文件损坏则覆盖 */ }
-  }
+  let changed = oldRecords.length > 0 ? JSON.stringify(oldRecords) !== JSON.stringify(records) : true;
   if (changed) {
     fs.mkdirSync(OUT_DIR, { recursive: true });
     next.generatedAt = new Date().toISOString();
     fs.writeFileSync(outFile, JSON.stringify(next, null, 1) + '\n', 'utf8');
   }
-  console.log(`${monthKey}: ${records.length} 场（含手工补充 ${extraAdded} 场）${changed ? '，已更新' : '，无变化'}`);
+  console.log(`${monthKey}: ${records.length} 场（含手工补充 ${extraAdded} 场${retained ? `，保留已下架历史 ${retained} 场` : ''}）${changed ? '，已更新' : '，无变化'}`);
   return changed;
 }
 
