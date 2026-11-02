@@ -199,11 +199,13 @@ a{color:inherit}
   padding:14px 16px;border-bottom:1px solid rgba(228,230,235,.8);
   position:relative;overflow:hidden;   /* 水印层裁切在卡片内，不溢出 */
 }
-/* 影厅水印：位于信息列（.film-main）右缘的空白带、按钮列左侧，纯装饰层（厅号由 sr-only 文本承载） */
+/* 影厅水印：以整张卡片（.film）为基准的固定列——right 由按钮列实测最大宽 117.3px + 22.7px 安全距定，
+   top 固定 35px，所有卡片数字共线（同一水平基准 + 同一右缘竖线）。纯装饰层（厅号由 sr-only 文本承载） */
 .hall-wm{
-  position:absolute;right:2px;top:50%;transform:translateY(-46%);z-index:-1;
-  pointer-events:none;
+  position:absolute;right:140px;top:35px;z-index:0;pointer-events:none;
+  display:flex;align-items:center;height:72px;   /* 固定行盒，数字光学居中，不随字形上下留白跳动 */
   font-size:72px;font-weight:200;line-height:1;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;              /* 等宽数字，1/2/3/4 右缘对齐成一条竖线 */
   font-family:"Helvetica Neue",Arial,sans-serif;user-select:none;
 }
 .hall-wm.h0{color:rgba(120,126,138,.13)}   /* 中性（无数字厅/4号及以上） */
