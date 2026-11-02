@@ -201,11 +201,13 @@ a{color:inherit}
 .film:last-child{border-bottom:none}
 .film:hover{background:rgba(212,32,46,.03)}
 .poster{
-  width:76px;height:104px;border-radius:8px;object-fit:cover;background:var(--panel-2);
+  /* 海报按原始比例（约 2:3）完整展示，不裁切 */
+  width:76px;aspect-ratio:2/3;height:auto;border-radius:8px;
+  object-fit:contain;background:var(--panel-2);
   border:1px solid var(--line);display:block;
 }
 .poster-ph{
-  width:76px;height:104px;border-radius:8px;border:1px dashed #c6c9d1;
+  width:76px;aspect-ratio:2/3;height:auto;border-radius:8px;border:1px dashed #c6c9d1;
   display:grid;place-items:center;color:#9aa0ad;font-size:11px;text-align:center;padding:6px;
 }
 /* 豆瓣关联：海报整体可点击，新页签跳转对应豆瓣详情页 */
@@ -276,7 +278,7 @@ a{color:inherit}
 }
 .sk-block{background:linear-gradient(90deg,#e9ebef 25%,#f4f5f7 50%,#e9ebef 75%);
   background-size:400% 100%;animation:shimmer 1.3s infinite;border-radius:8px}
-.sk-poster{width:76px;height:104px;flex:none}
+.sk-poster{width:76px;aspect-ratio:2/3;height:auto;flex:none}
 .sk-lines{flex:1;display:flex;flex-direction:column;gap:9px;padding-top:4px}
 .sk-l1{height:16px;width:26%}
 .sk-l2{height:20px;width:55%}
@@ -325,7 +327,7 @@ a{color:inherit}
   .cal-cell{min-height:58px;padding:6px 5px}
   .cal-count{font-size:10px;padding:1px 5px}
   .film{grid-template-columns:60px 1fr;gap:12px}
-  .poster,.poster-ph,.sk-poster{width:60px;height:84px}
+  .poster,.poster-ph,.sk-poster{width:60px;aspect-ratio:2/3;height:auto}
   .film-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start}
   .film-title{font-size:16px}
 }
