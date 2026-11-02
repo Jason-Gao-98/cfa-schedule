@@ -555,7 +555,7 @@ function doubanPill(db) {
   var v = parseFloat(db.r);
   if (!isNaN(v) && v >= DOUBAN_HIGH) {
     return '<span class="douban-pill high" title="豆瓣评分 ' + esc(db.r) + '，高分影片">' +
-      '<span class="high-star">★</span>豆瓣 ' + esc(db.r) + ' · 高分</span>';
+      '<span class="high-star">★</span>豆瓣 ' + esc(db.r) + '</span>';
   }
   return '<span class="douban-pill" title="豆瓣评分">豆瓣 ' + esc(db.r) + '</span>';
 }
