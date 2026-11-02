@@ -546,9 +546,17 @@ function doubanUrlOf(mi, db) {
   return 'https://search.douban.com/movie/subject_search?search_text=' + encodeURIComponent(name);
 }
 
-/** 豆瓣评分徽章 HTML（无评分返回空串） */
+/** 高分阈值（含等于）：豆瓣评分 >= 8.5 走高分徽章，全站唯一判断点 */
+var DOUBAN_HIGH = 8.5;
+
+/** 豆瓣评分徽章 HTML（无评分返回空串；>= 8.5 用高分样式） */
 function doubanPill(db) {
   if (!db || !db.r) return '';
+  var v = parseFloat(db.r);
+  if (!isNaN(v) && v >= DOUBAN_HIGH) {
+    return '<span class="douban-pill high" title="豆瓣评分 ' + esc(db.r) + '，高分影片">' +
+      '<span class="high-star">★</span>豆瓣 ' + esc(db.r) + ' · 高分</span>';
+  }
   return '<span class="douban-pill" title="豆瓣评分">豆瓣 ' + esc(db.r) + '</span>';
 }
 
