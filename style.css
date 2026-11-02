@@ -197,7 +197,20 @@ a{color:inherit}
 .film{
   display:grid;grid-template-columns:76px 1fr auto;gap:16px;
   padding:14px 16px;border-bottom:1px solid rgba(228,230,235,.8);
+  position:relative;overflow:hidden;   /* 水印层裁切在卡片内，不溢出 */
 }
+/* 影厅水印：右侧大号浅色数字，纯装饰层（厅号文字仍由 .hall 标签承载） */
+.hall-wm{
+  position:absolute;right:10px;bottom:-8px;z-index:0;pointer-events:none;
+  font-size:80px;font-weight:200;line-height:1;letter-spacing:-.02em;
+  font-family:"Helvetica Neue",Arial,sans-serif;user-select:none;
+}
+.hall-wm.h0{color:rgba(120,126,138,.13)}   /* 中性（无数字厅/4号及以上） */
+.hall-wm.h1{color:rgba(59,130,246,.13)}    /* 1 号厅 · 浅蓝 */
+.hall-wm.h2{color:rgba(13,157,168,.14)}    /* 2 号厅 · 浅青 */
+.hall-wm.h3{color:rgba(217,119,6,.15)}     /* 3 号厅 · 浅琥珀 */
+/* 内容层压到水印之上 */
+.film > .poster,.film-main,.film-side{position:relative;z-index:1}
 .film:last-child{border-bottom:none}
 .film:hover{background:rgba(212,32,46,.03)}
 .poster{
@@ -338,6 +351,8 @@ a{color:inherit}
   .poster,.poster-ph,.sk-poster{width:60px;aspect-ratio:2/3;height:auto}
   .film-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start}
   .film-title{font-size:16px}
+  /* 窄屏水印缩小并右移：底部按钮行靠左排布，右侧留白仍够放小号水印 */
+  .hall-wm{font-size:52px;right:4px;bottom:-6px}
 }
 
 /* ---------- 上座率徽章 ---------- */
