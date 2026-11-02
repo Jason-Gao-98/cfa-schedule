@@ -658,7 +658,7 @@ function renderList(records) {
       var fmt = (r.node || []).join(' + ');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
       var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
-      var wm = hallWatermark(r.movieHall);   // 影厅水印（装饰层，厅号文字仍由 .hall 标签承载）
+      var wm = hallWatermark(r.movieHall);   // 影厅水印（纯装饰，厅号由 sr-only 文本承载）
 
       var meta = [];
       if (mi.movieTime) meta.push(esc(mi.movieTime) + ' 年');
@@ -667,9 +667,9 @@ function renderList(records) {
       if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
 
       return '<article class="film">' +
-        (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
         posterBlock(mi, db, dbUrl, isExtra) +
         '<div class="film-main">' +
+          (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
@@ -677,7 +677,8 @@ function renderList(records) {
             doubanPill(db) +
             (function () { var p = priceOf(r); return p ? '<span class="price-pill">' + p + ' 元</span>' : ''; })() +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
-            '<span class="hall">' + esc(r.movieHall || '') + '</span>' +
+            // 厅号不再用可见小标签，改为屏幕阅读器可读的隐藏文本（水印本身是纯装饰）
+            (r.movieHall ? '<span class="sr-only">影厅 ' + esc(r.movieHall) + '</span>' : '') +
           '</div>' +
           '<h3 class="film-title">' + (isExtra
             ? esc(mi.movieName)
