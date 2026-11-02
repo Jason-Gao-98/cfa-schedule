@@ -575,6 +575,20 @@ function priceOf(r) {
   return Number(PRICE_MAP[date + '|' + hall + '|' + name] || PRICE_MAP[date + '|' + name] || 0) || 0;
 }
 
+/** 影厅水印：解析厅号数字（无数字降级为首字），返回 {n=水印文字, h=色相(1/2/3/0)}；空影厅返回 null */
+function hallWatermark(hall) {
+  var s = String(hall || '').trim();
+  if (!s) return null;
+  var m = s.match(/\d+/);
+  if (m) {
+    var n = Number(m[0]);
+    // 按厅号给极克制的色相差异：1 蓝 / 2 青 / 3 琥珀 / 其余中性，始终是浅色水印质感
+    var h = (n >= 1 && n <= 3) ? n : 0;
+    return { n: m[0], h: h };
+  }
+  return { n: s.slice(0, 1), h: 0 };   // 无数字厅名（多功能厅）→ 首字，中性色
+}
+
 /** 构造影片海报区：优先本地缓存的豆瓣海报（构建期已下载，避开 ORB/防盗链），整体包裹为可点击跳转豆瓣 */
 function posterBlock(mi, db, dbUrl, isExtra) {
   var orig = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
@@ -644,6 +658,7 @@ function renderList(records) {
       var fmt = (r.node || []).join(' + ');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
       var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
+      var wm = hallWatermark(r.movieHall);   // 影厅水印（装饰层，厅号文字仍由 .hall 标签承载）
 
       var meta = [];
       if (mi.movieTime) meta.push(esc(mi.movieTime) + ' 年');
@@ -652,6 +667,7 @@ function renderList(records) {
       if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
 
       return '<article class="film">' +
+        (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
         posterBlock(mi, db, dbUrl, isExtra) +
         '<div class="film-main">' +
           '<div class="film-time">' +
