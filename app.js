@@ -667,9 +667,9 @@ function renderList(records) {
       if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
 
       return '<article class="film">' +
+        (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
         posterBlock(mi, db, dbUrl, isExtra) +
         '<div class="film-main">' +
-          (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
