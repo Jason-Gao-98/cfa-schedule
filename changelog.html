@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>更新日志 · 中国电影资料馆排片查询</title>
 <meta name="description" content="中国电影资料馆排片查询网站的版本更新日志。">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo-cfa-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/logo-cfa-96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/logo-cfa-180.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -48,6 +51,7 @@
           <li>时间行不再显示「X号厅」小标签，厅号改由屏幕阅读器可读的隐藏文本承载，窄屏自动隐藏水印。</li>
           <li><b>首页默认展示当天排片</b>：打开站点即自动选中「今天」并直接渲染当天场次，无需再点日期；可前后翻日或用「回到今天」，也可用 <code>?date=YYYY-MM-DD</code> 链接分享具体某天。日期按北京时间（UTC+8）计算，避免跨日错位。若今天已无场次（放映结束/未排片），自动跳到最近一个有排片的前向日期并给出轻量提示；接口异常时以每日存档兜底并提示来源。首屏加载期间显示骨架屏，不再出现空列表闪跳。</li>
           <li>「全部排片 / 按月查看」切换后同样自动定位到今天所在的分组，而不是停在列表顶部；今天那一组带「今天」标记与高亮描边，便于一眼确认位置。当天无场次则定位到最近的前向日期并提示一条轻提示，全部无排片时停在顶部；滚动会按实际吸顶头部高度留出偏移，并尊重系统「减少动态效果」设置。每次切换只定位一次，用户手动滚动不会被打断。</li>
+          <li><b>页头图标</b>：左上角图标由自制同心圆标更换为中国电影资料馆的官方红色方章标识（图形取自<a href="https://www.cfa.org.cn/" target="_blank" rel="noopener">资料馆官网</a>，构建期下载到本站 <code>assets/logo-cfa-*.png</code>，不直连外链），保持 38px 尺寸与 9px 圆角、按官方原始比例展示；同时补齐 favicon 与 apple-touch-icon（32 / 96 / 180）。</li>
         </ul>
       </article>
 
