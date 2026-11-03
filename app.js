@@ -187,18 +187,61 @@ function fetchDay(year, month, day) {
   });
 }
 
+/* ---------- 时间基准：Asia/Shanghai ----------
+ * 站点面向北京/苏州两地影院，统一按 UTC+8 判断“今天”。
+ * 直接 new Date() 取的是本机时区（可能在别的时区），或部署在 UTC 机器上
+ * 时会在北京时间 00:00–08:00 之间把“今天”算成昨天，因此统一做偏移换算。
+ */
+function cstNow() {
+  var d = new Date();
+  return new Date(d.getTime() + d.getTimezoneOffset() * 60000 + 8 * 3600000);
+}
+/** Date -> 'YYYY-MM-DD'（以传入 Date 的本地字段为准，配合 cstNow 即为北京时间日期） */
+function dateStr(d) {
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function todayStr() { return dateStr(cstNow()); }
+
+/** 'YYYY-MM-DD' 是否合法日期（排除 2026-02-31 这类越界值） */
+function isValidDate(ds) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(ds)) return false;
+  var p = ds.split('-');
+  var dt = new Date(Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2])));
+  return dt.getUTCFullYear() === Number(p[0]) &&
+         dt.getUTCMonth() === Number(p[1]) - 1 &&
+         dt.getUTCDate() === Number(p[2]);
+}
+
+/** 'YYYY-MM-DD' 加减天数（用 UTC 计算，规避夏令时/时区影响） */
+function addDays(ds, n) {
+  var p = ds.split('-');
+  var dt = new Date(Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2])));
+  dt.setUTCDate(dt.getUTCDate() + n);
+  return dt.getUTCFullYear() + '-' + pad2(dt.getUTCMonth() + 1) + '-' + pad2(dt.getUTCDate());
+}
+
+/** 'YYYY-MM-DD' 对应的星期索引（0=周日） */
+function weekdayOf(ds) {
+  var p = ds.split('-');
+  return new Date(Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2]))).getUTCDay();
+}
+
 /* ---------- 状态 ---------- */
 var state = {
-  scope: 'all',       // 'all'=全部排片（跨月） | 'month'=单月
-  year: new Date().getFullYear(),
-  month: new Date().getMonth() + 1,
+  scope: 'day',       // 'day'=当日排片（默认） | 'all'=全部排片（跨月） | 'month'=单月
+  day: '',            // 当日的 'YYYY-MM-DD'（scope=day 时使用）
+  year: cstNow().getFullYear(),
+  month: cstNow().getMonth() + 1,
   venue: 'all',
   query: '',
   cache: {},          // "2026-11" -> { amount:{}, days:{1:[..]}, done:bool }
   archives: {},       // "2026-11" -> 存档记录数组 | null（null=无存档）
   loadedDays: 0,
   totalDays: 0,
-  allEmpty: false
+  allEmpty: false,
+  dayFallbackFrom: '', // 当天无场次时自动跳转的来源日期（用于提示）
+  dayArchiveOnly: false, // 接口失败、仅存档可用时的提示标记
+  dayArchived: 0        // 当日从存档补入的已放映场次数
 };
 
 var VENUES = ['小西天艺术影院', '百子湾艺术影院', '江南分馆影院'];
@@ -206,10 +249,29 @@ var WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'
 
 function cacheKey() { return state.year + '-' + pad2(state.month); }
 
-function getCache() {
-  var k = cacheKey();
+function monthCache(y, m) {
+  var k = y + '-' + pad2(m);
   if (!state.cache[k]) state.cache[k] = { amount: {}, days: {}, done: false };
   return state.cache[k];
+}
+
+function getCache() { return monthCache(state.year, state.month); }
+
+/** 切换当前日期，并同步年月（供月份视图/存档键使用） */
+function setDay(ds) {
+  state.day = ds;
+  state.year = Number(ds.slice(0, 4));
+  state.month = Number(ds.slice(5, 7));
+}
+
+/** 当天日期文本：「11 月 3 日 周一」 */
+function dayTextOf(ds) {
+  return Number(ds.slice(5, 7)) + ' 月 ' + Number(ds.slice(8, 10)) + ' 日 ' + WEEK[weekdayOf(ds)];
+}
+
+/** 简短日期文本：「11 月 3 日」（用于提示文案，不带星期） */
+function mdTextOf(ds) {
+  return Number(ds.slice(5, 7)) + ' 月 ' + Number(ds.slice(8, 10)) + ' 日';
 }
 
 function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
@@ -282,7 +344,7 @@ function loadArchive(key) {
 
 /** 当前时间戳（"YYYY-MM-DD HH:mm:ss"，与 playTime 同格式，可直接字符串比较） */
 function nowStamp() {
-  var d = new Date();
+  var d = cstNow();   // 用北京时间，避免本机/服务器时区把「已放映」判定错位
   return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) +
     ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
 }
@@ -330,14 +392,23 @@ function mergeArchive(cache, arch) {
   return added;
 }
 
-/** 收集当前筛选条件下、已加载的排片记录（all 模式跨所有已加载月份） */
+/** 收集当前筛选条件下、已加载的排片记录（day 模式仅当日；all 模式跨所有已加载月份） */
 function visibleRecords() {
   mergeExtras();
   var out = [];
-  var caches = state.scope === 'month' ? [getCache()] : Object.keys(state.cache).sort().map(function (k) { return state.cache[k]; });
+  var caches;
+  if (state.scope === 'day') {
+    var k = (state.day || todayStr()).slice(0, 7);
+    caches = state.cache[k] ? [state.cache[k]] : [];
+  } else if (state.scope === 'month') {
+    caches = [getCache()];
+  } else {
+    caches = Object.keys(state.cache).sort().map(function (key) { return state.cache[key]; });
+  }
   caches.forEach(function (cache) {
     Object.keys(cache.days).forEach(function (day) {
       cache.days[day].forEach(function (rec) {
+        if (state.scope === 'day' && String(rec.playTime).slice(0, 10) !== state.day) return;
         if (matchVenue(rec.cinemaInfo) && matchQuery(rec)) out.push(rec);
       });
     });
@@ -353,6 +424,19 @@ function visibleRecords() {
 var $ = function (id) { return document.getElementById(id); };
 
 function renderMonthLabel() {
+  var isDay = state.scope === 'day';
+  $('dayNavWrap').hidden = !isDay;
+
+  if (isDay) {
+    var ds = state.day || todayStr();
+    var isToday = ds === todayStr();
+    $('dayText').textContent = dayTextOf(ds) + (isToday ? ' · 今天' : '');
+    $('backToday').hidden = isToday;
+    $('monthNavWrap').hidden = true;
+    $('calendarBlock').hidden = true;
+    return;
+  }
+
   if (state.scope === 'all') {
     // 全部排片模式没有月份切换：保留标题、隐藏左右箭头
     $('monthText').textContent = '全部排片';
@@ -368,7 +452,7 @@ function renderMonthLabel() {
   $('nextMonth').hidden = false;
   $('calendarBlock').hidden = false;
   $('monthText').textContent = state.year + ' 年 ' + state.month + ' 月';
-  var now = new Date();
+  var now = cstNow();
   var isCurrent = state.year === now.getFullYear() && state.month === now.getMonth() + 1;
   $('thisMonth').hidden = isCurrent;
 }
@@ -400,7 +484,31 @@ function renderStats(records) {
 
 function renderNotice() {
   var el = $('notice');
-  var now = new Date();
+  var now = cstNow();
+
+  if (state.scope === 'day') {
+    if (loading) { el.hidden = true; return; }
+    // 当天无场次 → 已自动切到最近的前向日期
+    if (state.dayFallbackFrom) {
+      var fromTxt = state.dayFallbackFrom === todayStr() ? '今天' : mdTextOf(state.dayFallbackFrom);
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = fromTxt + '已无场次，已为你显示 ' + mdTextOf(state.day) + ' 的排片。';
+      return;
+    }
+    if (state.dayArchiveOnly) {
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = '排片接口暂时不可用，以下为站内每日保存的存档数据。';
+    } else if (state.dayArchived) {
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = '部分已放映场次来自站内每日自动保存的历史存档。';
+    } else {
+      el.hidden = true;
+    }
+    return;
+  }
 
   if (state.scope === 'all') {
     var archShown = false;
@@ -461,7 +569,7 @@ function renderCalendar(records) {
   var y = state.year, m = state.month;
   var dim = daysInMonth(y, m);
   var firstWk = new Date(y, m - 1, 1).getDay();   // 0=周日
-  var now = new Date();
+  var now = cstNow();
   var isThisMonth = now.getFullYear() === y && now.getMonth() + 1 === m;
   var filtered = cache.done;   // 明细加载完成后按筛选条件显示场次
 
@@ -616,9 +724,11 @@ function posterBlock(mi, db, dbUrl, isExtra) {
 function renderList(records) {
   seatRecs = records;
   if (!records.length) {
+    // 加载中保持骨架屏，避免「先闪空列表再填充」的跳动
+    if (loading) return;
     $('dayList').innerHTML = '<div class="empty"><span class="big">◎</span>' +
       (state.query ? '没有匹配「' + esc(state.query) + '」的排片。'
-                   : '当前条件下没有排片记录。') + '</div>';
+                   : (state.scope === 'day' ? '这一天没有排片记录。' : '当前条件下没有排片记录。')) + '</div>';
     return;
   }
   var groups = {};
@@ -829,7 +939,7 @@ function loadMonth(force) {
       if ((Number(amount[k2]) || 0) > 0) tasks.push({ y: y, m: m, d: d, cache: cache });
     }
     // 当月无计数时仍尝试今天，防止 amount 接口空返回导致整月被跳过
-    var now = new Date();
+    var now = cstNow();
     if (!tasks.length && y === now.getFullYear() && m === now.getMonth() + 1) {
       tasks.push({ y: y, m: m, d: now.getDate(), cache: cache });
     }
@@ -857,7 +967,7 @@ function loadAll(force) {
   if (!firstKey || !state.cache[firstKey].amountFetched) renderSkeleton();
 
   // 覆盖窗口：从今天所在月起最多 6 个月（接口实际只发布约 2 个月，其余自动为空）
-  var now = new Date();
+  var now = cstNow();
   var months = [], y = now.getFullYear(), m = now.getMonth() + 1;
   for (var i = 0; i < 6; i++) {
     months.push({ y: y, m: m });
@@ -941,7 +1051,106 @@ function loadAll(force) {
 /** 按当前模式分派加载 */
 function load(force) {
   if (state.scope === 'all') loadAll(force);
+  else if (state.scope === 'day') loadDay(force);
   else loadMonth(force);
+}
+
+/** 拉取某月每日场次数（失败不阻断，标记已尝试避免重复请求） */
+function ensureAmount(y, m) {
+  var c = monthCache(y, m);
+  if (c.amountFetched) return Promise.resolve();
+  return fetchAmount(y, m).then(function (j) {
+    c.amount = parseAmount(j);
+    c.amountFetched = true;
+  })['catch'](function () { c.amountFetched = true; });
+}
+
+/** 拉取单日明细 + 并入存档（顺序与按月视图一致：先接口明细，再合入存档补全已放映场次）
+ *  返回 { failed: 请求失败数, total: 该日记录数, archived: 该日补入的存档条数 } */
+function pullDay(ds) {
+  var y = Number(ds.slice(0, 4)), m = Number(ds.slice(5, 7)), d = Number(ds.slice(8, 10));
+  var c = monthCache(y, m);
+  return loadDetails([{ y: y, m: m, d: d, cache: c }]).then(function (failed) {
+    return loadArchive(y + '-' + pad2(m)).then(function (arch) {
+      var added = 0;
+      if (arch && arch.length) added = mergeArchive(c, arch) || 0;
+      return {
+        failed: failed || 0,
+        total: (c.days[d] || []).length,
+        archived: Number(added) || 0
+      };
+    });
+  });
+}
+
+/** 从 fromDs 次日开始，找接口已发布且有场次的最早日期（最多向后 75 天） */
+function nextScreeningDate(fromDs) {
+  var y = Number(fromDs.slice(0, 4)), m = Number(fromDs.slice(5, 7));
+  var months = [];
+  for (var i = 0; i < 3; i++) {
+    months.push({ y: y, m: m });
+    m++; if (m > 12) { m = 1; y++; }
+  }
+  return Promise.all(months.map(function (mm) { return ensureAmount(mm.y, mm.m); })).then(function () {
+    for (var i = 1; i <= 75; i++) {
+      var t = addDays(fromDs, i);
+      var c = state.cache[t.slice(0, 7)];
+      if (c && (Number(c.amount[t]) || 0) > 0) return t;
+    }
+    return '';   // 无可用的前向日期
+  });
+}
+
+/**
+ * 加载「当日」排片（默认视图）。
+ * 只请求所选日期一天的明细，首屏最快；若该日无场次（放映已结束/未排片），
+ * 自动前向查找最近一个有排片的日期并提示。接口失败时由存档兜底。
+ */
+function loadDay(force) {
+  var ds = state.day || todayStr();
+  setDay(ds);
+  var d = Number(ds.slice(8, 10));
+  var cache = monthCache(state.year, state.month);
+  if (force) {
+    cache.days = {};
+    cache.amountFetched = false;
+    cache.archiveAdded = 0;
+  }
+  if (!cache.days[d] || force) renderSkeleton();
+
+  loading = true;
+  state.dayFallbackFrom = '';
+  state.dayArchiveOnly = false;
+  state.dayArchived = 0;
+  $('refreshBtn').disabled = true;
+  $('progressText').textContent = '正在获取 ' + dayTextOf(ds) + ' 的排片…';
+
+  ensureAmount(state.year, state.month).then(function () {
+    return pullDay(ds);
+  }).then(function (res) {
+    state.dayArchived = res.archived;
+    if (res.total > 0) {
+      // 接口失败但存档有数据：正常展示并提示来源
+      if (res.failed > 0) state.dayArchiveOnly = true;
+      return;
+    }
+    if (res.failed > 0) throw new Error('接口暂时不可用');   // 失败且存档也没有
+    // 当天无场次：找最近的前向日期
+    return nextScreeningDate(ds).then(function (target) {
+      if (!target) { state.allEmpty = true; return; }
+      state.dayFallbackFrom = ds;
+      setDay(target);
+      return ensureAmount(state.year, state.month).then(function () {
+        return pullDay(target);
+      }).then(function (res2) {
+        state.dayArchived = res2.archived;
+        if (res2.total > 0 && res2.failed > 0) state.dayArchiveOnly = true;
+        if (res2.total === 0 && res2.failed > 0) throw new Error('接口暂时不可用');
+      });
+    });
+  }).then(function () {
+    finishLoad();
+  })['catch'](failLoad);
 }
 
 function finishLoad() {
@@ -1607,16 +1816,33 @@ function goMonth(delta) {
   if (m < 1) { m = 12; y--; }
   if (m > 12) { m = 1; y++; }
   state.year = y; state.month = m;
+  // 月份视图下车内日期同步到该月 1 日，避免与当日视图串味
+  state.day = y + '-' + pad2(m) + '-01';
   renderMonthLabel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   load(false);
 }
 
+/** 当日视图：前一天 / 后一天 / 回到今天 */
+function goDayTo(ds) {
+  state.dayFallbackFrom = '';
+  state.dayArchiveOnly = false;
+  setDay(ds);
+  renderMonthLabel();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  load(false);
+}
+
+$('prevDay').addEventListener('click', function () { goDayTo(addDays(state.day || todayStr(), -1)); });
+$('nextDay').addEventListener('click', function () { goDayTo(addDays(state.day || todayStr(), 1)); });
+$('backToday').addEventListener('click', function () { goDayTo(todayStr()); });
+
 $('prevMonth').addEventListener('click', function () { goMonth(-1); });
 $('nextMonth').addEventListener('click', function () { goMonth(1); });
 $('thisMonth').addEventListener('click', function () {
-  var n = new Date();
+  var n = cstNow();
   state.year = n.getFullYear(); state.month = n.getMonth() + 1;
+  state.day = todayStr();
   renderMonthLabel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   load(false);
@@ -1644,7 +1870,7 @@ $('refreshBtn').addEventListener('click', function () {
   load(true);
 });
 
-/* 查询范围切换：全部排片 / 按月查看 */
+/* 查询范围切换：当日排片 / 全部排片 / 按月查看 */
 $('scopeSwitch').addEventListener('click', function (e) {
   var btn = e.target.closest('.tab');
   if (!btn || btn.dataset.scope === state.scope) return;
@@ -1652,6 +1878,9 @@ $('scopeSwitch').addEventListener('click', function (e) {
     t.classList.toggle('is-active', t === btn);
   });
   state.scope = btn.dataset.scope;
+  state.dayFallbackFrom = '';
+  state.dayArchiveOnly = false;
+  if (state.scope === 'day' && !state.day) setDay(todayStr());
   renderMonthLabel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   load(false);
@@ -1774,5 +2003,14 @@ $('loginPassword').addEventListener('keydown', function (e) {
 })();
 
 /* ---------- 启动 ---------- */
+/* 默认展示「今天」（Asia/Shanghai）；URL 带 ?date=YYYY-MM-DD 时按参数走，
+ * 便于分享具体某天的排片；不做本地持久化，刷新后回到今天。 */
+(function initDay() {
+  var ds = '';
+  try {
+    ds = (new URLSearchParams(location.search).get('date') || '').trim();
+  } catch (e) { ds = ''; }
+  setDay(isValidDate(ds) ? ds : todayStr());
+})();
 renderMonthLabel();
 load(false);
