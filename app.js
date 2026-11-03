@@ -241,7 +241,9 @@ var state = {
   allEmpty: false,
   dayFallbackFrom: '', // 当天无场次时自动跳转的来源日期（用于提示）
   dayArchiveOnly: false, // 接口失败、仅存档可用时的提示标记
-  dayArchived: 0        // 当日从存档补入的已放映场次数
+  dayArchived: 0,       // 当日从存档补入的已放映场次数
+  anchorPending: false, // 切换进「全部排片 / 按月」后，等渲染完成再定位到今天
+  anchorFrom: ''        // 「全部排片」里今天无场次时，实际定位到的最近前向日期（用于提示）
 };
 
 var VENUES = ['小西天艺术影院', '百子湾艺术影院', '江南分馆影院'];
@@ -272,6 +274,13 @@ function dayTextOf(ds) {
 /** 简短日期文本：「11 月 3 日」（用于提示文案，不带星期） */
 function mdTextOf(ds) {
   return Number(ds.slice(5, 7)) + ' 月 ' + Number(ds.slice(8, 10)) + ' 日';
+}
+
+/** 是否偏好「减少动态效果」（滚动动画降级为瞬时跳转） */
+function reducedMotion() {
+  try {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  } catch (e) { return false; }
 }
 
 function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
@@ -513,7 +522,12 @@ function renderNotice() {
   if (state.scope === 'all') {
     var archShown = false;
     Object.keys(state.cache).forEach(function (k) { if (state.cache[k].archiveAdded) archShown = true; });
-    if (state.allEmpty && !loading) {
+    if (state.anchorFrom && !loading) {
+      // 今天在「全部排片」范围内无场次：已定位到最近的前向日期（只提示这一条）
+      el.hidden = false;
+      el.className = 'notice';
+      el.textContent = '今天已无场次，已为你定位到 ' + mdTextOf(state.anchorFrom) + '。';
+    } else if (state.allEmpty && !loading) {
       el.hidden = false;
       el.className = 'notice';
       el.textContent = '暂未查到未来排片。资料馆官方接口仅提供从今天起约两个月的排片，更早的已过期、更远的尚未发布。';
@@ -743,6 +757,7 @@ function renderList(records) {
   var html = order.map(function (date) {
     var list = groups[date];
     var wk = WEEK[new Date(date.replace(/-/g, '/')).getDay()];
+    var isToday = date === todayStr();
     var bjN = 0, jnN = 0;
     list.forEach(function (r) { if (r.cinemaInfo === '江南分馆影院') jnN++; else bjN++; });
     var badge = [];
@@ -807,10 +822,11 @@ function renderList(records) {
       '</article>';
     }).join('');
 
-    return '<section class="day-group" data-day="' + Number(date.slice(8, 10)) + '" id="day-' + date + '">' +
+    return '<section class="day-group' + (isToday ? ' is-today' : '') + '" data-day="' + Number(date.slice(8, 10)) + '" id="day-' + date + '">' +
       '<div class="day-head">' +
         '<span class="day-date">' + date.slice(5, 7) + ' 月 ' + Number(date.slice(8, 10)) + ' 日</span>' +
         '<span class="day-week">' + wk + '</span>' +
+        (isToday ? '<span class="day-today">今天</span>' : '') +
         '<span class="day-badge">' + badge.join(' · ') + '</span>' +
       '</div>' + items + '</section>';
   }).join('');
@@ -829,10 +845,58 @@ function renderSkeleton() {
 function render() {
   renderMonthLabel();
   var records = visibleRecords();
+  // 仅在切换进「全部排片」的这次定位渲染里计算兜底提示，之后的筛选重绘不再提示
+  state.anchorFrom = (state.scope === 'all' && !loading && state.anchorPending)
+    ? anchorFallbackDate(records) : '';
   renderStats(records);
   renderNotice();
   if (state.scope === 'month') renderCalendar(records);
   renderList(records);
+}
+
+/** 今天在「全部排片」里没有场次 → 返回最近的前向有排片日期；否则返回 '' */
+function anchorFallbackDate(records) {
+  var today = todayStr();
+  var ds = '';
+  for (var i = 0; i < records.length; i++) {
+    var d = records[i].playTime.slice(0, 10);
+    if (d === today) return '';
+    if (d > today && (!ds || d < ds)) ds = d;
+  }
+  return ds;
+}
+
+/* ---------- 定位到「今天」分组（全部排片 / 按月查看） ----------
+ * 切换进入这两种视图后，等渲染完成再把今天所在的分组滚到吸顶头部下方，
+ * 只在切换/首次加载时定位一次；用户手动滚动不会被打断。 */
+function anchorTarget() {
+  var today = todayStr();
+  var dates = [];
+  Array.prototype.forEach.call($('dayList').querySelectorAll('.day-group[id]'), function (g) {
+    dates.push(g.id.slice(4));   // id = 'day-YYYY-MM-DD'
+  });
+  if (dates.indexOf(today) >= 0) return { ds: today };
+  if (state.scope !== 'all') return null;   // 按月视图：本月不含今天则停在顶部
+  var first = '';
+  for (var i = 0; i < dates.length; i++) {
+    if (dates[i] > today && (!first || dates[i] < first)) first = dates[i];
+  }
+  return first ? { ds: first } : null;      // 全都无排片 → 停在顶部
+}
+
+function applyAnchor() {
+  if (!state.anchorPending) return;
+  state.anchorPending = false;
+  var target = anchorTarget();
+  var el = target ? document.getElementById('day-' + target.ds) : null;
+  if (!el) { window.scrollTo({ top: 0, behavior: 'auto' }); return; }
+  // 吸顶头部高度随屏宽变化，实测后补偿；极端布局（视口异常）时回退到常见高度
+  var hd = document.querySelector('.site-header');
+  var hh = hd ? hd.getBoundingClientRect().height : 0;
+  var off = ((hh > 0 && hh < 140) ? hh : 72) + 10;
+  // 用绝对位置滚动（而非 scrollIntoView），偏移只由头部高度决定，定位更可预期
+  var y = el.getBoundingClientRect().top + (window.pageYOffset || 0) - off;
+  window.scrollTo({ top: Math.max(0, y), behavior: reducedMotion() ? 'auto' : 'smooth' });
 }
 
 /* ---------- 数据加载（按日并发，带进度） ---------- */
@@ -890,6 +954,7 @@ function loadDetails(tasks, onEach) {
 
 function failLoad(err) {
   loading = false;
+  state.anchorPending = false;
   $('refreshBtn').disabled = false;
   $('progressText').textContent = '';
   $('dayList').innerHTML = '<div class="empty"><span class="big">⚠</span>' +
@@ -911,10 +976,12 @@ function loadMonth(force) {
         var c = getCache();
         if (arch && arch.length && !c.archiveAdded) c.archiveAdded = mergeArchive(c, arch);
         render();
+        applyAnchor();
       });
       return;
     }
     render();
+    applyAnchor();
     return;
   }
 
@@ -1160,6 +1227,7 @@ function finishLoad() {
   state.updatedAt = new Date().toLocaleTimeString('zh-CN', { hour12: false });
   $('updatedAt').textContent = '最近刷新：' + new Date().toLocaleString('zh-CN', { hour12: false });
   render();
+  applyAnchor();   // 跨月/按月视图：渲染完成后再定位到今天，避免中途跳动
 }
 
 /* =========================================================
@@ -1880,9 +1948,12 @@ $('scopeSwitch').addEventListener('click', function (e) {
   state.scope = btn.dataset.scope;
   state.dayFallbackFrom = '';
   state.dayArchiveOnly = false;
+  state.anchorFrom = '';
+  // 跨月/按月视图：等渲染完成后再定位到今天；当日视图仍回到顶部
+  state.anchorPending = state.scope !== 'day';
   if (state.scope === 'day' && !state.day) setDay(todayStr());
   renderMonthLabel();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (state.scope === 'day') window.scrollTo({ top: 0, behavior: 'smooth' });
   load(false);
 });
 
