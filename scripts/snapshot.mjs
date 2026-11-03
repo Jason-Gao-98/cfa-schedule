@@ -60,29 +60,62 @@ async function fetchDay(y, m, d) {
   return (j?.data?.records) || [];
 }
 
-/** 票价静态表（prices.js 里 window.PRICES，来源：江南分馆官方排片表） */
+/** 票价静态表（prices.js 由 scripts/price-ledger.json 生成，未登记 = unknown） */
 let PRICE_MAP = {};
+let PRICE_NOTES = {};
 function loadPrices() {
   globalThis.window = {};
   // eslint-disable-next-line no-eval
   eval(fs.readFileSync(path.join(ROOT, 'prices.js'), 'utf8'));
   PRICE_MAP = globalThis.window.PRICES || {};
+  PRICE_NOTES = globalThis.window.PRICE_NOTES || {};
 }
 function normName(s) { return String(s ?? '').replace(/\s+/g, '').trim().toLowerCase(); }
+const seg = (arr) => arr.filter(Boolean).join('|');
 
-/** 查某场次票价（元）：键「日期|影厅|片名」优先，退回「日期|片名」 */
-function priceOf(date, hall, name) {
+/**
+ * 查某场次票价。键逐级回退（与 app.js / build-prices.mjs 完全一致）：
+ *   日期|时间|影院|影厅|片名 → 日期|影院|影厅|片名 → 日期|影厅|片名 → 日期|片名
+ * 返回 null 表示 unknown（不猜价）。
+ */
+function priceOf(date, time, cinema, hall, name) {
   const nn = normName(name);
-  if (!date || !nn) return 0;
-  const hk = date + '|' + normName(hall) + '|' + nn;
-  return Number(PRICE_MAP[hk] || PRICE_MAP[date + '|' + nn] || 0) || 0;
+  if (!date || !nn) return null;
+  const cand = [
+    [date, time, normName(cinema), normName(hall), nn],
+    [date, normName(cinema), normName(hall), nn],
+    [date, normName(hall), nn],
+    [date, nn]
+  ];
+  for (const parts of cand) {
+    const k = seg(parts);
+    const v = PRICE_MAP[k];
+    if (v == null) continue;
+    const fields = Array.isArray(v)
+      ? { price: Number(v[0]), priceMax: Number(v[1]) }
+      : { price: Number(v) };
+    if (!(fields.price > 0)) continue;
+    const note = PRICE_NOTES[k];
+    if (note) fields.priceNote = note;
+    return fields;
+  }
+  return null;
+}
+
+/** 存档里已有票价：取价格字段（兼容旧存档） */
+function archivedPrice(r) {
+  if (!r || !(Number(r.price) > 0)) return null;
+  const fields = { price: Number(r.price) };
+  if (Number(r.priceMax) > 0) fields.priceMax = Number(r.priceMax);
+  if (r.priceNote) fields.priceNote = r.priceNote;
+  return fields;
 }
 
 /** 归一化接口记录 → 存档结构 */
 function norm(r) {
   const mi = r.movieInfo || {};
   const playTime = r.playTime || '';
-  const price = priceOf(playTime.slice(0, 10), r.movieHall || '', mi.movieName || '');
+  const p = priceOf(playTime.slice(0, 10), playTime.slice(11, 16), r.cinemaInfo || '', r.movieHall || '', mi.movieName || '');
   return {
     playTime: r.playTime,
     cinema: r.cinemaInfo,
@@ -94,7 +127,7 @@ function norm(r) {
     formats: r.node || [],
     movieId: mi.movieId || r.movieId || '',
     poster: mi.pictureBig || '',
-    ...(price ? { price } : {}),
+    ...(p || {}),
     ...(r.extra ? { extra: true, note: mi.note || '' } : {})
   };
 }
@@ -175,6 +208,8 @@ async function snapshotMonth(monthKey) {
     try { oldRecords = JSON.parse(fs.readFileSync(outFile, 'utf8')).records || []; } catch { /* 旧文件损坏则重建 */ }
   }
   const fetchedKeys = new Set(fetched.map(recKey));
+  const oldByKey = new Map();
+  for (const r of oldRecords) if (r && r.playTime) oldByKey.set(recKey(r), r);
   const merged = new Map();
   for (const r of oldRecords) if (r && r.playTime) merged.set(recKey(r), r);
   for (const r of fetched) {
@@ -183,6 +218,36 @@ async function snapshotMonth(monthKey) {
     if (!prev || !(prev.extra && !r.extra)) merged.set(recKey(r), r);
   }
   const retained = oldRecords.filter((r) => r && r.playTime && !fetchedKeys.has(recKey(r))).length;
+
+  /* 票价合并（只增不减）：
+   *  a) 本次接口抓到的场次带价 → 用新价覆盖旧价（调价以最新抓取为准，旧 priceMax/priceNote 不残留）；
+   *  b) 本次没抓到价（或场次已下架、只剩旧记录）→ 先按当前 prices.js 台账取最新价；
+   *  c) 台账也查不到 → 继承存档里的旧价，绝不清空（拿不到 ≠ 不要了）。 */
+  let priceInherited = 0, priceBackfilled = 0, priceUpdated = 0;
+  for (const [k, r] of merged) {
+    const isFresh = fetchedKeys.has(k);
+    const prev = archivedPrice(oldByKey.get(k));   // 旧存档里的票价（接口不返回、只能靠存档保留）
+    if (isFresh && Number(r.price) > 0) {
+      if (!(Number(r.priceMax) > 0)) delete r.priceMax;   // 新价是单一票价时，不带旧的区间上界
+      continue;
+    }
+    const fromLedger = priceOf(r.playTime.slice(0, 10), r.playTime.slice(11, 16), r.cinema || '', r.hall || '', r.name || '');
+    if (fromLedger) {
+      const differs = !!prev && (prev.price !== fromLedger.price || (prev.priceMax || 0) !== (fromLedger.priceMax || 0));
+      if (!prev || differs) {
+        delete r.priceMax;
+        delete r.priceNote;
+      }
+      Object.assign(r, fromLedger);
+      if (!prev) priceBackfilled++;
+      else if (differs) priceUpdated++;
+      continue;
+    }
+    if (prev) {
+      Object.assign(r, prev);   // 台账查不到 → 沿用存档价，绝不清空
+      priceInherited++;
+    }
+  }
 
   const records = Array.from(merged.values());
   records.sort((a, b) => (a.playTime === b.playTime ? String(a.hall).localeCompare(b.hall) : a.playTime.localeCompare(b.playTime)));
@@ -196,6 +261,9 @@ async function snapshotMonth(monthKey) {
     fs.writeFileSync(outFile, JSON.stringify(next, null, 1) + '\n', 'utf8');
   }
   console.log(`${monthKey}: ${records.length} 场（含手工补充 ${extraAdded} 场${retained ? `，保留已下架历史 ${retained} 场` : ''}）${changed ? '，已更新' : '，无变化'}`);
+  const priced = records.filter((r) => Number(r.price) > 0).length;
+  console.log(`  票价覆盖：${priced}/${records.length} 场有价（${(records.length - priced)} 场 unknown）` +
+    `${priceInherited ? `，沿用存档价 ${priceInherited} 场` : ''}${priceBackfilled ? `，新回填 ${priceBackfilled} 场` : ''}${priceUpdated ? `，按台账更新 ${priceUpdated} 场` : ''}`);
   return changed;
 }
 
