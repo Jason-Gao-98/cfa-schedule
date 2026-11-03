@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "说明": "逐场票价台账（唯一手工维护的数据源，prices.js 由它自动生成）。只在能给出可复核来源时登记，拿不到就留空，绝不猜价。字段：date=YYYY-MM-DD；time=HH:MM（可留空表示整日同价）；cinema=影院全名（与接口 cinemaInfo 一致，如「江南分馆影院」）；hall=影厅（如「1号厅」）；name=片名；price=单一票价（元）；prices=[最低价,最高价]（同一场次有多档价时用）；note=备注（如「会员价」「现场价」）；source=来源（官网页面/公众号推文/人工核对的具体出处与日期）；verifiedAt=核对日期 YYYY-MM-DD。",
+  "来源现状": "2026-11-03 盘点：资料馆 web 接口 arrangementPage / arrangementAmount / movieinfo 均不返回票价；官网放映日历页、影片详情页无票价字段；资料馆 APP 票务接口需登录（匿名返回「请登录」）；淘票票影院排期页有登录墙。因此当前没有可批量抓取的逐场票价源，entries 暂为空，前端不显示价签（而不是显示猜测值）。待补：提供资料馆 APP 账号（可登录拿票价）或公众号排片表原图做人工核对后，按来源逐条登记到这里，再跑 node scripts/build-prices.mjs。",
+  "entries": []
+}
