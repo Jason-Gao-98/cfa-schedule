@@ -31,8 +31,17 @@
   <section class="controls" aria-label="筛选条件">
     <div class="month-nav">
       <div class="scope-switch" id="scopeSwitch" role="tablist" aria-label="查询范围">
-        <button type="button" class="tab is-active" data-scope="all" role="tab">全部排片</button>
+        <button type="button" class="tab is-active" data-scope="day" role="tab">当日排片</button>
+        <button type="button" class="tab" data-scope="all" role="tab">全部排片</button>
         <button type="button" class="tab" data-scope="month" role="tab">按月查看</button>
+      </div>
+      <div class="month-nav-group" id="dayNavWrap">
+        <button type="button" id="prevDay" class="nav-btn" aria-label="前一天">&#8249;</button>
+        <div class="month-label">
+          <span id="dayText">—</span>
+          <button type="button" id="backToday" class="link-btn" hidden>回到今天</button>
+        </div>
+        <button type="button" id="nextDay" class="nav-btn" aria-label="后一天">&#8250;</button>
       </div>
       <div class="month-nav-group" id="monthNavWrap" hidden>
         <button type="button" id="prevMonth" class="nav-btn" aria-label="上一月">&#8249;</button>
