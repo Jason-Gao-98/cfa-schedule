@@ -374,11 +374,17 @@ function mergeArchive(cache, arch) {
       if (list[i].playTime + '|' + list[i].cinemaInfo + '|' + (list[i].movieHall || '') === key) {
         // 已存在（接口数据或先前并入的补充场次）：若确属过去的场次，补上「已放映」标记
         if (a.playTime < nowStr && !list[i].archived) { list[i].archived = true; added++; }
+        // 接口不返回票价：把存档里已备份的票价补到列表记录（只补不覆盖）
+        if (!(Number(list[i].price) > 0) && Number(a.price) > 0) {
+          list[i].price = a.price;
+          if (Number(a.priceMax) > 0) list[i].priceMax = a.priceMax;
+          if (a.priceNote) list[i].priceNote = a.priceNote;
+        }
         return;
       }
     }
     var past = a.playTime < nowStr;
-    list.push({
+    var rec = {
       archived: past,
       extra: !!a.extra,
       cinemaInfo: a.cinema,
@@ -395,7 +401,13 @@ function mergeArchive(cache, arch) {
         pictureBig: a.poster || '',
         note: a.note || ''
       }
-    });
+    };
+    if (Number(a.price) > 0) {
+      rec.price = a.price;
+      if (Number(a.priceMax) > 0) rec.priceMax = a.priceMax;
+      if (a.priceNote) rec.priceNote = a.priceNote;
+    }
+    list.push(rec);
     if (past) added++;   // 仅统计已放映的场次（未来场次本就该在列表里，不算“补档”）
   });
   return added;
@@ -682,19 +694,54 @@ function doubanPill(db) {
   return '<span class="douban-pill" title="豆瓣评分">豆瓣 ' + esc(db.r) + '</span>';
 }
 
-/* ---------- 票价（数据来自江南分馆官方排片表，构建期整理进 prices.js，前端零请求） ---------- */
+/* ---------- 票价（prices.js 由 scripts/price-ledger.json 生成；未登记 = unknown，不显示价签） ---------- */
 var PRICE_MAP = window.PRICES || {};
+var PRICE_NOTES = window.PRICE_NOTES || {};
 
 /**
- * 查某场次的票价（元）。资料馆接口不返回票价，这里查静态表：
- * 键优先「日期|影厅|片名」，同日同厅同名多场时再退回「日期|片名」。
+ * 查某场次票价。返回 {min,max,note} 或 null（null = 未知，绝不猜价）。
+ * 顺序：① 记录自带 price 字段（每日快照已写入存档）→ ② 静态表逐级回退：
+ * 日期|时间|影院|影厅|片名 → 日期|影院|影厅|片名 → 日期|影厅|片名 → 日期|片名。
  */
 function priceOf(r) {
+  if (Number(r.price) > 0) {
+    var lo = Number(r.price);
+    var hi = Number(r.priceMax) > 0 ? Number(r.priceMax) : lo;
+    return { min: lo, max: hi, note: r.priceNote || '' };
+  }
   var date = String(r.playTime || '').slice(0, 10);
+  var time = String(r.playTime || '').slice(11, 16);
   var name = normName((r.movieInfo || {}).movieName);
-  if (!date || !name) return 0;
-  var hall = normName(r.movieHall);
-  return Number(PRICE_MAP[date + '|' + hall + '|' + name] || PRICE_MAP[date + '|' + name] || 0) || 0;
+  if (!date || !name) return null;
+  var nCinema = normName(r.cinemaInfo), nHall = normName(r.movieHall);
+  var cand = [
+    [date, time, nCinema, nHall, name],
+    [date, nCinema, nHall, name],
+    [date, nHall, name],
+    [date, name]
+  ];
+  for (var i = 0; i < cand.length; i++) {
+    var k = cand[i].filter(function (x) { return !!x; }).join('|');
+    var v = PRICE_MAP[k];
+    if (v == null) continue;
+    var lo2, hi2;
+    if (Array.isArray(v)) { lo2 = Number(v[0]); hi2 = Number(v[1]); }
+    else { lo2 = hi2 = Number(v); }
+    if (!(lo2 > 0)) continue;
+    return { min: lo2, max: hi2, note: PRICE_NOTES[k] || '' };
+  }
+  return null;
+}
+
+/** 票价价签：单一票价「¥40」，区间「¥30–60」；未知（null）不渲染，避免「待定」占满每张卡片 */
+function pricePill(r) {
+  var p = priceOf(r);
+  if (!p) return '';
+  var txt = p.max > p.min ? '¥' + p.min + '–' + p.max : '¥' + p.min;
+  var tip = '票价' + (p.max > p.min
+    ? '（' + p.min + '–' + p.max + ' 元，不同价档）'
+    : '（' + p.min + ' 元）') + (p.note ? ' · ' + p.note : '');
+  return '<span class="price-pill" title="' + esc(tip) + '">' + esc(txt) + '</span>';
 }
 
 /** 影厅水印：解析厅号数字（无数字降级为首字），返回 {n=水印文字, h=色相(1/2/3/0)}；空影厅返回 null */
@@ -800,7 +847,7 @@ function renderList(records) {
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
             occBadge(r) +
             doubanPill(db) +
-            (function () { var p = priceOf(r); return p ? '<span class="price-pill">' + p + ' 元</span>' : ''; })() +
+            pricePill(r) +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             // 厅号不再用可见小标签，改为屏幕阅读器可读的隐藏文本（水印本身是纯装饰）
             (r.movieHall ? '<span class="sr-only">影厅 ' + esc(r.movieHall) + '</span>' : '') +
