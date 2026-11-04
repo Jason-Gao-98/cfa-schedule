@@ -1353,34 +1353,77 @@ function recKey(r) {
          (mi.movieId || r.movieId || mi.movieName || '');
 }
 
+/** "YYYY-MM-DD HH:mm:ss" → 当日分钟数，用于时间容差比较 */
+function minsOf(st) {
+  return Number(st.slice(11, 13)) * 60 + Number(st.slice(14, 16));
+}
+
+/** 影片名归一化：去掉括号备注、副标题、年份与标点，仅用于检索回退 */
+function normTitle(s) {
+  return String(s || '')
+    .replace(/（[^）]*）/g, '')
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[·•・:：;；\-—–/／、,，.。!！?？'"“”‘’\s]/g, '')
+    .replace(/^\d{4}/, '')
+    .toLowerCase();
+}
+
 /** 在 screens 数组中匹配某条排片：日期 + 开始时间，其次影厅号、影院 */
 function matchScreen(r, screens) {
   if (!screens || !screens.length) return null;
   var date = r.playTime.slice(0, 10), time = r.playTime.slice(11, 16);
+  var hallNo = (String(r.movieHall || '').match(/\d+/) || [''])[0];
+  var isJn = r.cinemaInfo === '江南分馆影院';
+
+  function pick(hit) {
+    if (!hit.length) return null;
+    if (hit.length === 1) return hit[0];
+    if (hallNo) {
+      var byHall = hit.filter(function (s) {
+        var hh = (String(s.screen_hall || '').match(/\d+/) || [''])[0];
+        return hh === hallNo;
+      });
+      if (byHall.length) hit = byHall;
+    }
+    if (hit.length > 1) {
+      var byVenue = hit.filter(function (s) {
+        var c = String(s.screen_cinema || '') + String(s.screen_hall || '');
+        return isJn ? /江南|苏州/.test(c) : !/江南|苏州/.test(c);
+      });
+      if (byVenue.length) hit = byVenue;
+    }
+    return hit[0];
+  }
+
+  // 第一轮：开演时间完全一致
   var hit = screens.filter(function (s) {
     var st = s.screen_start_time || '';
     return st.slice(0, 10) === date && st.slice(11, 16) === time;
   });
-  if (!hit.length) return null;
-  if (hit.length === 1) return hit[0];
+  var got = pick(hit);
+  if (got) return got;
 
-  var hallNo = (String(r.movieHall || '').match(/\d+/) || [''])[0];
-  if (hallNo) {
-    var byHall = hit.filter(function (s) {
-      var hh = (String(s.screen_hall || '').match(/\d+/) || [''])[0];
-      return hh === hallNo;
-    });
-    if (byHall.length) hit = byHall;
-  }
-  if (hit.length > 1) {
-    var isJn = r.cinemaInfo === '江南分馆影院';
-    var byVenue = hit.filter(function (s) {
-      var c = String(s.screen_cinema || '') + String(s.screen_hall || '');
-      return isJn ? /江南|苏州/.test(c) : !/江南|苏州/.test(c);
-    });
-    if (byVenue.length) hit = byVenue;
-  }
-  return hit[0];
+  // 第二轮：同日、同影院且影厅号相同、开演时间相差 ≤3 分钟（仅在唯一命中时采用，避免串场）
+  var target = minsOf(r.playTime);
+  var near = screens.filter(function (s) {
+    var st = s.screen_start_time || '';
+    if (st.slice(0, 10) !== date) return false;
+    var hh = (String(s.screen_hall || '').match(/\d+/) || [''])[0];
+    if (hallNo && hh && hh !== hallNo) return false;
+    var c = String(s.screen_cinema || '') + String(s.screen_hall || '');
+    var okVenue = isJn ? /江南|苏州/.test(c) : !/江南|苏州/.test(c);
+    if (!okVenue) return false;
+    return Math.abs(minsOf(st) - target) <= 3;
+  });
+  return near.length === 1 ? near[0] : null;
+}
+
+/** 票务接口的登录态是否仍有效（仅在查不到场次时用于区分「登录失效」与「未开售」） */
+function verifyAuth() {
+  return appGet('user').then(function (j) {
+    if (authExpired(j)) return false;
+    return !!(j && j.status === 200);
+  })['catch'](function () { return true; });   // 网络异常时不做误判
 }
 
 /** 搜索影片并拉取其场次列表（合并多个同名候选的 screens） */
@@ -1392,12 +1435,37 @@ function loadScreens(recs) {
   merged.forEach(function (s) { seen[s.id + '|' + s.place_id] = 1; });
 
   var name = mi.movieName || '';
-  if (!name) return Promise.resolve([]);
+  if (!name) return Promise.resolve({ screens: [], films: 0, tried: [] });
   var year = String(mi.movieTime || '');
 
-  return appPost('v3/movie/searchMovie', { cn_name: name }).then(function (j) {
-    if (authExpired(j)) { var e1 = new Error('登录已失效'); e1.auth = true; throw e1; }
-    var list = (j && j.data && j.data.list) || [];
+  // 检索词候选：原名 → 去副标题/括号版本 → 英文名（票务系统片名可能带后缀或副标题）
+  var tried = [];
+  var queries = [name, normTitle(name)].filter(function (q, i, a) {
+    return q && a.indexOf(q) === i;
+  });
+  if (mi.englishName) queries.push(String(mi.englishName));
+
+  var films = 0;
+
+  function searchOne(q) {
+    tried.push(q);
+    return appPost('v3/movie/searchMovie', { cn_name: q }).then(function (j) {
+      if (authExpired(j)) { var e1 = new Error('登录已失效'); e1.auth = true; throw e1; }
+      return (j && j.data && j.data.list) || [];
+    });
+  }
+
+  /** 依次尝试检索词，直到拿到候选影片 */
+  function searchNext(i) {
+    if (i >= queries.length) return Promise.resolve([]);
+    return searchOne(queries[i]).then(function (list) {
+      if (list && list.length) return list;
+      return searchNext(i + 1);
+    });
+  }
+
+  return searchNext(0).then(function (list) {
+    films = list.length;
     // 年份一致的候选优先
     list = list.slice().sort(function (a, b) {
       var pa = String(a.years_content || '') === year ? 0 : 1;
@@ -1431,7 +1499,10 @@ function loadScreens(recs) {
           };
         }));
       };
-    })).then(function () { progCache[gid] = merged; return merged; });
+    })).then(function () {
+      progCache[gid] = merged;
+      return { screens: merged, films: films, tried: tried };
+    });
   });
 }
 
@@ -1827,7 +1898,15 @@ function fitSeatMap() {
 
 function showSeatResult(r, res) {
   if (res && res.nomatch) {
-    seatStatusText('未在购票系统中匹配到该场次，可能尚未开售或该渠道暂不提供座位数据。', true);
+    var tm = r.playTime.slice(11, 16);
+    var hall = r.movieHall || '';
+    if (!res.films) {
+      seatStatusText('资料馆票务系统里没有查到《' + ((r.movieInfo || {}).movieName || '') + '》这部影片，' +
+        '无法取得本场（' + tm + ' ' + hall + '）的座位图。通常是尚未在线上开售，或该场次仅在淘票票 / 现场售票。', true);
+    } else {
+      seatStatusText('影片已在票务系统中，但未查到本场次（' + tm + ' ' + hall + '）的排期，' +
+        '可能尚未开售；江南分馆部分场次只在淘票票开售。', true);
+    }
     return;
   }
   if (res && res.error) {
@@ -1890,10 +1969,19 @@ function openSeat(r) {
   document.body.classList.add('modal-open');
 
   loadScreens([r])
-    .then(function (screens) {
+    .then(function (out) {
+      var screens = (out && out.screens) || [];
       var screen = matchScreen(r, screens);
-      if (!screen) return { nomatch: true };
-      return fetchSeatOf(screen);
+      if (screen) return fetchSeatOf(screen);
+      // 查不到场次：先确认登录态，避免把「登录失效」误报成「未开售」
+      return verifyAuth().then(function (ok) {
+        if (!ok) {
+          var e = new Error('登录已失效');
+          e.auth = true;
+          throw e;
+        }
+        return { nomatch: true, films: (out && out.films) || 0, tried: (out && out.tried) || [] };
+      });
     })
     .then(function (res) { showSeatResult(r, res || { nomatch: true }); })
     ['catch'](function (err) {
