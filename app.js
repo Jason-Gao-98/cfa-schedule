@@ -832,6 +832,8 @@ function renderList(records) {
       var fmt = (r.node || []).join(' + ');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
       var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
+      // 连场第二场虽为补充场次，但可用前一场的合并场次查座位图，因此同样给上座率入口
+      var chainPrev = isChainRec(r) ? chainPrevOf(r, records) : null;
       var wm = hallWatermark(r.movieHall);   // 影厅水印（纯装饰，厅号由 sr-only 文本承载）
 
       var meta = [];
@@ -839,6 +841,21 @@ function renderList(records) {
       if (mi.movieMinute) meta.push(esc(mi.movieMinute) + ' 分钟');
       if (fmt) meta.push('<span class="fmt">' + esc(fmt) + '</span>');
       if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
+
+      var side = '';
+      if (isExtra && chainPrev && !r.archived) {
+        side = '<button type="button" class="occ-open" data-i="' + myIdx +
+          '" title="连场：与前一场同一张票，座位图来自票务系统的合并场次">上座率</button>' +
+          '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>';
+      } else if (isExtra) {
+        side = '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>';
+      } else if (r.archived) {
+        // 已放映场次不再提供上座率入口
+        side = '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>';
+      } else {
+        side = '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
+          '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>';
+      }
 
       return '<article class="film">' +
         (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
@@ -859,15 +876,7 @@ function renderList(records) {
           (mi.englishName ? '<p class="film-en">' + esc(mi.englishName) + '</p>' : '<p class="film-en"></p>') +
           '<div class="film-meta">' + meta.join('<span class="sep">／</span>') + '</div>' +
         '</div>' +
-        '<div class="film-side">' + (isExtra
-          ? '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>'
-          : (r.archived
-            // 已放映场次不再提供上座率入口
-            ? '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>'
-            : '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
-              '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>')) +
-          pricePill(r) +
-        '</div>' +
+        '<div class="film-side">' + side + pricePill(r) + '</div>' +
       '</article>';
     }).join('');
 
@@ -1418,6 +1427,47 @@ function matchScreen(r, screens) {
   return near.length === 1 ? near[0] : null;
 }
 
+/* ---------- 连场配对（公众号排片表里的「连场」场次） ----------
+ * 连场的第二场不单独售票，推算开场时间 = 前一场开场 + 片长；
+ * 配对必须同时满足：同日 + 同影院 + 同影厅号 + 前一场结束时间≈本场推算开场（≤2 分钟）
+ * + 本场备注含「连场」。不按时间相邻硬配对，避免把普通相邻场次误认成连场。
+ */
+function noteOf(r) {
+  var mi = r.movieInfo || {};
+  return String(mi.note || r.note || '');
+}
+function isChainRec(r) { return /连场/.test(noteOf(r)); }
+function hallNoOf(r) { return (String(r.movieHall || '').match(/\d+/) || [''])[0]; }
+function endMinsOf(r) {
+  var d = Number((r.movieInfo || {}).movieMinute) || 0;
+  return d > 0 ? minsOf(r.playTime) + d : -1;
+}
+/** 本场（连场第二场）对应的前一场；找不到返回 null */
+function chainPrevOf(r, records) {
+  if (!isChainRec(r) || !records) return null;
+  var date = r.playTime.slice(0, 10), t = minsOf(r.playTime), hall = hallNoOf(r);
+  var best = null;
+  records.forEach(function (x) {
+    if (x === r || String(x.playTime).slice(0, 10) !== date) return;
+    if (x.cinemaInfo !== r.cinemaInfo || hallNoOf(x) !== hall) return;
+    if (minsOf(x.playTime) >= t) return;
+    var end = endMinsOf(x);
+    if (end < 0 || Math.abs(end - t) > 2) return;
+    if (!best || minsOf(x.playTime) > minsOf(best.playTime)) best = x;
+  });
+  return best;
+}
+/** 本场作为连场第一场时，紧随的连场第二场；没有返回 null */
+function chainNextOf(r, records) {
+  if (!records) return null;
+  var out = null;
+  records.forEach(function (x) {
+    if (out || !isChainRec(x)) return;
+    if (chainPrevOf(x, records) === r) out = x;
+  });
+  return out;
+}
+
 /** 票务接口的登录态是否仍有效（仅在查不到场次时用于区分「登录失效」与「未开售」） */
 function verifyAuth() {
   return appGet('user').then(function (j) {
@@ -1426,24 +1476,36 @@ function verifyAuth() {
   })['catch'](function () { return true; });   // 网络异常时不做误判
 }
 
-/** 搜索影片并拉取其场次列表（合并多个同名候选的 screens） */
+/** 搜索影片并拉取其场次列表（合并多个同名候选的 screens）
+ *  传多条记录时（连场），依次用各自片名检索，命中任一条即停止。 */
 function loadScreens(recs) {
-  var mi = recs[0].movieInfo || {};
-  var gid = mi.movieId || recs[0].movieId || mi.movieName || '';
-  var merged = (progCache[gid] || []).slice();
-  var seen = {};
-  merged.forEach(function (s) { seen[s.id + '|' + s.place_id] = 1; });
-
-  var name = mi.movieName || '';
-  if (!name) return Promise.resolve({ screens: [], films: 0, tried: [] });
-  var year = String(mi.movieTime || '');
-
-  // 检索词候选：原名 → 去副标题/括号版本 → 英文名（票务系统片名可能带后缀或副标题）
-  var tried = [];
-  var queries = [name, normTitle(name)].filter(function (q, i, a) {
-    return q && a.indexOf(q) === i;
+  var gids = recs.map(function (r) {
+    var mi = r.movieInfo || {};
+    return mi.movieId || r.movieId || mi.movieName || '';
+  }).filter(function (g, i, a) { return g && a.indexOf(g) === i; });
+  var merged = [], seen = {};
+  gids.forEach(function (g) {
+    (progCache[g] || []).forEach(function (s) {
+      var k = s.id + '|' + s.place_id;
+      if (!seen[k]) { seen[k] = 1; merged.push(s); }
+    });
   });
-  if (mi.englishName) queries.push(String(mi.englishName));
+
+  // 检索词候选：每条记录的原名 → 去副标题/括号版本 → 英文名
+  var tried = [], queries = [];
+  recs.forEach(function (r) {
+    var mi = r.movieInfo || {};
+    var name = mi.movieName || '';
+    if (!name) return;
+    [name, normTitle(name)].forEach(function (q) {
+      if (q && queries.indexOf(q) < 0) queries.push(q);
+    });
+    if (mi.englishName && queries.indexOf(String(mi.englishName)) < 0) {
+      queries.push(String(mi.englishName));
+    }
+  });
+  if (!queries.length) return Promise.resolve({ screens: [], films: 0, tried: [] });
+  var year = String((recs[0].movieInfo || {}).movieTime || '');
 
   var films = 0;
 
@@ -1481,7 +1543,8 @@ function loadScreens(recs) {
       });
     }
     function covered() {
-      return recs.every(function (r) { return !!matchScreen(r, merged); });
+      // 连场时只要其中一场能对上（合并节目通常对应上一场的时间），就不再继续探测
+      return recs.some(function (r) { return !!matchScreen(r, merged); });
     }
 
     return series(cands.map(function (c) {
@@ -1500,7 +1563,7 @@ function loadScreens(recs) {
         }));
       };
     })).then(function () {
-      progCache[gid] = merged;
+      gids.forEach(function (g) { progCache[g] = merged; });   // 连场两场共用缓存
       return { screens: merged, films: films, tried: tried };
     });
   });
@@ -1827,6 +1890,14 @@ function seatStatusText(text, warn, link) {
   }
 }
 
+/** 有座位图时在弹窗顶部显示的连场说明（不是错误，只是信息） */
+function seatNoteText(text) {
+  var st = $('seatStatus');
+  st.hidden = false;
+  st.className = 'seat-status note';
+  st.textContent = text;
+}
+
 function renderSeatRows(seats) {
   var rows = {}, rowKeys = [];
   seats.forEach(function (s) {
@@ -1910,6 +1981,16 @@ function showSeatResult(r, res) {
   if (res && res.nomatch) {
     var tm = r.playTime.slice(11, 16);
     var hall = r.movieHall || '';
+    if (res.chain) {
+      // 连场：上一场（同一张票）也查不到，说明整组连场都还没开售
+      var c = res.chain, cm = (c.movieInfo || {}).movieName || '';
+      seatStatusText('本场为连场（与 ' + c.playTime.slice(11, 16) + '《' + cm + '》同一张票）。' +
+        (res.films
+          ? '票务系统里有影片条目，但「' + c.playTime.slice(11, 16) + '」这一场也没有排期，可能尚未开售。'
+          : '票务系统的影片库里没有这两部影片的条目，可能尚未上架。'),
+        true, { text: '去上一场官网页面 →', href: DETAIL_PAGE + ((c.movieInfo || {}).movieId || c.movieId || '') });
+      return;
+    }
     if (!res.films) {
       seatStatusText('资料馆票务系统的影片库里没有《' + ((r.movieInfo || {}).movieName || '') + '》这部影片，' +
         '因此无法定位本场（' + tm + ' ' + hall + '）的座位。上座率只能在票务系统有该片条目时查询；' +
@@ -1928,7 +2009,7 @@ function showSeatResult(r, res) {
   }
   var hasMap = res && res.seats && res.seats.length;
   if (!res || (!res.seat && !hasMap)) {
-    seatStatusText('该场次暂时没有座位数据（可能尚未开售）。', true);
+    seatStatusText((res && res.chainInfo ? res.chainInfo + ' ' : '') + '该场次暂时没有座位数据（可能尚未开售）。', true);
     return;
   }
 
@@ -1947,12 +2028,13 @@ function showSeatResult(r, res) {
       '</b> 座 · 余票 <b>' + Math.max(0, total - sold) + '</b> 座</div>';
 
   if (hasMap) {
-    $('seatStatus').hidden = true;
     renderSeatRows(res.seats);
+    if (res.chainInfo) seatNoteText(res.chainInfo);   // 连场说明常驻在座位图上方
+    else $('seatStatus').hidden = true;
   } else {
     $('seatMap').hidden = true;
     $('seatLegend').hidden = true;
-    seatStatusText('该接口未返回座位明细，这里只显示数量统计。', false);
+    seatStatusText((res.chainInfo ? res.chainInfo + ' ' : '') + '该接口未返回座位明细，这里只显示数量统计。', false);
   }
   render();   // 更新列表里该场次的上座率徽章
 }
@@ -1981,11 +2063,35 @@ function openSeat(r) {
   $('seatModal').hidden = false;
   document.body.classList.add('modal-open');
 
-  loadScreens([r])
+  // 连场：第二场不单独售票，合并节目通常只对应前一场的开始时间
+  var prev = chainPrevOf(r, seatRecs);
+  var next = chainNextOf(r, seatRecs);
+
+  loadScreens(prev ? [prev, r] : [r])
     .then(function (out) {
       var screens = (out && out.screens) || [];
       var screen = matchScreen(r, screens);
-      if (screen) return fetchSeatOf(screen);
+      if (screen) {
+        return fetchSeatOf(screen).then(function (res) {
+          if (next) {
+            res.chainInfo = '本场为连场放映：下一场 ' + next.playTime.slice(11, 16) + '《' +
+              ((next.movieInfo || {}).movieName || '') + '》与它连映、同一张票，座位图取自票务系统的这一场。';
+          }
+          return res;
+        });
+      }
+      // 本场自身无排期时，回退到同厅前一场（合并场次）
+      var shared = prev ? matchScreen(prev, screens) : null;
+      if (shared) {
+        return fetchSeatOf(shared).then(function (res) {
+          if (res && !res.error) {
+            res.chainInfo = '本场为连场：票务系统没有单独的 ' + r.playTime.slice(11, 16) +
+              ' 场次，座位图对应与 ' + prev.playTime.slice(11, 16) + '《' +
+              ((prev.movieInfo || {}).movieName || '') + '》连映的合并场次（同一张票、同一批座位）。';
+          }
+          return res;
+        });
+      }
       // 查不到场次：先确认登录态，避免把「登录失效」误报成「未开售」
       return verifyAuth().then(function (ok) {
         if (!ok) {
@@ -1993,7 +2099,7 @@ function openSeat(r) {
           e.auth = true;
           throw e;
         }
-        return { nomatch: true, films: (out && out.films) || 0, tried: (out && out.tried) || [] };
+        return { nomatch: true, films: (out && out.films) || 0, tried: (out && out.tried) || [], chain: prev || null };
       });
     })
     .then(function (res) { showSeatResult(r, res || { nomatch: true }); })
