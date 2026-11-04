@@ -288,12 +288,20 @@ a{color:inherit}
   font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;
   background:rgba(15,157,118,.10);border:1px solid rgba(15,157,118,.3);color:var(--jn);
 }
-/* 票价（来自江南分馆官方排片表） */
-.price-pill{
-  font-size:12px;font-weight:600;color:#b45309;cursor:help;
-  background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);
-  padding:2px 8px;border-radius:7px;white-space:nowrap;
+/* 票价（卡片右下角独立价签：深红实底白字，与绿色评分 / 金橙高分明确区分） */
+.price-tag{
+  margin-top:auto;                 /* 置于右侧操作列底部 = 卡片右下角 */
+  position:relative;z-index:2;     /* 高于厅号水印层 */
+  display:inline-flex;align-items:baseline;
+  font-size:19px;font-weight:700;line-height:1;letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;
+  color:#fff;background:linear-gradient(135deg,#c11a2b,#8c0d18);
+  padding:6px 12px;border-radius:9px;white-space:nowrap;cursor:help;
+  box-shadow:0 2px 8px rgba(140,13,24,.22);
 }
+.price-tag .cur{font-size:12px;font-weight:600;opacity:.92;margin-right:1px}
+.price-tag .amt{font-size:19px;font-weight:700}
+.price-tag .dash{padding:0 1px;opacity:.85}
 
 /* ---------- states ---------- */
 .skeleton{padding:6px 0}
@@ -352,7 +360,9 @@ a{color:inherit}
   .cal-count{font-size:10px;padding:1px 5px}
   .film{grid-template-columns:60px 1fr;gap:12px}
   .poster,.poster-ph,.sk-poster{width:60px;aspect-ratio:2/3;height:auto}
-  .film-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start}
+  .film-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;flex-wrap:wrap}
+  /* 窄屏按钮变整行：价签右对齐到这一行末尾，仍位于卡片右下角 */
+  .price-tag{margin-top:0;margin-left:auto}
   .film-title{font-size:16px}
   /* 窄屏信息列窄、右侧还有整行按钮，水印易压字：隐藏水印，厅号由 sr-only 文本承载 */
   .hall-wm{display:none}
