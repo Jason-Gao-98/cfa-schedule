@@ -1901,8 +1901,9 @@ function showSeatResult(r, res) {
     var tm = r.playTime.slice(11, 16);
     var hall = r.movieHall || '';
     if (!res.films) {
-      seatStatusText('资料馆票务系统里没有查到《' + ((r.movieInfo || {}).movieName || '') + '》这部影片，' +
-        '无法取得本场（' + tm + ' ' + hall + '）的座位图。通常是尚未在线上开售，或该场次仅在淘票票 / 现场售票。', true);
+      seatStatusText('资料馆票务系统的影片库里没有《' + ((r.movieInfo || {}).movieName || '') + '》这部影片，' +
+        '因此无法定位本场（' + tm + ' ' + hall + '）的座位。常见原因是该场属于「活动 / 映后交流」专场——' +
+        '这类场次在影片库中不单独建条目（即使已开售、APP 里能选座）。座位图请直接到资料馆 APP 该场次页查看。', true);
     } else {
       seatStatusText('影片已在票务系统中，但未查到本场次（' + tm + ' ' + hall + '）的排期，' +
         '可能尚未开售；江南分馆部分场次只在淘票票开售。', true);
