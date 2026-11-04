@@ -455,6 +455,13 @@ body.modal-open{overflow:hidden}
 .seat-status{padding:34px 12px;text-align:center;color:var(--muted);font-size:14px}
 .seat-status.warn{color:#a81622}
 .seat-status.note{padding:9px 12px;margin-bottom:10px;text-align:left;font-size:12.5px;line-height:1.6;color:var(--muted);background:#f4f6f8;border:1px solid var(--line);border-radius:8px}
+/* 相近条目选择（片段检索命中多个候选时） */
+.seat-status.cands{padding:22px 12px}
+.seat-cand-tip{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.6}
+.seat-cands{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.seat-cand{padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:13px;cursor:pointer}
+.seat-cand:hover{border-color:rgba(212,32,46,.55);color:#a81622}
+.seat-cand:disabled{opacity:.45;cursor:default}
 .seat-link{display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(212,32,46,.45);padding-bottom:1px}
 .seat-link:hover{color:#96121b;border-bottom-color:#96121b}
 
