@@ -40,9 +40,21 @@
 
       <article class="cl-item">
         <div class="cl-head">
+          <span class="cl-ver">v1.8.1</span>
+          <span class="cl-date">2026-11-04</span>
+          <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>上座率查询更稳健</b>：影片检索增加回退——原名查不到时依次尝试「去括号 / 去副标题」版本与英文原名；开演时间允许 ±3 分钟误差，但只在同影院、同影厅号且唯一命中时采用，避免串场。</li>
+          <li><b>登录失效不再误报</b>：此前 token 过期时票务检索会静默返回空列表，被误报成「未匹配到该场次」。现在查不到场次时会先核对登录态，失效则直接提示重新登录。</li>
+          <li><b>提示更准确</b>：区分「票务系统查无此片」（多为尚未线上开售或仅淘票票/现场售票）与「影片在票务系统但本场次无排期」两种情况，便于判断是未开售还是匹配问题。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
           <span class="cl-ver">v1.8.0</span>
           <span class="cl-date">2026-11-03</span>
-          <span class="cl-badge">最新</span>
         </div>
         <ul class="cl-list">
           <li><b>海报修复</b>：豆瓣海报此前直连豆瓣 CDN，被浏览器 ORB 安全机制拦截后回退成了资料馆剧照（局部画面）甚至裂图；现改为构建期把 138 张豆瓣主海报下载到本站 <code>assets/posters/</code>，页面直接加载本地图片，彻底免疫跨域拦截；加载失败按「本地 → 豆瓣 CDN → 资料馆海报 → 占位符」多级回退，不再出现裂图。海报按原始 2:3 比例完整展示（去掉固定高度裁切），不再截掉上下部分。</li>
