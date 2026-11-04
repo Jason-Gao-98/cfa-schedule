@@ -1476,6 +1476,24 @@ function verifyAuth() {
   })['catch'](function () { return true; });   // 网络异常时不做误判
 }
 
+/**
+ * 票务检索探活：用一个极宽泛的关键词查一次。票务检索若整体返回空
+ * （登录态失效 / 接口调整 / 风控），就不能据此断言「影片库里没有这部片」，
+ * 否则会把接口异常错报成影片缺失。
+ */
+function probeSearchAlive() {
+  var probes = ['的', '一'];
+  function next(i) {
+    if (i >= probes.length) return Promise.resolve(false);
+    return appPost('v3/movie/searchMovie', { cn_name: probes[i] }).then(function (j) {
+      if (authExpired(j)) return false;
+      if (j && j.data && j.data.list && j.data.list.length) return true;
+      return next(i + 1);
+    })['catch'](function () { return false; });
+  }
+  return next(0);
+}
+
 /** 搜索影片并拉取其场次列表（合并多个同名候选的 screens）
  *  传多条记录时（连场），依次用各自片名检索，命中任一条即停止。 */
 function loadScreens(recs) {
@@ -1491,19 +1509,31 @@ function loadScreens(recs) {
     });
   });
 
-  // 检索词候选：每条记录的原名 → 去副标题/括号版本 → 英文名
+  // 检索词候选：原名 → 去副标题/括号版 → 带制式（如「海上劳工 4K」）→ 英文/原文名（含小写）
   var tried = [], queries = [];
+  function addQuery(q) {
+    q = String(q || '').trim();
+    if (q && queries.indexOf(q) < 0) queries.push(q);
+  }
   recs.forEach(function (r) {
     var mi = r.movieInfo || {};
     var name = mi.movieName || '';
-    if (!name) return;
-    [name, normTitle(name)].forEach(function (q) {
-      if (q && queries.indexOf(q) < 0) queries.push(q);
-    });
-    if (mi.englishName && queries.indexOf(String(mi.englishName)) < 0) {
-      queries.push(String(mi.englishName));
+    if (name) {
+      addQuery(name);
+      addQuery(normTitle(name));
+      // 票务系统片名可能带制式后缀，如「海上劳工 4K」
+      (r.node instanceof Array ? r.node : []).slice(0, 2).forEach(function (f) {
+        if (/4K|IMAX|3D/i.test(String(f)) && String(f) && name.toUpperCase().indexOf(String(f).toUpperCase()) < 0) {
+          addQuery(name + ' ' + f);
+        }
+      });
+    }
+    if (mi.englishName) {
+      addQuery(String(mi.englishName));
+      addQuery(String(mi.englishName).toLowerCase());
     }
   });
+  queries = queries.slice(0, 5);
   if (!queries.length) return Promise.resolve({ screens: [], films: 0, tried: [] });
   var year = String((recs[0].movieInfo || {}).movieTime || '');
 
@@ -1987,18 +2017,28 @@ function showSeatResult(r, res) {
       seatStatusText('本场为连场（与 ' + c.playTime.slice(11, 16) + '《' + cm + '》同一张票）。' +
         (res.films
           ? '票务系统里有影片条目，但「' + c.playTime.slice(11, 16) + '」这一场也没有排期，可能尚未开售。'
-          : '票务系统的影片库里没有这两部影片的条目，可能尚未上架。'),
+          : res.alive === false
+            ? '票务检索这次整体没有返回结果（可能登录态失效或接口调整），无法判断这两部影片是否存在。'
+            : '票务系统的影片库里没有这两部影片的条目，可能尚未上架（或译名不同）。'),
         true, { text: '去上一场官网页面 →', href: DETAIL_PAGE + ((c.movieInfo || {}).movieId || c.movieId || '') });
       return;
     }
     if (!res.films) {
-      seatStatusText('资料馆票务系统的影片库里没有《' + ((r.movieInfo || {}).movieName || '') + '》这部影片，' +
-        '因此无法定位本场（' + tm + ' ' + hall + '）的座位。上座率只能在票务系统有该片条目时查询；' +
-        '影展 / 映后交流等专场、尚未上架或未开售的场次都会出现这种情况。',
-        true, { text: '去官网该片页面（含 APP 购票入口）→', href: DETAIL_PAGE + ((r.movieInfo || {}).movieId || r.movieId || '') });
+      var nm = (r.movieInfo || {}).movieName || '';
+      var goApp = { text: '去官网该片页面（含 APP 购票入口）→', href: DETAIL_PAGE + ((r.movieInfo || {}).movieId || r.movieId || '') };
+      if (res.alive === false) {
+        // 宽泛关键词也查不到东西：票务检索整体不可用，不能归因到影片
+        seatStatusText('票务检索这次没有返回任何结果（可能是登录态失效，或票务接口临时调整），' +
+          '所以无法判断《' + nm + '》是否在票务系统中——不代表这部影片不存在。' +
+          '可先退出账号重新登录再试，或直接到 APP / 淘票票查看本场。', true, goApp);
+      } else {
+        seatStatusText('没有检索到《' + nm + '》这个片名（已尝试原名、去括号版与原文名）。' +
+          '票务系统可能用的是不同译名，或该片尚未上架，因此无法取得本场（' + tm + ' ' + hall + '）的座位图。' +
+          '影展 / 专场、尚未上架或未开售的场次都会出现这种情况。', true, goApp);
+      }
     } else {
       seatStatusText('影片已在票务系统中，但未查到本场次（' + tm + ' ' + hall + '）的排期，' +
-        '可能尚未开售；江南分馆部分场次只在淘票票开售。',
+        '可能尚未开售，或该场次只在淘票票 / 线下渠道售票。',
         true, { text: '去官网该片页面（含 APP 购票入口）→', href: DETAIL_PAGE + ((r.movieInfo || {}).movieId || r.movieId || '') });
     }
     return;
@@ -2092,14 +2132,20 @@ function openSeat(r) {
           return res;
         });
       }
-      // 查不到场次：先确认登录态，避免把「登录失效」误报成「未开售」
+      // 查不到场次：先确认登录态，再用宽泛关键词判断票务检索本身是否可用
       return verifyAuth().then(function (ok) {
         if (!ok) {
           var e = new Error('登录已失效');
           e.auth = true;
           throw e;
         }
-        return { nomatch: true, films: (out && out.films) || 0, tried: (out && out.tried) || [], chain: prev || null };
+        var films = (out && out.films) || 0;
+        if (films) {
+          return { nomatch: true, films: films, tried: (out && out.tried) || [], chain: prev || null };
+        }
+        return probeSearchAlive().then(function (alive) {
+          return { nomatch: true, films: 0, alive: alive, tried: (out && out.tried) || [], chain: prev || null };
+        });
       });
     })
     .then(function (res) { showSeatResult(r, res || { nomatch: true }); })
