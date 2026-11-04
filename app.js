@@ -1915,6 +1915,7 @@ function seatStatusText(text, warn, link) {
     a.target = '_blank';
     a.rel = 'noopener';
     a.textContent = link.text || '打开官网该片页面';
+    if (link.onclick) { a.removeAttribute('target'); a.href = '#'; a.onclick = link.onclick; }
     st.appendChild(document.createElement('br'));
     st.appendChild(a);
   }
@@ -2029,8 +2030,17 @@ function showSeatResult(r, res) {
       if (res.alive === false) {
         // 宽泛关键词也查不到东西：票务检索整体不可用，不能归因到影片
         seatStatusText('票务检索这次没有返回任何结果（可能是登录态失效，或票务接口临时调整），' +
-          '所以无法判断《' + nm + '》是否在票务系统中——不代表这部影片不存在。' +
-          '可先退出账号重新登录再试，或直接到 APP / 淘票票查看本场。', true, goApp);
+          '所以无法判断《' + nm + '》是否在票务系统中——不代表这部影片不存在。',
+          true, {
+            text: '退出并重新登录再试 →',
+            href: '#',
+            onclick: function (ev) {
+              if (ev && ev.preventDefault) ev.preventDefault();
+              closeSeat();
+              clearAuth();
+              openLogin('登录已失效，请重新登录后再查上座率');
+            }
+          });
       } else {
         seatStatusText('没有检索到《' + nm + '》这个片名（已尝试原名、去括号版与原文名）。' +
           '票务系统可能用的是不同译名，或该片尚未上架，因此无法取得本场（' + tm + ' ' + hall + '）的座位图。' +
