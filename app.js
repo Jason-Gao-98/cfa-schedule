@@ -1810,11 +1810,21 @@ function extractSeats(root, seatCount, soldCount, soldKnown) {
 var seatRecs = [];          // 列表渲染时的记录索引（对应 .occ-open 的 data-i）
 var pendingSeatRec = null;  // 未登录时先记住用户点的场次，登录成功后自动打开
 
-function seatStatusText(text, warn) {
+function seatStatusText(text, warn, link) {
   var st = $('seatStatus');
   st.hidden = false;
   st.className = 'seat-status' + (warn ? ' warn' : '');
   st.textContent = text;
+  if (link && link.href) {
+    var a = document.createElement('a');
+    a.className = 'seat-link';
+    a.href = link.href;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = link.text || '打开官网该片页面';
+    st.appendChild(document.createElement('br'));
+    st.appendChild(a);
+  }
 }
 
 function renderSeatRows(seats) {
@@ -1903,10 +1913,12 @@ function showSeatResult(r, res) {
     if (!res.films) {
       seatStatusText('资料馆票务系统的影片库里没有《' + ((r.movieInfo || {}).movieName || '') + '》这部影片，' +
         '因此无法定位本场（' + tm + ' ' + hall + '）的座位。上座率只能在票务系统有该片条目时查询；' +
-        '影展 / 映后交流等专场、尚未上架或未开售的场次都会出现这种情况。座位图请直接到资料馆 APP 该场次页查看。', true);
+        '影展 / 映后交流等专场、尚未上架或未开售的场次都会出现这种情况。',
+        true, { text: '去官网该片页面（含 APP 购票入口）→', href: DETAIL_PAGE + ((r.movieInfo || {}).movieId || r.movieId || '') });
     } else {
       seatStatusText('影片已在票务系统中，但未查到本场次（' + tm + ' ' + hall + '）的排期，' +
-        '可能尚未开售；江南分馆部分场次只在淘票票开售。', true);
+        '可能尚未开售；江南分馆部分场次只在淘票票开售。',
+        true, { text: '去官网该片页面（含 APP 购票入口）→', href: DETAIL_PAGE + ((r.movieInfo || {}).movieId || r.movieId || '') });
     }
     return;
   }
