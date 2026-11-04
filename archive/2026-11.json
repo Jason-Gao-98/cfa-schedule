@@ -14,7 +14,8 @@
     "DCP"
    ],
    "movieId": "57e8e81d3433b2f36fccb754837a4764%3Apj0NpEWIRJL9mmcbsScsVw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/935e6202607141440258232.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/935e6202607141440258232.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-01 11:00:00",
@@ -28,7 +29,8 @@
     "DCP"
    ],
    "movieId": "f510ad2fb63f5058977faafd12840186%3AJaqVc%2BZ1Vr0C4ZMVkUSbpA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3fb04202607291532013011.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3fb04202607291532013011.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-01 13:00:00",
@@ -41,6 +43,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 70,
    "extra": true,
    "note": "4K · ★映后交流"
   },
@@ -56,7 +59,8 @@
     "DCP"
    ],
    "movieId": "a92fa323af3175216c675929f7c1e564%3AZ0FlciHcLv5RSAPUuDbeIw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/935e6202607141440258232.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/935e6202607141440258232.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-01 13:30:00",
@@ -70,7 +74,8 @@
     "DCP"
    ],
    "movieId": "a794fa149e64896ce0e4a942097f3d66%3APvWfQU4mvQ3%2BPhB%2BXSY3Pg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/2da080ea5852478aa9e2536905e89c06.jpg"
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/2da080ea5852478aa9e2536905e89c06.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-01 13:30:00",
@@ -84,7 +89,8 @@
     "DCP"
    ],
    "movieId": "3b7bb0f4877dde6f22db754eff336389%3A84NGhVoXAN0VsIjPCm40oA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/01/457b5202501141521089424.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/01/457b5202501141521089424.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-01 13:50:00",
@@ -99,7 +105,8 @@
     "4K"
    ],
    "movieId": "238c521060787131a54961d2cf38daee%3A3DxesumC%2FUvBEukWs189hw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/e8f99202607301642159372.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/e8f99202607301642159372.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-01 14:00:00",
@@ -113,7 +120,8 @@
     "DCP"
    ],
    "movieId": "ee9039dfba03f3845db6742dd84fe43a%3AOg1uu%2BhXMNS7zOkLOCtTag%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/06/895b9202606121053429122.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/06/895b9202606121053429122.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-01 15:30:00",
@@ -127,7 +135,8 @@
     "DCP"
    ],
    "movieId": "099e30a5e99dc7704e41973d56314512%3Ay4WApDMj67EkbQfr9kRJlA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/4d2ef202607141506011293.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/4d2ef202607141506011293.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-01 15:40:00",
@@ -141,7 +150,8 @@
     "DCP"
    ],
    "movieId": "68e56b59df4b9efffa9aaae58bc5993c%3ARtN5kCC25XBKQvJOk4dWKg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg"
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-01 16:00:00",
@@ -155,7 +165,8 @@
     "DCP"
    ],
    "movieId": "d2bc5fff894b2895e23f34076ea97b5c%3AF7%2BPzVTZJNz7GaeSjlM38w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1d2e9202609201118406269.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1d2e9202609201118406269.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-01 16:30:00",
@@ -170,7 +181,8 @@
     "4K"
    ],
    "movieId": "5f387da8391b40507700ff335d6bd79e%3ANCxDcliTf399F%2BAbiZRZyQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/203bd202608041038155387.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/203bd202608041038155387.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-01 17:00:00",
@@ -183,6 +195,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 70,
    "extra": true,
    "note": "4K · ★映后交流"
   },
@@ -198,7 +211,8 @@
     "DCP"
    ],
    "movieId": "ff8c0bb69410f9cd3b5d0872fa26c471%3A2bkd8pnBHrWh0X5s1tUzGg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg"
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-01 17:50:00",
@@ -213,7 +227,9 @@
     "4K"
    ],
    "movieId": "b67832790255c5a77825f6e849c17737%3AgflY149kx4c3aIeUtLhmgw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/403fc202609141417282575.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/403fc202609141417282575.jpeg",
+   "price": 40,
+   "priceNote": "原排片表作「纳博科夫 4K」，存档沿用接口片名"
   },
   {
    "playTime": "2026-11-01 18:10:00",
@@ -227,7 +243,8 @@
     "DCP"
    ],
    "movieId": "121c252b7c75c3963a7520fe11b725a9%3AJOBX91ICzLHhkw6rMnqW7A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/523f2202607091045293884.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/523f2202607091045293884.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-01 19:10:00",
@@ -242,7 +259,8 @@
     "4K"
    ],
    "movieId": "7fb92c4f563d22965b4121b6f9ae1775%3A9jjb3vH1V7TCHMKssCRkWw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/dc5a2202608041058433165.jpeg"
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/dc5a2202608041058433165.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-02 18:30:00",
@@ -256,7 +274,8 @@
     "DCP"
    ],
    "movieId": "e6996faf5971cdbdb5d22e35b0704673%3ASUCgNs5z96Qupxn%2Fm2ZBiA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-02 18:30:00",
@@ -271,7 +290,8 @@
     "4K"
    ],
    "movieId": "1634913be1eeb0e6c1c2117cb5b3703c%3AbHe%2BQLYWpRnlHyTgXfiUOA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp",
+   "price": 50
   },
   {
    "playTime": "2026-11-02 19:00:00",
@@ -286,7 +306,8 @@
     "4K"
    ],
    "movieId": "784064385ceb2543ff60b3f33c424aa7%3AnVrCZNQZa2zzPgoZBtd%2Ffg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp",
+   "price": 50
   },
   {
    "playTime": "2026-11-03 18:30:00",
@@ -299,8 +320,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "3e87dbabdf4a49507b4e77a8ef2238b5%3AUTIwjHf3SCvMy%2BUrukNXJg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/a9b53ade268c471fad73ae1ce6a224c9.jpg"
+   "movieId": "76550d606cb680e0f4c8ef8a2a6b750e%3A43%2Fza%2BuCuSY%2BkxNb2Mt%2BTw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/a9b53ade268c471fad73ae1ce6a224c9.jpg",
+   "price": 40
   },
   {
    "playTime": "2026-11-03 19:00:00",
@@ -314,8 +336,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "073a547e87d7551d6560d1ba48c0f6c6%3AWJhpP7on2Q6g5L6MkK5JEg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d550aeb293d94316ac58c80461737cf2.jpg"
+   "movieId": "ba8846b5a4101e6e6a314327ad88372f%3ASmi6WNp2QA3t5VfWVnMmzw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d550aeb293d94316ac58c80461737cf2.jpg",
+   "price": 60
   },
   {
    "playTime": "2026-11-04 18:30:00",
@@ -328,8 +351,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "dbc82444599b74f10d0c186b68cff129%3Aqt2%2B01c1muSlBdx1%2BQat9g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/c8595202412091626276524.jpeg"
+   "movieId": "58f72228f23296b34e9fb583c6a07a07%3A0iqqQkIEU7yIROeL3ide7Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/c8595202412091626276524.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-04 19:00:00",
@@ -342,8 +366,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0b9a08397f13a84f640552c217e421d7%3AMOUE7SY6q7QHbcyuwEPsjQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/122e0a9f80de4f75bf11d7d8739c4c72.jpg"
+   "movieId": "49ee4916fda94369c896217976373e47%3A6pR2DE%2FwbRAkO5mfB3bpEg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/122e0a9f80de4f75bf11d7d8739c4c72.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-04 19:00:00",
@@ -356,8 +381,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "1bfe8bc3144196072f30dbbffc769823%3AZ0beJB%2FJooOn%2F9Bl9ZHm2w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/26ecbd377ed0419b9fce29aae1b0c5a6.jpg"
+   "movieId": "4cdb6720bb15c26467f953c00a97a2cd%3AGCGm%2Bg347Hy4twANOMCXeQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/26ecbd377ed0419b9fce29aae1b0c5a6.jpg",
+   "price": 40
   },
   {
    "playTime": "2026-11-04 19:00:00",
@@ -370,8 +396,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ae15a593f199f993892ef9f5dc8b0184%3ADfrLLuMAVHcfXiD7UA00rQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/a9b53ade268c471fad73ae1ce6a224c9.jpg"
+   "movieId": "ab28bb35712ceec6aa443efe0f86fc2a%3AF7%2FQBvhffiixvZdUR%2Ffa9g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/a9b53ade268c471fad73ae1ce6a224c9.jpg",
+   "price": 40
   },
   {
    "playTime": "2026-11-04 19:30:00",
@@ -385,8 +412,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "09e25c1216fe8b9aeae5d6cdef2124d2%3Af9XTb3NXJpnV9oY56c8gTw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/03ba1202605191332028897.jpeg"
+   "movieId": "9fea891d8ff58ecdbfa3a60512c6bfa9%3Ayiyp4wZYZgqOZ8zy1LEkvQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/03ba1202605191332028897.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-05 18:30:00",
@@ -399,8 +427,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a6bf9846e6534407b93a8ebbf080b0ee%3A3XtHGGV6klk3yQ1wLuxCpA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/097ab42d480b4126a87f571fe879b127.jpg"
+   "movieId": "6c90bb83ba6a968117f8f045871238b6%3AoeL%2FB8aS5PeBAW8erl8iQA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/097ab42d480b4126a87f571fe879b127.jpg",
+   "price": 40
   },
   {
    "playTime": "2026-11-05 19:00:00",
@@ -414,8 +443,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7e3185d60fe49945623cbd0480dfd051%3A8gNWc7pIzN3DxV6k5hPM6A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
+   "movieId": "166a03f88ba83aca8286c853cad13390%3AlNj1i2Z%2F9kkBOezwTTBe1w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-05 19:00:00",
@@ -428,8 +458,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8154808cf6262939f71e675969207658%3Azf9iIlbcb1nd5LKQ9f4%2BRQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg"
+   "movieId": "43f8fcb8da689e33317d11a6aef83723%3AfEFGZw10PtSWum2SLuEEYw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-05 19:00:00",
@@ -442,8 +473,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c0fc3c0c46a7a74c2a5c40e0aa11423c%3A4xGtthsKsemzyNPVs3e8OQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/608af8bc9a7e4e40b552c58a75a324ea.jpg"
+   "movieId": "c6c390e38e628c67a9e567408142dc01%3AC1XQMfvGXAYmvOn4uKrJsg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/608af8bc9a7e4e40b552c58a75a324ea.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-05 19:30:00",
@@ -457,8 +489,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "fb581c897e5a4222f8791b9861a23789%3Abrxq0JOGHHbLGqdnz2mz4Q%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
+   "movieId": "fd13cfa86baf715c9d931aa9cbf2da00%3A3cyvo1oBe1%2BttroRQJXlcw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-06 18:30:00",
@@ -471,8 +504,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ecddce754bf9bd957bba6edd04c2bb02%3A%2BLnmk2yha6PkxLPMsXr6SA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/10/b42cd202510171031057101.jpeg"
+   "movieId": "95367b61005243fc13df7cb06ad12bd4%3AL9y2ih7yARl%2B8uwuewJhZg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/10/b42cd202510171031057101.jpeg",
+   "price": 30
   },
   {
    "playTime": "2026-11-06 19:00:00",
@@ -486,8 +520,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "fe7896bf21782bf8e2e126676179a073%3Akbu04NU%2B38lqWolMzOWOtA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/b536520260727162859261.jpeg"
+   "movieId": "a7dedf1475a03f668dfedd4965f9bd2b%3AwhqhQvupXahR6BwA22DPfg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/b536520260727162859261.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-06 19:00:00",
@@ -500,8 +535,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c9dd34a15677cd6ddd4d44ab0c09409e%3ABOlTbaDTQucccUC6BTQJ9w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/245d1202508151424339196.jpeg"
+   "movieId": "7fac124c2d5bf7ac641bac1a142478dc%3AGh5JwpwNiu3J0S%2FKRBBabA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/245d1202508151424339196.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-06 19:00:00",
@@ -514,8 +550,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8181563ef49da44379c11843e02ff90c%3AjMm70qEX%2F92Mavch72BcAQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/31ceb202412271649341422.jpeg"
+   "movieId": "a4b80786318af02827f474435d224199%3Alw2FSeTie65EJQekpK1JpQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/31ceb202412271649341422.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-06 19:30:00",
@@ -528,8 +565,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "3095d5f63b56738dfac83d92e99182e1%3AQq6ukfgLPQ5rA9cm1EaO8w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/5a90467757d24e8ca505eba1c818507e.jpg"
+   "movieId": "672610032a2635c19c1fd1091530f835%3ArNhcpsXNIYmdmPKGj9PGfA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/5a90467757d24e8ca505eba1c818507e.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-07 10:30:00",
@@ -542,8 +580,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ea296f8b2439b205e3ad7b2649b703d3%3AYy3VMbmxhNlvGFAMA1dTFg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/bdf1daf084d64db5872eb9638ffccf0c.jpg"
+   "movieId": "de525399aa36791fc0a02f25dd40c976%3A397ehnEkdFOiWEmdROjK5g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/bdf1daf084d64db5872eb9638ffccf0c.jpg",
+   "price": 20
   },
   {
    "playTime": "2026-11-07 11:00:00",
@@ -557,8 +596,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "6759babf62c994286758b2f4835e6916%3Ak6ySABr5rdxN3plwOD7wCA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a63ba202607271430369880.jpeg"
+   "movieId": "89d6f8cac0c31bfe56d3dc84f190e37d%3AFoCe4A1h8Wq9E8tWgYmtbQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a63ba202607271430369880.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-07 12:30:00",
@@ -571,8 +611,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b87cf63dbe050ee342a3afc85d0f1d97%3A6FwAEz7qjKU8z6vt0NR3qg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/33956202609141036237698.jpeg"
+   "movieId": "094af4382a955a07f072b2bdedc46c45%3Aw4B0yv9CJ6hNiEoa6jmj%2BA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/33956202609141036237698.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-07 13:00:00",
@@ -585,6 +626,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 60,
    "extra": true,
    "note": ""
   },
@@ -599,8 +641,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "26381eaa1fa8071a00475c3b1ebc5f1d%3AHxo1nxaeDxE4WrAQBuOTOw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/40cce6d8540440a5bd0003e1a6931660.jpg"
+   "movieId": "1b4931e6434df08361b09d12e0a8c73d%3A4Uq76oi0mcd8YYwatUDCEg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/40cce6d8540440a5bd0003e1a6931660.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-07 13:20:00",
@@ -613,8 +656,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "bc067fff7bfe65620d02b8e327265aaf%3AZDLGKPe1%2FAQygX4zki3QcQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/851f0202609161028548098.jpeg"
+   "movieId": "22b12c9212df3931682a1e902ac740d6%3AyQ%2BkG%2FnBv7%2B2HPDdSKe%2Bbg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/851f0202609161028548098.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-07 13:30:00",
@@ -627,8 +671,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "dea8ee528c36d3282cb7e0f318b91a05%3AkBdDKGK5adMX8eswb6ut%2Fg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/96ba820250815134525701.jpeg"
+   "movieId": "a96029ea8a01d425c3e005fc26d79ee5%3ABIejv0MVsAz0GJC%2FgN8gFQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/96ba820250815134525701.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-07 13:40:00",
@@ -642,8 +687,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "2c3705476201bf718bf805146ee16da1%3A90LiK34SUGB86hLsD5RgZA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ede70202607221001222003.jpeg"
+   "movieId": "940498530f66a2d337418bb22cfea20d%3AC2%2FybphHVNSgIZZuTguh0A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ede70202607221001222003.jpeg",
+   "price": 100
   },
   {
    "playTime": "2026-11-07 14:30:00",
@@ -656,8 +702,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a62f8900e21e38af72237cec4a95bf20%3A33hh5YYQVT%2By1aCriPHWfg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
+   "movieId": "3436b9eda5e884289e7d778f09dc0880%3ADDyHu7qR11NSejtZUiA9%2BA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-07 15:00:00",
@@ -670,6 +717,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 70,
    "extra": true,
    "note": "4K"
   },
@@ -685,8 +733,10 @@
     "DCP",
     "4K"
    ],
-   "movieId": "94c96c3ec8bba88e89d75bf80ba4c66c%3AwCKpy4lW4LQycvUYSW4x%2Fw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/403fc202609141417282575.jpeg"
+   "movieId": "7031ccc9b2ae44c23b998fe1384a3cd8%3A9oyCD%2Fp0KjtAaebBpc8yZw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/403fc202609141417282575.jpeg",
+   "price": 40,
+   "priceNote": "原排片表作「纳博科夫 4K」，存档沿用接口片名"
   },
   {
    "playTime": "2026-11-07 15:30:00",
@@ -700,8 +750,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3a68458ef455a91fccb4ee6733ad3f78%3AWAmynO%2FALmDEcgo9gh7tPw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/5eecf202609091016411956.jpeg"
+   "movieId": "51899acd49eac9bad2b0f23551c8a772%3ABY%2FYH2gM%2BEd8HL0B2yak2g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/5eecf202609091016411956.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-07 15:40:00",
@@ -714,8 +765,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f0e520519c85b6454611fde8487079b3%3AMzdXVL6eM7KK9RUr%2BnJKlA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/ac41820250815120419628.jpeg"
+   "movieId": "ae3a58f0d02ca6c244b01a0f27599a09%3AG%2Fivr2Zxo3J%2BKy1bsf7Pmw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/ac41820250815120419628.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-07 16:05:00",
@@ -728,6 +780,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 40,
    "extra": true,
    "note": "4K · 连场，开演时间按前场推算"
   },
@@ -743,8 +796,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7a5cd88235757475db849a88ed69c554%3A%2BFy4F4DFSIW4q%2BtMHh5snQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/2ee27202608131628198701.jpeg"
+   "movieId": "428f6b7af270eeac596dc90d6303329a%3AEqkdWJrHaOCaOwSA5xYfWg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/2ee27202608131628198701.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-07 17:30:00",
@@ -757,6 +811,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 80,
    "extra": true,
    "note": "4K"
   },
@@ -772,8 +827,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "67058bf6be3c120ceda723593ab9c4ec%3AiWpjOv3UHXkt39cXc9bhXA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/0e2d5202609151251272630.jpeg"
+   "movieId": "6ebddcfce4d89c2ecb1c1f53af3f5a53%3Au%2FREzUeSAuHYChI8ktpFBQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/0e2d5202609151251272630.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-07 17:45:00",
@@ -787,8 +843,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "0fecfcb6e3057b22edeaaa773ab15916%3A62RZfiuaXR%2FwomOfI14GVw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1e9f8202609081528401723.jpeg"
+   "movieId": "4b200b097c945902e299d6b15a37f16e%3AhP3sc%2BlLfIUUgNFJ4zFUdQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1e9f8202609081528401723.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-07 18:10:00",
@@ -801,8 +858,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d649c6f27e8e77873c3abe89b809f15b%3ANk%2FaqE%2Bu3eX0hpitOzBySQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/4710e20250815113208393.jpeg"
+   "movieId": "a0444838fff18b80736d7833a3d5cc09%3A3hgCsu9qabjiE4aT7D5WEA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/4710e20250815113208393.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-07 19:30:00",
@@ -815,8 +873,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4fb78652489febf0464b8eb1636b7846%3AD1CgA1yq%2F%2BZSbIzC12qqZg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3b6af202607231023558100.jpeg"
+   "movieId": "5d92715c735bfa43007bd107919fcf85%3AIjbxTI5QIW%2B8Bx2Syxwwrw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3b6af202607231023558100.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-08 10:30:00",
@@ -829,8 +888,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "26c3531e1b146fa9a6032cfb9ea68b13%3AbrrvVQ2ixCOsILa6aX%2B5ig%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/868df202607101059427260.jpeg"
+   "movieId": "c1c347beb3715b7e8ad4eb6aae68be98%3Axm3FPDh3rYnReLLd%2FkJthQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/868df202607101059427260.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-08 11:00:00",
@@ -844,8 +904,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "aca6eddbb6805bad46420c88d2d7afba%3AX%2BfMIgvCTgezYMprUhizwg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ae3ad202607271348214017.jpeg"
+   "movieId": "c1e691b0a994ce7342803dcebdbac8fe%3AVxIAji06iJZzCGAHa6iLuA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ae3ad202607271348214017.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-08 11:06:00",
@@ -858,6 +919,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 10,
    "extra": true,
    "note": "连场，开演时间按前场推算"
   },
@@ -872,8 +934,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "08d7a660f124dffa368448ed38d9ca6a%3A1ieqErGefBPNL3RNSxymzw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/800e3e924fa54d75976cf556fbf6f13b.jpg"
+   "movieId": "195db8d5d36385254fbe1bb31fd81c99%3Av6g09MeclQlIqKdmnyHm4w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/800e3e924fa54d75976cf556fbf6f13b.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-08 13:00:00",
@@ -887,8 +950,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "110fbe576e779b705488f6e750b578be%3A8T%2BF9BSzeHaUDkyos3X6uA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/5eecf202609091016411956.jpeg"
+   "movieId": "d85c9302e383ba5c67ccd8e9478398c3%3A99iuDKRINra17rhckUBbsg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/5eecf202609091016411956.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-08 13:30:00",
@@ -902,8 +966,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7f31f81b536efede9dc7147ac308e13d%3AQg%2FRwuGRKCXEG0QKc8%2FwbQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg"
+   "movieId": "c0d031a729d2aa6e8c97e6c227bea9e6%3ArQea4T0zZdB3iTLCkOxmhw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-08 13:30:00",
@@ -916,8 +981,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "eb5b21fb5e39995ec4c2b107c21da388%3ANRItgfw1M%2BxKzg3baM2oNQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/08/ca3584e1-305a-45b9-b6a7-1b155a0e5ac2.jpeg"
+   "movieId": "94984b04b305bef63bc93159eb5369b1%3AsIouhk4tB%2BExAt2rVTxJkQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/08/ca3584e1-305a-45b9-b6a7-1b155a0e5ac2.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-08 13:50:00",
@@ -931,8 +997,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7f449479d88ac105cef67593b73b90e4%3AbNjv%2BWX4lbyRdBxtpUVe5A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/09/6079a01a-fc98-414f-98ae-800fc5153c1c.jpeg"
+   "movieId": "0de172944d57268f4f8efaba1378a272%3ANW5HJGpUmXFMN%2F6Ti2hAFg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/09/6079a01a-fc98-414f-98ae-800fc5153c1c.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-08 14:30:00",
@@ -945,8 +1012,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d67bda9bc7abd0a3f790dc4979aa6542%3AgVzDOtWTMhKGkwmZYrYbSg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
+   "movieId": "56874c464bc5ae8be9a14eb83bd09eb4%3AXmzd17vClI1Z7Tpu3InC4w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-08 14:50:00",
@@ -959,8 +1027,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0c69b8845632cfaca4ed7098a15500c9%3AVrE2hshqfGptOg4OtoajHg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/1f09a88bf8d14528aa9d98671ff8d546.jpg"
+   "movieId": "c8f89a49f6fa8d671f40624569aee460%3AaBEKY%2F2LYklUOFpgeS58Mw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/1f09a88bf8d14528aa9d98671ff8d546.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-08 15:00:00",
@@ -974,8 +1043,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4c577a94c3881c5318e9d52c06c3c659%3Aecu45ruIkVsBym3n%2BXHHRg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/0e2d5202609151251272630.jpeg"
+   "movieId": "425475ff26afd8e970d00c8112d3e139%3AVmhT11cjavESkxkqrXU1NA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/0e2d5202609151251272630.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-08 15:30:00",
@@ -989,8 +1059,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "01f57b17af14c4f4b0ce9ddec969bba4%3AdyExPchJ3cn33CrCSbz%2BYw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg"
+   "movieId": "c41ccdc2fe033a34a070b462d4e21743%3AJPlWSoNOgQvU5zI%2BmtSc8A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-08 15:30:00",
@@ -1004,8 +1075,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4c6aa72c8687fc80cc7c95984be9f8e4%3AogNLgTuzm7ewatcFDvct9w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96e3a202609151254323597.jpeg"
+   "movieId": "d875e0dbf31a3a63878fc28b649afccd%3Ax45P3syWGxISX1pelqIfJQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96e3a202609151254323597.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-08 16:00:00",
@@ -1019,8 +1091,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "aaa72972ffb8f91b867fbac46e9dfc8d%3AZWH3s1Y%2FcjcRwm7hZ3AICw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/09/e9ab3db1-d80b-48ea-acc0-cf52cba2a2d6.jpeg"
+   "movieId": "5cdeaf7e10d60d32ec5e3b704edd1ae1%3AuQG%2Bok8tWDkjz3mK1MzYfA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/09/e9ab3db1-d80b-48ea-acc0-cf52cba2a2d6.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-08 17:10:00",
@@ -1034,8 +1107,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "2ca1fcf0cfb1a1fd0e101408aaeab3e6%3AzwCrbIa36gqsO3EcTWgqkA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96e3a202609151254323597.jpeg"
+   "movieId": "1e2ceb3f1db31ec9e1ae88a6af416289%3ALCjVefM3FkFcQKdgm3oS9Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96e3a202609151254323597.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-08 17:15:00",
@@ -1048,8 +1122,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "7d5b5394ac38385f763c6e55010b9791%3AE817%2FGLpjbcxx5QvpDdYmA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/2c942442279d42acb41b122e3cc29a6d.jpg"
+   "movieId": "ec5e4c81c7ecf389a866a923738b7068%3A3Dnc0f4UWMrqG9p0rbwk%2Bg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/2c942442279d42acb41b122e3cc29a6d.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-08 17:40:00",
@@ -1063,8 +1138,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "285f253c7ea3c27973ddbc831d89971e%3A7QjFEFJxmINrQyFexODskw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e538a202609091651144785.jpeg"
+   "movieId": "700f67235d0b6b2685b8ee430837973a%3AvpNj%2F%2FxyAJLSL4ZgM64VbA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e538a202609091651144785.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-08 18:00:00",
@@ -1078,8 +1154,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c7be40c14df6c60f792c2ad4fc0b633d%3AJJZBGWvYlSAWnkDK6cy4hA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg"
+   "movieId": "72bc40bc06d82d911f3f1d0912d4c94c%3AOJxKr2zMT%2FDtTIKQv%2BiZFA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-08 19:30:00",
@@ -1093,8 +1170,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "96ab26b08dc4995147a969beac99b1d3%3Acfe8eeO9DWJ9n9VdxyLiaA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/85bae202607231139121324.jpeg"
+   "movieId": "13059650db4e41c548b934528bdbff86%3AuSF9QcS%2FEsaentb3woAEGQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/85bae202607231139121324.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-08 19:40:00",
@@ -1107,8 +1185,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2d7b928794e7e5baea7d25bc873edf7b%3AgL3gUUn%2FsdWo8DlxWm2tjQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/5c4ebb15b3034059b5ed8efcc64ebc62.jpg"
+   "movieId": "324a71f4c147127b3088a5225acfb6e7%3AF1W7FV807JsyxOdM%2FLJcpw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/5c4ebb15b3034059b5ed8efcc64ebc62.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-10 18:30:00",
@@ -1122,8 +1201,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "897be221ca25bc1776dd8bc95e229420%3ARiCjAScDan%2BAq%2FqnAikmfw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/d1661202412251000163541.jpeg"
+   "movieId": "0bd4623927e67c376a263e78c0747fbc%3A1kOPHtpUB8FXXVpQHyuYXQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/d1661202412251000163541.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-10 19:00:00",
@@ -1136,8 +1216,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "137f6a001f8291166a178b3ae4f2451f%3AE7kVTdj%2FVJHFWhnOfv63jA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/09/2078f202509121054168875.jpeg"
+   "movieId": "996e7054562cbe6ec321c22ba9c95073%3APCGwn4E12oJF5qQq4Vwnag%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/09/2078f202509121054168875.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-11 18:30:00",
@@ -1150,8 +1231,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "33a43018e0eec28f02d65e3588d8a69f%3AczwTjVe8%2FuUsdYe0OgvXHA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/76482202605071445397899.jpeg"
+   "movieId": "55791abe6bbc095b63a6ef290e57c71e%3A1ZHqBzzO5fCS%2F4mrfgrMRw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/76482202605071445397899.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-11 19:00:00",
@@ -1164,8 +1246,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2e5edf3eb8dda80a37415abfda7802b4%3AVRQGRGdYrp%2B%2B%2B6Zrp1kKJA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/536b89bfafe74d63a28d9d527c0fee9c.jpg"
+   "movieId": "a8c9be240556c9898fa2cefa1b0cc42a%3AM4jT89GOhat8mC6NoeBteQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/536b89bfafe74d63a28d9d527c0fee9c.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-11 19:00:00",
@@ -1178,8 +1261,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9fdc1cdb13db9591d84ce55dd9df88ee%3A52Q6P6rBbDzemNSA%2Fq555g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/2199f202603100951598500.jpeg"
+   "movieId": "05b00c974ac85d7dea48fac5a3aa036f%3AxIDKRw2HyTOWc%2BNK8mxzhg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/2199f202603100951598500.jpeg",
+   "price": 30
   },
   {
    "playTime": "2026-11-11 19:00:00",
@@ -1192,8 +1276,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a9e28965559f98ec3c4b0673e41fc18f%3AhZw7h5FKHiQPF6fYUx%2BMow%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b4b408a2c63341d78ee8cec5ded25b55.jpg"
+   "movieId": "739b5d98f67658919fdc61f2d6bee209%3ADVCqpKhubVhh2pK3lBi41w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b4b408a2c63341d78ee8cec5ded25b55.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-11 19:30:00",
@@ -1207,8 +1292,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "46665a4356269bcf150304d867fa5175%3AVZPoAg1zIyDhP96d65RGUg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/cf92cc44d15640ad9956de7b0f5ebedd.jpg"
+   "movieId": "70d423b51323fd956709594ed94c2442%3AXhUCMtdaN5XRNtEGDWcTRg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/cf92cc44d15640ad9956de7b0f5ebedd.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-11 19:48:00",
@@ -1221,6 +1307,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 10,
    "extra": true,
    "note": "连场，开演时间按前场推算"
   },
@@ -1235,8 +1322,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "6f23fc236ef2aafdcc5419ffb1413806%3Awy9ukqqyOuhoX61M3kw3hA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/258d5202605071503495536.jpeg"
+   "movieId": "50d47579c03339e814850ac3cfebc461%3AXc0Qv7eBNhDy24ePqIGd1g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/258d5202605071503495536.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-12 19:00:00",
@@ -1249,8 +1337,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c58b1f44c9eb2a6bb86970a1abff163f%3A%2FtDP%2BRHYLoVm8lIh8z6ejg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
+   "movieId": "d588b25db4cbb8c70bf86ed5ff4b5e85%3AdEf5IHWRj2v8fOTxeP4GvA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-12 19:00:00",
@@ -1264,8 +1353,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "617576ec206928bd44506cacf6e02ad2%3Avy8XYfPXKNkoBF68ppnXhg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/04/40a7b202604031036086038.jpeg"
+   "movieId": "242449cc94dbf1a32ff43b4c60dc5be6%3AZ%2FK%2F3sGmf25AbCP7OXGWWA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/04/40a7b202604031036086038.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-12 19:00:00",
@@ -1278,8 +1368,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8bf0fcf8db433fa3ccb1959fa0bba942%3Ake59zZkBOnvBhydGRmdXqg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
+   "movieId": "9a1957dacbc082ba641c849b6f3b0b1a%3AlRPtbCCua2aVf2yJHpMWjg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-12 19:30:00",
@@ -1293,8 +1384,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "930cb6e548c3bda51fe8bd28b851ff88%3AlPE%2FJtIf9D8WaKA%2Bu6Twew%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/21354aa677c344e7826178269fcefd34.jpg"
+   "movieId": "05d363b5d82a99dbd7258e83bebd09d1%3ATrRRaMAskmufugXi45ZT7Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/21354aa677c344e7826178269fcefd34.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-13 18:30:00",
@@ -1307,8 +1399,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4389a48ee0b4b1246f2846293032b562%3AJ2wM9l9xrhefuV%2BAWNSlyA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/fb370202605071519515964.jpeg"
+   "movieId": "1bb531fb4adda87bdd5ddbf7b1d66a20%3Ard54sYPIMWyH3IUwXwRo2g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/fb370202605071519515964.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-13 19:00:00",
@@ -1321,8 +1414,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e8bdfe049ca36f6ae60071c9ecec112b%3ASuYHC5h8bn5WLqyV%2F2uoLw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/17b76e37bc5543dda6199d0b728f5800.png"
+   "movieId": "2dd95e951e861e250de95a5f398e9e01%3AgevZh92SeKwOWRU66zWJAA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/17b76e37bc5543dda6199d0b728f5800.png",
+   "price": 50
   },
   {
    "playTime": "2026-11-13 19:00:00",
@@ -1335,8 +1429,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4b8260b43c1d68c6772659d4e1b8ec95%3APn3%2BJ9IPI%2FM%2B8izdBySKKQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg"
+   "movieId": "76e60e64317d8a2fa6c0814385e3eaf1%3AhFinC5WwS7G18zc7TF5R7A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-13 19:00:00",
@@ -1349,8 +1444,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e222fc06f539231a25831c54df39adb0%3AyswaEqu%2F%2BygCJaO%2BTeQ79g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/c123bb32b2f14b1a888ffd96c9f51e99.jpg"
+   "movieId": "b8907609e281d6ddc8ddc5e07ab7e7a2%3Ab6%2FY%2FYhz9LG4l%2BnYDiKw4g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/c123bb32b2f14b1a888ffd96c9f51e99.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-13 19:30:00",
@@ -1364,8 +1460,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "0c455fa9bef53d7d5d71548fe9c7a121%3AcTTBp%2BpW3gvaYoFUh7qpuA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/fb8ff202607270945318734.jpeg"
+   "movieId": "3db9bce9163b1f5e901f2e65886b58af%3AolaHm%2BCZLfOvBj1J1AI3vg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/fb8ff202607270945318734.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-14 10:30:00",
@@ -1374,12 +1471,13 @@
    "name": "一切可售",
    "en": "Everything for Sale",
    "year": "1969",
-   "min": 105,
+   "min": 99,
    "formats": [
     "DCP"
    ],
-   "movieId": "d81ac282d8ebbbf32fe9b85d18a78300%3AP7pOmtCQDyE0QlBCA0dCXg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96f34202609251335078184.jpeg"
+   "movieId": "903004b5a07d06f28cd68c31ab70324f%3AAQVYSui3deW2w1kkp5%2BepA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96f34202609251335078184.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-14 10:30:00",
@@ -1392,8 +1490,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4720bb5aa6cc4bac866445d1dd6bbd50%3A1UbeiSnRW%2FjsevAtWpEhag%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/4191e8c0f92c417383f8684a7952263e.jpg"
+   "movieId": "d517b71626aac83668c505842378e2d4%3AGbfnV4GaU7W5kE2Iu05QkA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/4191e8c0f92c417383f8684a7952263e.jpg",
+   "price": 20
   },
   {
    "playTime": "2026-11-14 13:00:00",
@@ -1406,8 +1505,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "24ad86e891154fd5f874d08d27937990%3AXUt8Vm98fwbbIZqIWqbTjA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg"
+   "movieId": "901643897c45b8fe41a4fbc813ad7b11%3A%2B3nVp%2FPlZNr7V2XUs1jUnA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-14 13:00:00",
@@ -1421,8 +1521,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "913df12cdd268625d60581e1b1bbd96c%3A7AkCH94kA9Utnjkx%2B4zq8A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg"
+   "movieId": "71793897bae7e359f76d0e6f30b0d2f7%3AZ%2BT3mED6WVzv9wicvzqfRQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-14 13:10:00",
@@ -1435,8 +1536,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "5eebb740a008f99e90ef9eaf7b7f7872%3AZiREsdFIBGRxZT9u4n9JTg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/42cff65442fb4bf888f78140e12e22ae.jpg"
+   "movieId": "fb16a0932699ab8708a7a6bb47f5caba%3AX%2FKhop6m%2FK%2BEEFR%2BfyrG0A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/42cff65442fb4bf888f78140e12e22ae.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-14 13:30:00",
@@ -1449,8 +1551,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "691b157bb80f37ee96c99b8aafe595a4%3AT1BGTuYMzPBy9jMwuGSpzg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/7ae40abd895e4584bc2ab5e7daaf3621.webp"
+   "movieId": "ac468a17473d7585d4a0f0c913f96d03%3AShY9n86GZWVuowhIxOoahA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/7ae40abd895e4584bc2ab5e7daaf3621.webp",
+   "price": 120
   },
   {
    "playTime": "2026-11-14 13:30:00",
@@ -1463,8 +1566,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2a096cae504d956d83689d77911bff9c%3A5vIqFTVnZQU5IfWYAWSrDA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1d2e9202609201118406269.jpeg"
+   "movieId": "ea9e8609bccae51c5e4f853967bfcd0f%3ATzWxdoZqNrwOObGKRo%2BsGw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/1d2e9202609201118406269.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-14 15:00:00",
@@ -1473,12 +1577,13 @@
    "name": "下水道",
    "en": "Kanał",
    "year": "1957",
-   "min": 91,
+   "min": 96,
    "formats": [
     "DCP"
    ],
-   "movieId": "2d65ee30aacb16d53d4ac6d9b6d02e1c%3AtQ30NnWIF4V823GFEH%2BGSw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg"
+   "movieId": "769e5a83645f3fe9f1d09e60f6de00e6%3AoBuadfpKTJ7%2FYb0Vh4lsuQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-14 15:10:00",
@@ -1491,8 +1596,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "12e1d89299d4cbf64cddba44e49befb1%3AXXBS9hlsNb11Uh1YmfrPtw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
+   "movieId": "8167bdb57208ad27974bbe7b2fb88a90%3AdTexAbmEiHSgdVVNdh%2Fnrw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-14 15:20:00",
@@ -1506,8 +1612,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "a16754ccaa0c1b004ae2af46d90e7986%3Audb0Z%2FslTVBveJktQUbTaA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/3e34a202609091604029395.jpeg"
+   "movieId": "b2b6f3d5c685ff4a769d6ce7567849ae%3AiZYp1ue9Tickbc1PONcSvw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/3e34a202609091604029395.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-14 15:30:00",
@@ -1520,8 +1627,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "279dbae8a98e9b489d4e091967dcd48e%3A17SikJsmIXmARLIeSIdUWw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/906ec202608272002225709.jpeg"
+   "movieId": "0233a84b8b0182b2b93a60a5a8c67e71%3AE9D9XTKL72cdyn%2FbAYr8Wg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/906ec202608272002225709.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-14 15:42:00",
@@ -1534,6 +1642,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 40,
    "extra": true,
    "note": "4K · 连场，开演时间按前场推算"
   },
@@ -1548,8 +1657,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d41040efe2ff3947cba5bc97fc67fb1a%3A%2B6KJPQ7UjpXQCzE1CRJS6A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/8cae3202609241619334210.jpeg"
+   "movieId": "e1488d7366b24f000e0dc8a2a2190235%3At%2F68gPIgUv2H%2BL%2FZ4pYLww%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/8cae3202609241619334210.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-14 17:40:00",
@@ -1563,8 +1673,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3feb083cff9966a9c6d1a39ca050018b%3AicRh%2FATImLMOfNSrUi3D7w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e538a202609091651144785.jpeg"
+   "movieId": "fb4990d83d0dd2bf5908ddabcf670895%3A95VDiz3Va6yp0TaRXSYOGg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e538a202609091651144785.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-14 17:45:00",
@@ -1577,8 +1688,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "80b912a8dfc54efa32833d4d768dc344%3ATOTamlej62rdvc4oIaJxhA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/06/ec1c1202506031501534305.jpeg"
+   "movieId": "bd2ab249dc2a25511e5232907fc47800%3ADJEYB8ew5zNziXBRxJoRBw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/06/ec1c1202506031501534305.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-14 19:10:00",
@@ -1592,8 +1704,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "606ac7a8596250a455f6289f2b3f5faa%3Awujj%2BqlkmN0VsuUSxukyJw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg"
+   "movieId": "dc53b700e3a6672b13c859d3ad05f4bb%3Ac8yAwDJbOO0sBOQxjuj%2FBA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-14 19:45:00",
@@ -1606,8 +1719,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "be1c15c8e02f651bce3f757a049b6272%3Aj89gXSk7gIJmeoEKGUMhZQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
+   "movieId": "57c5c1f8e62c05e01906761cacac71fa%3AbgmNg54p0z3SFDK2oBQB%2BQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-15 10:30:00",
@@ -1620,8 +1734,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9f58d7c988f054d49843bb140fe91666%3Ah4Tvlv0cn3D3rYVDu8j74A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/cf1e8202609251410323687.jpeg"
+   "movieId": "3abac369662f99ef63a4b51c8591cc6e%3AFELVdUJ1K%2BjkIzAC9jkGgg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/cf1e8202609251410323687.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-15 10:30:00",
@@ -1634,8 +1749,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e5f72f25c7077152b3d1fb060d3436ec%3A559l%2FcewATfaG9tTY2uTFw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a19ef202607131833552015.jpeg"
+   "movieId": "456a6222ca5b3db54709007db4f7cf75%3AAeMYDi%2B9reoO%2FirH5e1Jow%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a19ef202607131833552015.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-15 13:00:00",
@@ -1649,8 +1765,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "09e13254b09bf526191beef3cba14697%3AivqSuxTtbthHws%2BZrOwc7A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/04/40a7b202604031036086038.jpeg"
+   "movieId": "df0a11ef83d15515a83ea554b6e7c859%3A4FP2cFaaJIASQDi5eDGiRQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/04/40a7b202604031036086038.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-15 13:30:00",
@@ -1663,8 +1780,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "d7da7fdf4b70e88c30e1bfc3e3490a3a%3AFR1Rj4MWC4c56xI0rnLpBQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
+   "movieId": "e38bac2b1029cd25134546dad47ed37a%3A%2B%2BwabzI2GWjxrvhuJkcP7g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-15 13:30:00",
@@ -1677,8 +1795,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c26615aa4b496008c5be5a70abd4e765%3A5pAA20VtMhwaGY5PQ%2FYvIQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/c4d745e8dc8a45c4a2c684b6638d49ad.jpg"
+   "movieId": "ee94da4ac54ebb6d0c7e6f5f6614af31%3A7j3CIGhttdq1Ze%2Fanws53A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/c4d745e8dc8a45c4a2c684b6638d49ad.jpg",
+   "price": 20
   },
   {
    "playTime": "2026-11-15 13:30:00",
@@ -1691,8 +1810,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "63e20ac4624807ecfb4834765cd32971%3ApfXx9xGJYdnPyZow5mzdMQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d17adc8f2ca94ba2a92b68e00fab8610.jpg"
+   "movieId": "bc99d5ab2b98bd6fc0d227493822abe8%3AHqzQH3I96n%2Fwr8whjzqAFw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d17adc8f2ca94ba2a92b68e00fab8610.jpg",
+   "price": 30
   },
   {
    "playTime": "2026-11-15 13:50:00",
@@ -1701,12 +1821,13 @@
    "name": "大理石人",
    "en": "Man of Marble",
    "year": "1977",
-   "min": 165,
+   "min": 160,
    "formats": [
     "DCP"
    ],
-   "movieId": "eb2742af365a8d4c4d7e3d8c0f13e259%3Azz1aOObqDjIQTQxaTG1O2A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg"
+   "movieId": "fb9bc55d1d80d0141fc01cbcf1409fb7%3AJrc%2FBBOFEPgGqsQSE%2F8XHA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-15 15:30:00",
@@ -1720,8 +1841,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "8a82cf8d00b5986c1a0682bcab4be9ec%3AHPe7uzQtuQ8YFDgXVcYoAw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
+   "movieId": "82b0f33c9cf347f58f1b47f30b7b93cb%3AwFfneyA89JXoXYnrNfCgWg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png",
+   "price": 60
   },
   {
    "playTime": "2026-11-15 15:30:00",
@@ -1734,8 +1856,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "aba8afa1f354e395150d161685d174d3%3AQ4fHt9lQVYefVTyre%2BhkIg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
+   "movieId": "c1bb2dbf5b7ebe076de64c21b93a72cb%3A%2Bm4XGWnWu4UnKDRmEAezBg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-15 15:45:00",
@@ -1748,8 +1871,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f57f7700b72aa9523ab73e182917ddc5%3AYQubRo4YXZmqD3jZXd8t2Q%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/dc017fb0f5454850bfdac6c58660315f.jpg"
+   "movieId": "440748a03ee88b8050127f2970be6c23%3AzKUTsP5wnLbajAPiNRQz8A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/dc017fb0f5454850bfdac6c58660315f.jpg",
+   "price": 40
   },
   {
    "playTime": "2026-11-15 16:00:00",
@@ -1762,8 +1886,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e1f4a7384b7e19b96c28652434cbabce%3Aayw2iaotMADYx9kDuk7pMg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/d3f46202608121618031949.jpeg"
+   "movieId": "695b0d82e310d3c7238906a9f51a26d6%3AZSnLIIvcthQOyEwomWPiDw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/d3f46202608121618031949.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-15 17:10:00",
@@ -1772,12 +1897,13 @@
    "name": "不求麻醉药",
    "en": "Without Anesthesia",
    "year": "1978",
-   "min": 131,
+   "min": 115,
    "formats": [
     "DCP"
    ],
-   "movieId": "868f5d14c53fe704383190526270c26c%3AExuPzZuqtaNsTqgPcq6unQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e1d1620260926100432260.jpeg"
+   "movieId": "b2008d93caf2018021e4708ee92dd299%3AUjNAEehJz7DPR7jx%2BXYI8g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e1d1620260926100432260.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-15 18:10:00",
@@ -1791,8 +1917,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "87edfd5080f7a9ed834548de71918bba%3Ad9BHFp%2FbUMm5wu6Tuse6CA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg"
+   "movieId": "e4f264018deef6d1a86037ea6570db65%3AhXLCK8b3BzA8NSHO0NMzxg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg",
+   "price": 60
   },
   {
    "playTime": "2026-11-15 18:10:00",
@@ -1805,8 +1932,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "fa384136b7fd8a68e71c2d4b550d3899%3AV6wkynethfqgjmyo4DB4Cg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/02/0e631202602031550329799.jpeg"
+   "movieId": "4ab651f53193d54579a6aea38b089570%3A07ySCty8cq9bL0pogJIong%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/02/0e631202602031550329799.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-15 19:00:00",
@@ -1820,8 +1948,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b613782dc5cff2b413b2a739f9f447b4%3AN%2FNAvu9Duit1h1PXdWzyvA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/09/9dbfe40a-d26a-43cf-9f43-680440fdc646.jpeg"
+   "movieId": "0abdf06428f96838cbb4a2e60435feee%3AULUuDi4W6%2FOxGohev2Puzw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/09/9dbfe40a-d26a-43cf-9f43-680440fdc646.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-15 20:00:00",
@@ -1834,8 +1963,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9c118ad249a1d764fbd8361745a75a98%3ADv9GqfmeoSNZaHUElggaVw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/67c70202609271051042991.jpeg"
+   "movieId": "7516aef11141a732ddc0ebefe58c76f5%3APCa7mXJ9IGEhWR5mIEcPFQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/67c70202609271051042991.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-17 18:30:00",
@@ -1848,8 +1978,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ae3beaef110deb5adda67e589b536b63%3ASWdB%2F1iZnykaX46Ge7H3LQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/08/5883003a-c281-4ea7-a774-c8ae39422d84.jpeg"
+   "movieId": "f4edd91105125d32641e9e0e09a1856f%3AFFFHXP7eJRsYR6pfaQ0HSw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/08/5883003a-c281-4ea7-a774-c8ae39422d84.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-17 19:00:00",
@@ -1863,8 +1994,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3752c393580a83453884b7821c16d7fb%3AJiYjNOmsQj7s4ET1BwObMA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg"
+   "movieId": "3e341ae69d58be406ebf97624bf0d919%3AvWIERhCq5Z8L8SXGdGPwSA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-18 18:30:00",
@@ -1877,8 +2009,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "127d938e8761f6e4aa18779cdfa1ecc1%3ALYdJOEaCcb3z5BcH%2FdVagA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/03/fede5202503101218476717.jpeg"
+   "movieId": "f88d95684c2d5ec073d820a495ce642b%3AZTje%2F%2BMPDJBZp8U%2FhlWlag%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/03/fede5202503101218476717.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-18 19:00:00",
@@ -1887,12 +2020,13 @@
    "name": "还乡日记",
    "en": "Diary About Returning To The Native",
    "year": "1947",
-   "min": 112,
+   "min": 118,
    "formats": [
     "DCP"
    ],
-   "movieId": "2668cfd505b7550e780cc8b850314102%3AaChCpiTrM6VVm%2BGpr3Hhxg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/08/ba4f35a8-8f98-40d9-b397-c7ff0be0b8dd.jpeg"
+   "movieId": "b22b775f701342a8e84ed19e3983346c%3Al%2BL1QiMZtnyRR%2BbVADp0zA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/08/ba4f35a8-8f98-40d9-b397-c7ff0be0b8dd.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-18 19:00:00",
@@ -1905,8 +2039,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "32994b74576a79e2c373bcbab2bd75f8%3Af4EHmZ161GRsBCWqcGZIHg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d17adc8f2ca94ba2a92b68e00fab8610.jpg"
+   "movieId": "6e4497c4fd7a237aa4ceacd1fa5799dc%3AeKOZwDRqOxOgHygcGPT03A%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d17adc8f2ca94ba2a92b68e00fab8610.jpg",
+   "price": 30
   },
   {
    "playTime": "2026-11-18 19:00:00",
@@ -1919,8 +2054,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "3bc73ed3d660f185659e91a2455b299a%3AuDwxDKUT7ZwJ674fHBHjbQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/868df202607101059427260.jpeg"
+   "movieId": "ca3dd01b3d6c826148ee0abff6dca923%3A09pFI0q1cJtcRfb6JS1%2FVw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/868df202607101059427260.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-18 19:30:00",
@@ -1933,8 +2069,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "7609f36134f998117972452c16c08a41%3A2l8l5LsD95JiO1JiS2wzuA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/5a90467757d24e8ca505eba1c818507e.jpg"
+   "movieId": "294312c62edc9ad5ced75c3e70312e49%3AGfJ%2F2wAbMHmjoeLSW98i8w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/5a90467757d24e8ca505eba1c818507e.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-18 19:36:00",
@@ -1947,6 +2084,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 10,
    "extra": true,
    "note": "连场，开演时间按前场推算"
   },
@@ -1961,8 +2099,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "29d2593b4bda6cec5fe29b7d5db5d3e0%3AJSAu5QssAOh39PpgcnU0xg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/96ba820250815134525701.jpeg"
+   "movieId": "389e8742a036502013d79312a2e92784%3A0A84paEzSRWHgKvHC1LLsg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/96ba820250815134525701.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-19 19:00:00",
@@ -1975,8 +2114,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e4493c696606443f757bfd5376b0661a%3AagMWbbvthmBySZXViTlH6w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/17b76e37bc5543dda6199d0b728f5800.png"
+   "movieId": "bc5fe5b24943033ddfb949ffd88c056b%3ATxiAt9bl6rMsLGeQcy9YGg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/17b76e37bc5543dda6199d0b728f5800.png",
+   "price": 50
   },
   {
    "playTime": "2026-11-19 19:00:00",
@@ -1990,8 +2130,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7c7193f4acf90d2f0579b3fd5ed84648%3ALPJ4GyF%2BWLuoH5Rhm%2BHbnQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/bee13202609271645455699.jpeg"
+   "movieId": "2ed297312ffca2c43ac840ee80868e72%3AQXMAjlH37qS5eyfDdDB3xg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/bee13202609271645455699.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-19 19:00:00",
@@ -2004,8 +2145,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9894d01066cb9c623ddf9edd0da705d4%3AI83ROnySFaXEPMawy8O08w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/c123bb32b2f14b1a888ffd96c9f51e99.jpg"
+   "movieId": "b524dc42fddb4e1e60c7c3649de234e6%3A7S8vnTNbkWr8tfXWQQ1KfQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/c123bb32b2f14b1a888ffd96c9f51e99.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-19 19:30:00",
@@ -2018,8 +2160,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "5ffdc288269d9dcde5e87af6d07f839f%3A22meGIEr1Ap09I9w%2BZ37Bw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
+   "movieId": "f2a22ecb317ea62e714a9058bc98b54f%3AhXpLxhqQGoZu04NVMAiqng%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-20 18:30:00",
@@ -2032,8 +2175,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "26eb9851d3839dcff5659b5a3c24d4ac%3AvpPdLc7pAAQs%2FrXQSGQOLg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/ac41820250815120419628.jpeg"
+   "movieId": "62bee3e41be3d466e82b5bbed1b0fc0a%3AapaYR617YNisv6Na4IElgQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/ac41820250815120419628.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-20 19:00:00",
@@ -2047,8 +2191,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b0430ed3563ae5b49f51c6c0a0e5ca00%3Ash1b5Mac3rwjAHkBFFJN3Q%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg"
+   "movieId": "060d220fda8e3c697316187d61d7c933%3A%2FeEAHwMhWh%2FZ1TCpBSGH4Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg",
+   "price": 60
   },
   {
    "playTime": "2026-11-20 19:00:00",
@@ -2062,8 +2207,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "2a8adb8d789d41e61d5bfd33fe9f54b0%3AaULcICMo%2BwPwJHBm2izijw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/6afa3202609271722457652.jpeg"
+   "movieId": "39b87a5e88ec94d6e2643a76f7f18ff5%3A5OU6jtUfYfle60OSImbWdg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/6afa3202609271722457652.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-20 19:00:00",
@@ -2076,8 +2222,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "30fd9a1364c72d244a4b436f9d48c9ec%3AFWJuxAXLeeepvJnJiIPbtw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/02/0e631202602031550329799.jpeg"
+   "movieId": "8d4a40cdaf532bdea665c9ee33ac9b9c%3A%2BzSrJ0MEWclT%2FCv2M2pbDQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/02/0e631202602031550329799.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-20 19:30:00",
@@ -2091,8 +2238,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "5146b20b3d7289cd6ea1d9c1f4289cc3%3ACYoRejb0pD3BcApkSHDdRw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/21354aa677c344e7826178269fcefd34.jpg"
+   "movieId": "c916b8753fb6cafc4334f1d8564e5307%3ABY4e5egC7V9I9FRwqSQp1g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/21354aa677c344e7826178269fcefd34.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 10:30:00",
@@ -2105,8 +2253,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "68a0e8a4cc00fb03f4ae3a3cffa76175%3AIfAPU6UpASinu9mUSnwrmw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg"
+   "movieId": "b339ad7b21d31f3896ebac1bda631798%3AIHtJvOH%2FhXWrFNlcI%2F3UKA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-21 10:30:00",
@@ -2119,8 +2268,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "58f187dbfa428acfbeee76a847e5ccb0%3AAFRS5u9pU%2BQ6MePKqMo%2Bcw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/298b7202508181218516868.jpeg"
+   "movieId": "419a97bde07f9252b80909837c5ec794%3ANCRxE6NP7QSC%2BeQipWIrbQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/298b7202508181218516868.jpeg",
+   "price": 20
   },
   {
    "playTime": "2026-11-21 12:30:00",
@@ -2129,12 +2279,13 @@
    "name": "下水道",
    "en": "Kanał",
    "year": "1957",
-   "min": 91,
+   "min": 96,
    "formats": [
     "DCP"
    ],
-   "movieId": "4d6a3a506532c963d2f153b2e800dd3c%3ASKrEJL3YvOiVE954jLN3NA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg"
+   "movieId": "6293809e56e7085e4e886643b052edd0%3AnKz8%2BQzfUae%2FVusYTnly6g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-21 13:00:00",
@@ -2148,8 +2299,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "d501ceac099f84bdc419ba745eabf067%3APeFed8PTXXKhzBoXpwypdA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ae3ad202607271348214017.jpeg"
+   "movieId": "56d2f937476caa65df40c7b75b620e03%3Ayzfw4%2FHuzlszqbcU4jhgZQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ae3ad202607271348214017.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-21 13:00:00",
@@ -2162,8 +2314,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "2750c2c2a5695d260a1b95c5609af8da%3AKV0V1NS8l23AWi3Ngn1%2FMQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/7084ecbd4fb041f8b44a7362f05bcfda.jpg"
+   "movieId": "1216fef83fe76406633d6796bcea020a%3AWlBvQpPgGhfOqE4bulVCog%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/7084ecbd4fb041f8b44a7362f05bcfda.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-21 13:30:00",
@@ -2177,8 +2330,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "90853319f88a2972db31b9b78e0fe209%3ATrNfag8uvM%2FiCUjTgZ4myg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg"
+   "movieId": "12b2cbcc48e1012ccd04f993f1ce4feb%3AZNd%2B6qNMUgC1hJazMZSAEw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 13:30:00",
@@ -2191,8 +2345,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "5281a257b62eb42e4b20626610635bde%3AC6k%2ByZ6dXS%2FBtqygS7gP9g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/45b44f2920da4db8b85e1cb7e8f744c4.jpg"
+   "movieId": "e7fe0dc7804254ece6c9c9256c1072da%3A8peQMooW9Uol7lNTAm71gA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/45b44f2920da4db8b85e1cb7e8f744c4.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 14:40:00",
@@ -2205,8 +2360,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "90bf828a40c4f337234569e5386fc623%3AvTTGXGA66bbZfW7RMpE0eg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg"
+   "movieId": "292416d31ff9ae8d2636004724100bf2%3AVZbK3neTNwKVkXRV1gpKtQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-21 15:00:00",
@@ -2219,8 +2375,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "227eb821345b480b20901e61c8ec5671%3AEAKHrqC0EpXf3XVYvpNjDg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/245d1202508151424339196.jpeg"
+   "movieId": "f3955b1da09c2b528d0b4eee455257f3%3AnGLc10tbz84PYUQ7WpF4HA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/245d1202508151424339196.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 15:30:00",
@@ -2234,8 +2391,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "018a7a865d593f657c422fa9ee6f2bee%3AGqZQ8nbuKRQkPfchRq898w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg"
+   "movieId": "fc49b87d2f8316e047cef62b642c1351%3AP3FoMMQkpjfYF2wkY3z1Tw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 15:30:00",
@@ -2248,8 +2406,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0dd1ec89a5fc709d1dd536379c062393%3A%2FxuEHfGFV6FtSQtrPbnXxA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
+   "movieId": "93cfde560aecfa974529a8d52c2c7dbe%3AIgE9B31yORhDIRVn1A8LxA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-21 15:40:00",
@@ -2263,8 +2422,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "f2a8d87bd6f81d1c9f039887432fd5e0%3AAMjGzd1NzuQ68ZbmScdn%2Bw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/09/6079a01a-fc98-414f-98ae-800fc5153c1c.jpeg"
+   "movieId": "d8247d7c46b19ae76b859f8046a954f9%3AzqC8wVaL%2BHCiTAXWf4NpDA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/09/6079a01a-fc98-414f-98ae-800fc5153c1c.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-21 15:45:00",
@@ -2277,8 +2437,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f84cfa52671e2842717cf6426463c90c%3ArZa2ezbz34Q2MxSihCBgvw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/9053ebd31263443c97dac9049623b136.jpg"
+   "movieId": "886964dd04ed06b9876aacf3c9f18a19%3AZLD0eloeHucI47TS20bQSQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/9053ebd31263443c97dac9049623b136.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 17:00:00",
@@ -2287,12 +2448,13 @@
    "name": "一切可售",
    "en": "Everything for Sale",
    "year": "1969",
-   "min": 105,
+   "min": 99,
    "formats": [
     "DCP"
    ],
-   "movieId": "373a08565e756254f6708dd7fed3fc41%3ADZotNSz%2FZVqhRlyazh4L1Q%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96f34202609251335078184.jpeg"
+   "movieId": "110b04c34b43d4d5fa523a31c7a16e8f%3AjDD9XWtNPwUADJVWlqVAKg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/96f34202609251335078184.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-21 18:00:00",
@@ -2306,8 +2468,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c39e032916719dafe96d194a53ad34ed%3AFEVqs%2F994fmioChljMfAkQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg"
+   "movieId": "ccb7be02a46794afc556794c2ec7590b%3AK0tNfF51JfqaMieLELYDNA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 18:15:00",
@@ -2321,8 +2484,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "492345b95256ae3d306bfe8ce8508b5f%3A1NBq%2BlOdWQlvj%2FzKsMddCQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a63ba202607271430369880.jpeg"
+   "movieId": "891e388528eadb5ae7ae10c6c94f8646%3A94O0ZHPfuYkt2pBd%2F378tA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a63ba202607271430369880.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-21 18:30:00",
@@ -2335,8 +2499,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "498ac9dd13ad19b9fc68483804a471b7%3APT9MXaO%2BuLlJsSXJz5leKw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/13ad2e6fd2dd4f3491a6320987368f5d.jpg"
+   "movieId": "2db93b04ce2dfefa51befe5a5ad5435f%3AWlVPt6%2FXLjAUjrKSOs17EQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/13ad2e6fd2dd4f3491a6320987368f5d.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-21 19:30:00",
@@ -2350,8 +2515,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4ebf2582cb2782275a4fd65a0a71943d%3A%2BorYig%2BU8lfM3YEiiTl22A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/d963a20261013210931816.jpeg"
+   "movieId": "3f818118650b029c73f964598dca7b00%3AeNgxJJaFpkj5LovutmPnsA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/d963a20261013210931816.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-22 10:30:00",
@@ -2365,8 +2531,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c0607c1f952f0dd40bee2ed6dd70f194%3A1AfvEMOphISq2mGqF8hyPA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg"
+   "movieId": "1316ceac0539518fe4386299c72fb187%3AAGQd9XMtEMHz9ElOWsVc3Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-22 10:30:00",
@@ -2379,8 +2546,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "b7bcaa249dee98b3c6b19a463e158f42%3A%2BveNlngHs%2FihS8CKnEQvhQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b4b408a2c63341d78ee8cec5ded25b55.jpg"
+   "movieId": "db7ef152f201459a4cba17ed5c1179c8%3A8%2FrKvHals2CwqiW%2FYhZcjg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b4b408a2c63341d78ee8cec5ded25b55.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-22 11:18:00",
@@ -2393,6 +2561,7 @@
    "formats": [],
    "movieId": "",
    "poster": "",
+   "price": 10,
    "extra": true,
    "note": "连场，开演时间按前场推算"
   },
@@ -2408,8 +2577,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "46271c06f281d0c909567237fcf101db%3ACz2MqefNzjCXisF4unEDrQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ede70202607221001222003.jpeg"
+   "movieId": "9d5e02d42c635efbda7a498d7f7c5f02%3AaaiXJ6nd%2FcPc2Hvq%2BSAetA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/ede70202607221001222003.jpeg",
+   "price": 100
   },
   {
    "playTime": "2026-11-22 13:00:00",
@@ -2422,8 +2592,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4cfb8f3a01a2ed1a21d6d2c6f49f9b9d%3AE3A7U8G44D0m%2Fdev4g4b9Q%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/6e4713ae625e4aa7a6ac826ba1c239dd.jpg"
+   "movieId": "9143ca64e87cd4ea70759e16008585fa%3A0F%2F9cLuj5lLA%2BUcgddPEgw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/6e4713ae625e4aa7a6ac826ba1c239dd.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-22 13:20:00",
@@ -2436,8 +2607,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "65464f10f576c4f9a00844d988c35018%3AVOSMxjlTc%2F4oHbx4dd27UQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/cf1e8202609251410323687.jpeg"
+   "movieId": "7bbdae948752788a46eb11d5de65a04b%3A1zozCkUcNIliC0ZPzKkDUg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/cf1e8202609251410323687.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-22 13:30:00",
@@ -2450,8 +2622,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "5ea8dbc70a0d7f9434972d2577a722ed%3AhHx9Qn5Pkf9IgeRkY%2F1pmw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/7ae40abd895e4584bc2ab5e7daaf3621.webp"
+   "movieId": "da088c1d827e98ce5572195ca090a2e4%3AYikm%2BCn7BpTvJnm0olWLbw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/7ae40abd895e4584bc2ab5e7daaf3621.webp",
+   "price": 120
   },
   {
    "playTime": "2026-11-22 13:30:00",
@@ -2464,8 +2637,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9e97ea7962ea16792ea371316c9680c7%3A7Bl5b7DQk432Xif5LwyjeA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/2da080ea5852478aa9e2536905e89c06.jpg"
+   "movieId": "bb1c5480e8e6b245b3e79560ec2da0cb%3A3qHPfzFpcXO6kDqSXFC1Ww%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/2da080ea5852478aa9e2536905e89c06.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-22 15:10:00",
@@ -2478,8 +2652,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8931a49a235fbb33aaa7cbea191a73a5%3A%2F8XecnUvS7amjfD1Gz0j5A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/4710e20250815113208393.jpeg"
+   "movieId": "0e3a55f2674846036020f0d4b3223e82%3A4L0zs6MyZAhjbVXdPAmWww%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/08/4710e20250815113208393.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-22 15:40:00",
@@ -2492,8 +2667,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8113048d6050fef23a8ff6ee59a53765%3A4zqJFpJzTKR%2FkcdpYmqLLg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
+   "movieId": "572f21285e06d7e485d0f39501d4eba8%3AyO%2B0xgEsnKhKCSxwnK1%2FPQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-22 15:45:00",
@@ -2506,8 +2682,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "f2136c665234f35c69b33150fbbf2d0e%3ArwD7hFpPVfknSLWvPd3D9w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg"
+   "movieId": "1158fe82661ee37984fc0df1eb4e706c%3AYCQEUTdG98EHsk5sf3qB%2FQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-22 16:10:00",
@@ -2521,8 +2698,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "0e4a2b22ab05d9f972fa6c992a671ae7%3Ai%2ByTGWB40uBxxgassRSYDg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/2ee27202608131628198701.jpeg"
+   "movieId": "f6e1df9308b39faa516e11bc61572429%3Ag%2B2rh6xeGDkMqunRKfjogg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/2ee27202608131628198701.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-22 16:40:00",
@@ -2531,12 +2709,13 @@
    "name": "大理石人",
    "en": "Man of Marble",
    "year": "1977",
-   "min": 165,
+   "min": 160,
    "formats": [
     "DCP"
    ],
-   "movieId": "8e3e867465e66fc9aac62c4966eae34b%3A9SQqZ7qummPlwrMYdGXrOA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg"
+   "movieId": "15b56880fa4162d79077f12504fce4e7%3A1uuP5XhzukLYUv%2Bx2AIUpw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-22 18:15:00",
@@ -2549,8 +2728,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0fca98dfda7751aa4cda285af4d8e6b8%3A7GKP3GZ9KzKRKgvJguQmqA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg"
+   "movieId": "fd8e85eb9d99aa703c23b096f57605f5%3ArhfJmq6MvF4xThCKm55EbQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-22 19:00:00",
@@ -2563,8 +2743,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "8726f0afd4af62139b507c6f51d644f2%3A%2BpZXgpmhgLoPz9wlA1ZxnA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3b6af202607231023558100.jpeg"
+   "movieId": "2beaa70ad2ee60d273b1832db37993cf%3AZZT0%2FIlWwTS03hwYDmCldA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/3b6af202607231023558100.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-22 20:00:00",
@@ -2578,8 +2759,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "bf64a49737b902b871ab3af621809f36%3AyM%2FETU5pcCrXGmiH9g7%2Blg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg"
+   "movieId": "3f4623433803b42528c421b56bf865a9%3AWRpByg6e8dTTVdPJl%2Bhm4Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/32563202608272201016526.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-24 18:30:00",
@@ -2592,8 +2774,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c02b5b8bbcf15d7db00511107d57b32a%3AGWFJpt1qMixByl42eOo8%2FA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/03/99fbc20250320165225900.jpeg"
+   "movieId": "6ca5505c819bc41501b560d4b2fd0c4c%3Aj07CUgR7VCbbegBCT0bo9g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/03/99fbc20250320165225900.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-24 19:00:00",
@@ -2606,8 +2789,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ea29ac8a5b685c1c5f1043aab8bf4839%3ALQ%2FqeQ08YTCJYj%2FnSgOPzg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/09/cf4c2202509270928071726.jpeg"
+   "movieId": "6f7a759ad5877297f97fe9f488e48b7f%3ACf9ECk%2Ft26Si6ajQQ0uapg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/09/cf4c2202509270928071726.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-25 18:30:00",
@@ -2620,8 +2804,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "08f3d53305e6927ee86bd015f47f99f1%3Akig7XIBDAZXJj8Iwx3230Q%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/69fd0202603271540333713.jpeg"
+   "movieId": "52953232f1ad67683e21fdee72259d8a%3Ayxz8JU2%2BU0Pmo1d3EOjnpg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/69fd0202603271540333713.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-25 19:00:00",
@@ -2635,8 +2820,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3629eaebb8b1e1aadbcd4282021752ed%3ATcgKPnI2yUs3vekuiNO4rg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ef02c091f8ff4bcea82071e41676f774.png"
+   "movieId": "8836cbb97988e35b4c88b5722ea83f0a%3AuSP7RsW3SJWMM1dL9rq8FQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ef02c091f8ff4bcea82071e41676f774.png",
+   "price": 10
   },
   {
    "playTime": "2026-11-25 19:00:00",
@@ -2650,8 +2836,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "22ed254c29c77e4e1936374b20838108%3AeiH1mAWPmUUuVhKGUS%2FVRA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/67d2f9a4161b4a31b7e5123c5e37b003.jpg"
+   "movieId": "d6a8e01e701e065fe1385bbe04b89c94%3A8nwAEI6%2BTuS%2BVgJsUBpflA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/67d2f9a4161b4a31b7e5123c5e37b003.jpg",
+   "price": 30
   },
   {
    "playTime": "2026-11-25 19:00:00",
@@ -2664,8 +2851,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "1e86010d4ca05622b8aa31839739ecd5%3APOuEFpo8Q0%2F6isy6g4Q%2B%2BA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a19ef202607131833552015.jpeg"
+   "movieId": "3c6af03e4e4163a06a4e7097d1e276b3%3A7vHAYDWoW3iS0ZJPryQz3Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/a19ef202607131833552015.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-25 19:30:00",
@@ -2679,8 +2867,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "a406c5c12771b12b09a7aa090b6a32eb%3ASGxYLTlOH7CJJaMC2NMiag%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/cf92cc44d15640ad9956de7b0f5ebedd.jpg"
+   "movieId": "ddc251509177726f7dadd3361a23dde3%3ATtC0zKvFCSCWWzlKjRXNrg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/cf92cc44d15640ad9956de7b0f5ebedd.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-26 18:30:00",
@@ -2693,8 +2882,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "604ce7a0542a2a0d1bc72b7f5b759d67%3At1jLZLWjBUkKj%2FMvrfZpmQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/343e8202603271037411194.jpeg"
+   "movieId": "56a5082c01a0699e542400fd3d8b466c%3ASEtGFG45kYpj2jx7px%2BRBw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/343e8202603271037411194.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-26 19:00:00",
@@ -2707,8 +2897,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4aaab8f18f47335fc26ad14c59a1c343%3AJfW%2BGRzWXNZbLTfhEUhxrQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/08/5883003a-c281-4ea7-a774-c8ae39422d84.jpeg"
+   "movieId": "1359969e0ba4f73887138d7a13251c9f%3AyQe5HMu9Wwh2EfuXeE9gxA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/08/5883003a-c281-4ea7-a774-c8ae39422d84.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-26 19:00:00",
@@ -2721,8 +2912,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "81e88c02f7c1d2216480758dfb604059%3ABRnciSp6YPScpUQBnE241g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/dc017fb0f5454850bfdac6c58660315f.jpg"
+   "movieId": "3fb6a58583df0877ff163665cad76272%3Ax998X6fYNKIvtiVDzv4Qww%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/dc017fb0f5454850bfdac6c58660315f.jpg",
+   "price": 40
   },
   {
    "playTime": "2026-11-26 19:30:00",
@@ -2735,8 +2927,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "0c92dbb50c8537dcc33753000f5e85b4%3AHOipDX3dyhA1IAQWQziFtg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg"
+   "movieId": "a7f6280241e166b43681521d20164085%3AMkxbKJVe6X9FN9D%2B%2FDwTWw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/f77ccf45ba1c41e4bed1bafe67302b87.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-27 19:00:00",
@@ -2750,8 +2943,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "d1af47b5564b57664fd9ce45dad24670%3AC4aA3JbfI2d6aZY70k%2Fa2w%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
+   "movieId": "3913af0f38afdfa1aabd74e4d153ab80%3A4tMbYkZ8ACmh%2Fk3BIdVJqA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-27 19:00:00",
@@ -2764,8 +2958,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "436f37dc1c40db969a5ba9c33d7401aa%3ADBAIehSpYgleVY3JWwxkyg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/6366c20260805091233822.jpeg"
+   "movieId": "cf4bbc10af636e2fdc3cd67201b76b4e%3AQ7CIIxE1nGyrcYUvf4GQLw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/6366c20260805091233822.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-27 19:00:00",
@@ -2778,8 +2973,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "64cee3da8e63737526f94d7cf60f4ce6%3ANxJODsIWcxTtilzCTq6kAg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg"
+   "movieId": "e996a5dfa2c9376076e1fb7f6f65ff7f%3Ab1zJsdjHeXfM1Yr0wZixWQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/27979f13e2394a949924d8657e778140.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-27 19:30:00",
@@ -2793,8 +2989,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "e354f4072edfe9cd28fadc6e61b1cb25%3Acp2cDKjoJcIWGD8gDzq60g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/03ba1202605191332028897.jpeg"
+   "movieId": "ab66270d85ef52d0d59b48395b69e1a9%3AsPxBUK0R96qppe70jlWKmg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/03ba1202605191332028897.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-28 10:30:00",
@@ -2807,8 +3004,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4b02d9e475bee3a779dd9f4f1f59686a%3AfqXn5FV1LGcRPQwsp9P6BA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/07/a4873202507021613529236.jpeg"
+   "movieId": "c47744b0c95ed30c1209e8185f9f8179%3A1bjDv0dUOoXzTXSm9tGktg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/07/a4873202507021613529236.jpeg",
+   "price": 20
   },
   {
    "playTime": "2026-11-28 11:00:00",
@@ -2821,8 +3019,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "df5d2992fa341454aa1234f1abba99cf%3A66%2BJ9XEw%2BWpNjrXjlDBuZg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/d3f46202608121618031949.jpeg"
+   "movieId": "1135f599d8342b70d26ecdb1e4a4f7fc%3ATev7uvW%2BzCM7033LN1X2rw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/d3f46202608121618031949.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-28 12:30:00",
@@ -2836,8 +3035,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "52070dcdf45eeb09255bbc682921ef92%3ALPQIUEAFIWO8jdo2KXzt5g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/2024/09/e9ab3db1-d80b-48ea-acc0-cf52cba2a2d6.jpeg"
+   "movieId": "dba376370eb6fb311dbb1cba104637b2%3AcZJDE%2F%2BPn3Vkj09pCr%2FsYQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/2024/09/e9ab3db1-d80b-48ea-acc0-cf52cba2a2d6.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-28 13:00:00",
@@ -2850,8 +3050,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9aca8521e2828ce2765f4ba81daf67b7%3AeTfo1l2fo7y%2FZAQb%2FzWVHA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/da687202608050949432655.jpeg"
+   "movieId": "d88419e3b4d274c75cad9121a3f147de%3A1UQBTTjWcAFOw4l3VSw6tQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/da687202608050949432655.jpeg",
+   "price": 10
   },
   {
    "playTime": "2026-11-28 13:30:00",
@@ -2864,8 +3065,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "4a7c778c3ef4374245ca6c2f63ed878b%3ALyUvhRRg%2BzTPKBwL%2FWLe0g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/76482202605071445397899.jpeg"
+   "movieId": "e06a41e7ce5988fd95e88a8316f33908%3AFQG%2B9X5O5Gpw3N37cACIuQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/76482202605071445397899.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-28 13:30:00",
@@ -2878,8 +3080,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e50825d9ff07b8d7f308e9573978eb35%3AYNbrvyhG5Eke72p9C%2FCSfQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d293da281a184d519417ec60f56334b0.png"
+   "movieId": "08c48ad9a92e000fca617177d16cb9fb%3AdePIco9PrNLnL00GQUKC4g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d293da281a184d519417ec60f56334b0.png",
+   "price": 30
   },
   {
    "playTime": "2026-11-28 13:40:00",
@@ -2893,8 +3096,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "b5fe701ccaf1610a8f3ca95b36958833%3Af5LNvhssI%2FfWLLlOrjQVlA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/f61ee202608060958118506.jpeg"
+   "movieId": "3b608692548e08a85c85f930bd01c781%3ARjSDvnncmRfhQt%2B1Ho88pg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/f61ee202608060958118506.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-28 15:30:00",
@@ -2907,8 +3111,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c65e75d15fcd5c1901ad5f3b3bdbbad2%3A06a275EzAieWCa8rtjdlEw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg"
+   "movieId": "eb1e4c5548bd6e2c56417e6c928c8cdd%3AKV3moH8JzendnoomoO%2BtMg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2025/02/d97af202502071534417129.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-28 15:40:00",
@@ -2921,8 +3126,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ffe54b062b2fba23101953d1f03ab4d4%3AvJhNeYqohaJjHwmFNx2dtQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/258d5202605071503495536.jpeg"
+   "movieId": "d227cb11a2802e92f7ef26ee936c66ad%3AhfYptAArMZn3CqE1btVv%2BQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/258d5202605071503495536.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-28 15:40:00",
@@ -2936,8 +3142,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "9c60715026194fbedb60903209ca8c77%3AeyWqiv28E6sHHEWo9%2FKlEw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/fb8ff202607270945318734.jpeg"
+   "movieId": "629fb4951d176c6bdb2e595a453f0de2%3AhDNMszQoMyI0ejWDpfFWcg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/fb8ff202607270945318734.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-28 16:00:00",
@@ -2951,8 +3158,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "6fb2a62d69784833b559b2a5c8e860c4%3AztS%2FwwrebF3pXw4YwrChpw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b2dff202608071035197528.jpeg"
+   "movieId": "6f088c6147930a664b5eb774c7498806%3ACAS60youpERWIDwHWObNwQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b2dff202608071035197528.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-28 16:00:00",
@@ -2966,8 +3174,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3dfe21d855d4c42b3ad34b62cf9651f2%3AhUz8E1cTEd4ItZh8wZo5KA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/85bae202607231139121324.jpeg"
+   "movieId": "8921c76990c45a64cfdeb5d8af845e49%3A1AX5I%2B%2BKLaLsRHo%2F36FRvw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/85bae202607231139121324.jpeg",
+   "price": 80
   },
   {
    "playTime": "2026-11-28 17:50:00",
@@ -2980,8 +3189,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "e92f6676fe3403a8ecf9677859746496%3A8tNuvn5FabLshPSwDRuPtQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/fb370202605071519515964.jpeg"
+   "movieId": "ff1538a87a3cdeb432baa1d2f93407f7%3Acl%2ByJjres1tRZazBBMs5Pw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/05/fb370202605071519515964.jpeg",
+   "price": 40
   },
   {
    "playTime": "2026-11-28 18:30:00",
@@ -2994,8 +3204,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "a2cef5f6f1d5b861259cfe02b40445cd%3A%2BkATupZgOrGk9JjccsfD9A%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b519e202608071059375462.jpeg"
+   "movieId": "8727f59cbb692fd8b128653dce947a2a%3A9qkj3WwpvfAl1nenuQ8L1Q%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/b519e202608071059375462.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-28 18:30:00",
@@ -3009,8 +3220,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "34201a40a04d0d3dbaabf284d07e2946%3AFXWIJG97G63IDi5kCDPQHw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
+   "movieId": "e4bc40c53ec9267617b842f699d3d46d%3ABlTZcTV2ycJpq4P5D5TaWA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp",
+   "price": 50
   },
   {
    "playTime": "2026-11-28 19:00:00",
@@ -3024,8 +3236,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "9fdcb41877409076c261b6bcfc4d3f42%3ANhOIe7VvpaNJ0ACM5lHhvQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/b536520260727162859261.jpeg"
+   "movieId": "d057c3500376ec6e5b2384ce6d53fb66%3A8kBWt%2FPxgYNu9vunU38KBg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/07/b536520260727162859261.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-29 10:15:00",
@@ -3038,8 +3251,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "071f7d0f75d748c936b63cfa849ec722%3ArSO8Uq%2BaLAaKkJuDK3JRgA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg"
+   "movieId": "9961b2b049370a624dcd6721028cba0e%3A%2BUIA59faaVc%2BjXSp8iAb9w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/11/6a438202411181552161038.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-29 10:30:00",
@@ -3052,8 +3266,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c731378c585a37f1508494e3cb752b40%3AWyf7x7QMa66CPsCu%2Fs%2B9Sg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/608af8bc9a7e4e40b552c58a75a324ea.jpg"
+   "movieId": "b9442fda7d480aee7ed3430d1f61fa81%3ABlrFCzV2V6DHKB7u0eDFuQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/608af8bc9a7e4e40b552c58a75a324ea.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-29 12:30:00",
@@ -3067,8 +3282,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "9b75d10a1b9acb21f87142b243523f31%3AxlsdHClAJzrDEjqjfH%2FxUw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/3d83f202608111047313712.jpeg"
+   "movieId": "8d1d3cc308bc3364525cf59a8549a1b6%3AJvLPmiUGRPaQ%2Bop9N7Euhw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/3d83f202608111047313712.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-29 12:30:00",
@@ -3077,12 +3293,13 @@
    "name": "大理石人",
    "en": "Man of Marble",
    "year": "1977",
-   "min": 165,
+   "min": 160,
    "formats": [
     "DCP"
    ],
-   "movieId": "549196db71787f1e7e742f2114340c29%3Ac5lwOAAKSkzTUIkbL20xzw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg"
+   "movieId": "029d50db89185d894c9b8720c8d86db9%3AcbThzqpINPZFW7tNmM%2FHzA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/07241202609251713468809.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-29 12:40:00",
@@ -3095,8 +3312,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "bc33ee13c3853e4c186c0230ad426b81%3Ae3XTsLKs5%2FtdWw5rwzfEEQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/20916fcb0cb045328f2f42a91067dc78.jpg"
+   "movieId": "503e5b0e17411f50f8cecc1582f1d1cc%3AhZ%2FR396Ve%2BhOfbuJV6pW0g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/20916fcb0cb045328f2f42a91067dc78.jpg",
+   "price": 10
   },
   {
    "playTime": "2026-11-29 13:30:00",
@@ -3110,8 +3328,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "94affdb14358090735fbbfd92051271e%3ApC9Jgq2oF03ulNUCRw%2BzzA%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/d1661202412251000163541.jpeg"
+   "movieId": "ac5909e4632c9281618f3bdd4d675133%3Al0uhI6%2Fa3lIZH4jRqrr%2BxQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/d1661202412251000163541.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-29 13:30:00",
@@ -3124,8 +3343,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "695ea7214cbee5d5af1aed5a4d10175b%3A7%2BDXGFfkMzXicT78B5hQig%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/69fd0202603271540333713.jpeg"
+   "movieId": "7bc144a36326bc8fb452f78cc1f8b72b%3AnWnrkZdBAPJCEQnTYZp8FA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/03/69fd0202603271540333713.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-29 14:00:00",
@@ -3138,8 +3358,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "67eee82a4d120fbb7afd5e470c9aceb2%3AU4uC8jfLQFqeDC2KoRL8Vg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg"
+   "movieId": "252adeb2112c93c303093436c450f82a%3AGRrSJhm%2Bo6h87ANs%2BGQO1w%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/10/4c115202610142216559376.jpeg",
+   "price": 120
   },
   {
    "playTime": "2026-11-29 15:40:00",
@@ -3152,8 +3373,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "31dbe9be236a73787dc0f2f978850948%3A9GU0h9sWuib4OPCBSXXPVw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/31ceb202412271649341422.jpeg"
+   "movieId": "f8b313826602127b7538aed3867cf4f3%3Auhbs7V31B99fnwUuzkFX3g%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2024/12/31ceb202412271649341422.jpeg",
+   "price": 50
   },
   {
    "playTime": "2026-11-29 16:00:00",
@@ -3167,8 +3389,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "4673be1727b7eaaa7a7421fb09647354%3A5GeuY%2Bogyn1iX11CWkirmw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
+   "movieId": "822ea3f2bb7a2a3e75798ca5ad8c01ce%3AUGO829ihe9xpCB2V7Omdpg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn//picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png",
+   "price": 60
   },
   {
    "playTime": "2026-11-29 16:45:00",
@@ -3177,12 +3400,13 @@
    "name": "不求麻醉药",
    "en": "Without Anesthesia",
    "year": "1978",
-   "min": 131,
+   "min": 115,
    "formats": [
     "DCP"
    ],
-   "movieId": "ddddd427abf9f597eec7d60dbbfb4b05%3AAqxuLgQKZnK5QJtedivwXw%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e1d1620260926100432260.jpeg"
+   "movieId": "794efe0bf3b8bf8fb4efd9ed405d2786%3Aw4%2BWb6TxgcAQUUaO9e%2FzrQ%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/e1d1620260926100432260.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-29 17:10:00",
@@ -3196,8 +3420,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "c6a7602290af0db8407d806cb3ef276c%3A%2Be22mDA6eUp51Y%2BFmI%2FLwQ%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/de29a202608111125566406.jpeg"
+   "movieId": "e5f8d810a18438098d77e03ee5ecc80e%3As33UWhAUodMaVzHqGSN5rA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/de29a202608111125566406.jpeg",
+   "price": 70
   },
   {
    "playTime": "2026-11-29 18:40:00",
@@ -3211,8 +3436,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "cc9cee9db74954b67cb042b066e0100e%3AXcK1i3HCUIHVVZk8XfqE7g%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp"
+   "movieId": "2992fe1250599a5bb255f2ad7cd744fa%3AusEmQlApc0lshb%2B8x8noqw%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fc3c4aba5b2c453090d4a7fb15f053c9.webp",
+   "price": 50
   },
   {
    "playTime": "2026-11-29 19:00:00",
@@ -3226,8 +3452,9 @@
     "DCP",
     "4K"
    ],
-   "movieId": "15155fff8b30765e3e16100eea527ce2%3AzUQEGk4lW7H9Jbbsy13SZg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg"
+   "movieId": "524989b7d434121f230e607735655ba7%3A6Jk03I9B6SwLRjFODHgaGA%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/fd928dbabcf64bb397b6431d27273955.jpg",
+   "price": 50
   },
   {
    "playTime": "2026-11-29 19:30:00",
@@ -3240,8 +3467,9 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "af60434ed0ae464668479e5832969749%3AzktldeidnLbjAkyq1n7swg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/67c70202609271051042991.jpeg"
+   "movieId": "7dc62e24e5c1195bfaa4024495f13618%3ADKhdOeTE8tsaXwh306YlIg%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/09/67c70202609271051042991.jpeg",
+   "price": 60
   },
   {
    "playTime": "2026-11-29 19:40:00",
@@ -3255,9 +3483,10 @@
     "DCP",
     "4K"
    ],
-   "movieId": "80cd156ddc08dec64bd76ab957f530f1%3AAMaPljF5GlmR8nmwOgSTwg%3D%3D",
-   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/7a1362026081209330821.jpeg"
+   "movieId": "09fc691a0409f1f051d9208684a5f541%3AcytQzmLi2AP4JjdSpL3Sug%3D%3D",
+   "poster": "http://oss.guoyingjiaying.cn/movie/2026/08/7a1362026081209330821.jpeg",
+   "price": 70
   }
  ],
- "generatedAt": "2026-11-03T22:10:37.394Z"
+ "generatedAt": "2026-11-04T11:23:30.165Z"
 }
