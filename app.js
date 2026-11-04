@@ -733,15 +733,17 @@ function priceOf(r) {
   return null;
 }
 
-/** 票价价签：单一票价「¥40」，区间「¥30–60」；未知（null）不渲染，避免「待定」占满每张卡片 */
+/** 票价价签：卡片右下角独立标识，单一票价「¥40」，区间「¥30–60」；未知（null）不渲染 */
 function pricePill(r) {
   var p = priceOf(r);
   if (!p) return '';
-  var txt = p.max > p.min ? '¥' + p.min + '–' + p.max : '¥' + p.min;
+  var amount = p.max > p.min
+    ? '<span class="amt">' + p.min + '</span><span class="dash">–</span><span class="amt">' + p.max + '</span>'
+    : '<span class="amt">' + p.min + '</span>';
   var tip = '票价' + (p.max > p.min
     ? '（' + p.min + '–' + p.max + ' 元，不同价档）'
     : '（' + p.min + ' 元）') + (p.note ? ' · ' + p.note : '');
-  return '<span class="price-pill" title="' + esc(tip) + '">' + esc(txt) + '</span>';
+  return '<span class="price-tag" title="' + esc(tip) + '"><span class="cur">¥</span>' + amount + '</span>';
 }
 
 /** 影厅水印：解析厅号数字（无数字降级为首字），返回 {n=水印文字, h=色相(1/2/3/0)}；空影厅返回 null */
@@ -847,7 +849,6 @@ function renderList(records) {
             (endStr ? '<span class="end-time">散场约 ' + esc(endStr) + '</span>' : '') +
             occBadge(r) +
             doubanPill(db) +
-            pricePill(r) +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
             // 厅号不再用可见小标签，改为屏幕阅读器可读的隐藏文本（水印本身是纯装饰）
             (r.movieHall ? '<span class="sr-only">影厅 ' + esc(r.movieHall) + '</span>' : '') +
@@ -865,6 +866,7 @@ function renderList(records) {
             ? '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>'
             : '<button type="button" class="occ-open" data-i="' + myIdx + '">上座率</button>' +
               '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>')) +
+          pricePill(r) +
         '</div>' +
       '</article>';
     }).join('');
