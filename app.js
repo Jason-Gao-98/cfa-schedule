@@ -1764,6 +1764,50 @@ function screensFromCandidate(rec, cand) {
   });
 }
 
+/** 官网排片的 movieId 形如「hex:签名」的复合标识（同一影片不同场次也会变），
+ *  很可能就是票务系统的节目标识。票务检索库缺条目时用它作 program_id 兜底。 */
+function programIdsOf(rec) {
+  var mi = rec.movieInfo || {};
+  var raw = String(mi.movieId || rec.movieId || '');
+  if (!raw) return [];
+  var dec = raw;
+  try { dec = decodeURIComponent(raw); } catch (e) { dec = raw; }
+  var out = [];
+  function add(v) {
+    v = String(v || '');
+    if (v && out.indexOf(v) < 0) out.push(v);
+  }
+  add(dec);
+  add(raw);
+  var head = dec.split(':')[0];
+  if (/^[0-9a-f]{16,64}$/i.test(head)) add(head);
+  return out.slice(0, 3);
+}
+
+/** 用官网排片的 movieId 直接取节目明细（不依赖票务的影片检索） */
+function screensFromProgramIds(rec) {
+  var ids = programIdsOf(rec);
+  if (!ids.length) return Promise.resolve([]);
+  var mi = rec.movieInfo || {};
+  var gid = mi.movieId || rec.movieId || mi.movieName || '';
+  var merged = [], seen = {};
+  (progCache[gid] || []).forEach(function (s) {
+    var k = s.id + '|' + s.place_id;
+    if (!seen[k]) { seen[k] = 1; merged.push(s); }
+  });
+  function merge(arr) {
+    (arr || []).forEach(function (s) {
+      var k = s.id + '|' + s.place_id;
+      if (!seen[k]) { seen[k] = 1; merged.push(s); }
+    });
+  }
+  var cands = ids.map(function (pid) { return { id: pid }; });
+  return collectScreens([rec], cands, merge, merged).then(function () {
+    if (gid) progCache[gid] = merged;
+    return merged;
+  });
+}
+
 /* ---------- 座位明细解析（对接口返回结构做防御式兼容） ---------- */
 var ROW_KEYS = ['row', 'rowNo', 'row_no', 'rowNum', 'row_num', 'seatRow', 'seat_row', 'rowName', 'row_name', 'rows', 'hang'];
 var COL_KEYS = ['col', 'column', 'colNo', 'col_no', 'colNum', 'col_num', 'seatCol', 'seat_col', 'colName', 'col_name', 'cols', 'lie'];
@@ -2215,7 +2259,7 @@ function showSeatResult(r, res) {
           ? '票务系统里有影片条目，但「' + c.playTime.slice(11, 16) + '」这一场也没有排期，可能尚未开售。'
           : res.alive === false
             ? '票务检索这次整体没有返回结果（可能登录态失效或接口调整），无法判断这两部影片是否存在。'
-            : '票务系统的影片库里没有这两部影片的条目，可能尚未上架（或译名不同）。'),
+            : '票务系统的影片库里没有这两部影片的条目，无法取得这组连场的座位图。'),
         true, { text: '去上一场官网页面 →', href: DETAIL_PAGE + ((c.movieInfo || {}).movieId || c.movieId || '') });
       return;
     }
@@ -2241,9 +2285,10 @@ function showSeatResult(r, res) {
             }
           });
       } else {
-        seatStatusText('没有检索到《' + nm + '》这个片名（已尝试原名、去括号版与原文名）。' +
-          '票务系统可能用的是不同译名，或该片尚未上架，因此无法取得本场（' + tm + ' ' + hall + '）的座位图。' +
-          '影展 / 专场、尚未上架或未开售的场次都会出现这种情况。', true, goApp);
+        seatStatusText('《' + nm + '》的这场（' + tm + ' ' + hall + '）在放映日历里有排期，' +
+          '但票务系统的影片检索入口搜不到这个片名（已尝试原名、去括号版、原文名与片段检索）——' +
+          '票务搜索与 APP 的「观影日历」是两套数据，这不代表影片未上架。' +
+          '请打开资料馆 APP 的「观影日历」，按日期找到这场直接选座购票。', true, goApp);
       }
     } else if (res.fuzzyName) {
       seatStatusText('票务系统里找到了相近条目《' + res.fuzzyName + '》，但该条目下没有本场（' + tm + ' ' + hall + '）的排期，' +
@@ -2356,20 +2401,26 @@ function openSeat(r) {
         if (films) {
           return { nomatch: true, films: films, tried: (out && out.tried) || [], chain: prev || null };
         }
-        return probeSearchAlive().then(function (alive) {
-          if (!alive) {
-            return { nomatch: true, films: 0, alive: false, tried: (out && out.tried) || [], chain: prev || null };
-          }
-          // 精确检索全部为空：用片段检索找相近条目，唯一高分才自动采用
-          return fuzzyCandidates(r).then(function (cands) {
-            var auto = pickAutoCandidate(cands, r);
-            if (!auto) {
-              return { nomatch: true, films: 0, alive: true, candidates: cands, tried: (out && out.tried) || [], chain: prev || null };
+        // 票务影片检索为空：先用官网排片的 movieId 直接取节目明细
+        // （APP 观影日历能看到的场次，票务检索库未必有同名条目，这条链路不经过片名检索）
+        return screensFromProgramIds(r).then(function (pidScreens) {
+          var byPid = matchScreen(r, pidScreens);
+          if (byPid) return fetchSeatOf(byPid);
+          return probeSearchAlive().then(function (alive) {
+            if (!alive) {
+              return { nomatch: true, films: 0, alive: false, tried: (out && out.tried) || [], chain: prev || null };
             }
-            return screensFromCandidate(r, auto).then(function (screens) {
-              var sc = matchScreen(r, screens);
-              if (sc) return fetchSeatOf(sc);
-              return { nomatch: true, films: 1, alive: true, fuzzyName: auto.name, tried: (out && out.tried) || [], chain: prev || null };
+            // 精确检索全部为空：用片段检索找相近条目，唯一高分才自动采用
+            return fuzzyCandidates(r).then(function (cands) {
+              var auto = pickAutoCandidate(cands, r);
+              if (!auto) {
+                return { nomatch: true, films: 0, alive: true, candidates: cands, tried: (out && out.tried) || [], chain: prev || null };
+              }
+              return screensFromCandidate(r, auto).then(function (screens) {
+                var sc = matchScreen(r, screens);
+                if (sc) return fetchSeatOf(sc);
+                return { nomatch: true, films: 1, alive: true, fuzzyName: auto.name, tried: (out && out.tried) || [], chain: prev || null };
+              });
             });
           });
         });
