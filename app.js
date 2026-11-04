@@ -2247,6 +2247,24 @@ function chooseCandidate(r, cand, box) {
     });
 }
 
+/** 影院简称（弹窗副标题与指引文案共用同一套映射） */
+function shortCinema(c) {
+  if (c === '江南分馆影院') return '江南分馆';
+  if (c === '小西天艺术影院') return '小西天';
+  if (c === '百子湾艺术影院') return '百子湾';
+  return c || '影院';
+}
+
+/** APP 观影日历的操作路径（按当前场次动态拼接，不做深链） */
+function appCalendarPath(r) {
+  var t = String(r.playTime || '');
+  var mo = Number(t.slice(5, 7)), day = Number(t.slice(8, 10));
+  var name = (r.movieInfo || {}).movieName || '';
+  return '资料馆 APP：首页 →「观影日历」→ ' + mo + ' 月 ' + day + ' 日 → ' +
+    shortCinema(r.cinemaInfo) + ' → ' + (r.movieHall || '') + ' ' + t.slice(11, 16) +
+    '《' + name + '》→ 选座购票。';
+}
+
 function showSeatResult(r, res) {
   if (res && res.nomatch) {
     var tm = r.playTime.slice(11, 16);
@@ -2288,7 +2306,7 @@ function showSeatResult(r, res) {
         seatStatusText('《' + nm + '》的这场（' + tm + ' ' + hall + '）在放映日历里有排期，' +
           '但票务系统的影片检索入口搜不到这个片名（已尝试原名、去括号版、原文名与片段检索）——' +
           '票务搜索与 APP 的「观影日历」是两套数据，这不代表影片未上架。' +
-          '请打开资料馆 APP 的「观影日历」，按日期找到这场直接选座购票。', true, goApp);
+          '请打开' + appCalendarPath(r), true, goApp);
       }
     } else if (res.fuzzyName) {
       seatStatusText('票务系统里找到了相近条目《' + res.fuzzyName + '》，但该条目下没有本场（' + tm + ' ' + hall + '）的排期，' +
