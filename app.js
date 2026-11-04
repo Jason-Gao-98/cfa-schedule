@@ -1572,31 +1572,37 @@ function loadScreens(recs) {
         if (!seen[k]) { seen[k] = 1; merged.push(s); }
       });
     }
-    function covered() {
-      // 连场时只要其中一场能对上（合并节目通常对应上一场的时间），就不再继续探测
-      return recs.some(function (r) { return !!matchScreen(r, merged); });
-    }
 
-    return series(cands.map(function (c) {
-      return function () {
-        if (covered()) return;
-        var ids = [c.id, c.screen_id].filter(function (v, i, a) { return v && a.indexOf(v) === i; });
-        return series(ids.map(function (pid) {
-          return function () {
-            if (covered()) return;
-            return appPost('v3/movie/getProgramDetailsApp', { program_id: pid, uid: auth.uid })
-              .then(function (p) {
-                if (authExpired(p)) { var e2 = new Error('登录已失效'); e2.auth = true; throw e2; }
-                if (p && p.status === 200 && p.data && p.data.screens) merge(p.data.screens);
-              })['catch'](function (err) { if (err && err.auth) throw err; });
-          };
-        }));
-      };
-    })).then(function () {
+    return collectScreens(recs, cands, merge, merged).then(function () {
       gids.forEach(function (g) { progCache[g] = merged; });   // 连场两场共用缓存
       return { screens: merged, films: films, tried: tried };
     });
   });
+}
+
+/** 按候选影片逐个取节目明细并合并去重；任一场次能对上即提前停止
+ *  screens 为调用方持有的合并数组（供 matchScreen 判断是否已够用） */
+function collectScreens(recs, cands, merge, screens) {
+  function covered() {
+    // 连场时只要其中一场能对上（合并节目通常对应上一场的时间），就不再继续探测
+    return recs.some(function (r) { return !!matchScreen(r, screens); });
+  }
+  return series(cands.map(function (c) {
+    return function () {
+      if (covered()) return;
+      var ids = [c.id, c.screen_id].filter(function (v, i, a) { return v && a.indexOf(v) === i; });
+      return series(ids.map(function (pid) {
+        return function () {
+          if (covered()) return;
+          return appPost('v3/movie/getProgramDetailsApp', { program_id: pid, uid: auth.uid })
+            .then(function (p) {
+              if (authExpired(p)) { var e2 = new Error('登录已失效'); e2.auth = true; throw e2; }
+              if (p && p.status === 200 && p.data && p.data.screens) merge(p.data.screens);
+            })['catch'](function (err) { if (err && err.auth) throw err; });
+        };
+      }));
+    };
+  }));
 }
 
 function fetchSeatOf(screen) {
@@ -1622,6 +1628,139 @@ function fetchSeatOf(screen) {
       if (!soldKnown) sold = seats.filter(function (s) { return s.state === 'sold'; }).length;
     }
     return { seat: seat, sold: sold, seats: seats };
+  });
+}
+
+/* ---------- 片段检索 + 相似度兜底（仅在精确检索全部为空时触发） ---------- */
+var FUZZY_CACHE = {};
+
+/** 归一化片名：去括号及其内容、去制式词、去标点空白并转小写，用于相似度比较 */
+function normKey(s) {
+  return String(s || '').toLowerCase()
+    .replace(/[（(【\[][^）)】\]]*[）)】\]]/g, '')
+    .replace(/[《》〈〉「」『』【】\[\]()（）]/g, '')
+    .replace(/(4k|2k|imax|3d|dcp|修复版|修复)/g, '')
+    .replace(/[\s\u3000]/g, '')
+    .replace(/[，。、！？：；·•\-—–_'’"“”,.!?:;\\/|]/g, '');
+}
+
+function bigramSet(s) {
+  var set = {}, out = [], i;
+  for (i = 0; i < s.length - 1; i++) {
+    var g = s.substr(i, 2);
+    if (!set[g]) { set[g] = 1; out.push(g); }
+  }
+  return out;
+}
+
+/** 片名相似度（Dice 二元组系数，0~1） */
+function similarity(a, b) {
+  var x = normKey(a), y = normKey(b);
+  if (!x || !y) return 0;
+  if (x === y) return 1;
+  if (x.length < 2 || y.length < 2) return 0;
+  var A = bigramSet(x), B = bigramSet(y), hit = 0;
+  A.forEach(function (g) { if (B.indexOf(g) >= 0) hit++; });
+  return 2 * hit / (A.length + B.length);
+}
+
+/** 片段检索词：中文取前 2 字、后 2 字；外文取长度 ≥5 的关键词（跳过冠词介词） */
+function segmentsOf(rec) {
+  var mi = rec.movieInfo || {};
+  var name = String(mi.movieName || ''), en = String(mi.englishName || '');
+  var out = [];
+  function add(q) { q = String(q || '').trim(); if (q && out.indexOf(q) < 0) out.push(q); }
+  var cn = normKey(name);
+  if (cn.length >= 3) {
+    add(name.substr(0, 2));
+    add(name.substr(name.length - 2));
+  }
+  en.split(/[^A-Za-z0-9\u00C0-\u00FF]+/).forEach(function (w) {
+    if (w.length >= 5 && !/^(the|and|of|les|des|pour|with)$/i.test(w)) add(w.toLowerCase());
+  });
+  return out.slice(0, 4);
+}
+
+function candName(c) {
+  return String(c.cn_name || c.name || c.movieName || '');
+}
+
+/** 片段检索 → 归一化相似度打分；结果按分数倒序，最多 6 条，带缓存 */
+function fuzzyCandidates(rec) {
+  var key = recKey(rec);
+  if (FUZZY_CACHE[key]) return Promise.resolve(FUZZY_CACHE[key]);
+  var segs = segmentsOf(rec);
+  if (!segs.length) return Promise.resolve([]);
+  var found = [], seenIds = {};
+  return series(segs.map(function (q) {
+    return function () {
+      return appPost('v3/movie/searchMovie', { cn_name: q }).then(function (j) {
+        if (authExpired(j)) { var e = new Error('登录已失效'); e.auth = true; throw e; }
+        ((j && j.data && j.data.list) || []).forEach(function (c) {
+          var k = (c.id || '') + '|' + (c.screen_id || '');
+          if (seenIds[k]) return;
+          seenIds[k] = 1;
+          found.push(c);
+        });
+      })['catch'](function (err) { if (err && err.auth) throw err; });
+    };
+  })).then(function () {
+    var mi = rec.movieInfo || {};
+    var en = String(mi.englishName || '');
+    var out = found.map(function (c) {
+      var nm = candName(c);
+      var s = similarity(nm, mi.movieName || '');
+      if (en) {
+        var alt = String(c.en_name || c.english_name || c.original_name || c.enName || '');
+        if (alt) s = Math.max(s, similarity(alt, en));
+      }
+      return {
+        raw: c,
+        name: nm,
+        year: String(c.years_content || c.year || c.movie_year || ''),
+        min: Number(c.duration || c.minute || c.movie_minute || 0) || 0,
+        score: s
+      };
+    }).filter(function (c) { return c.name && c.score >= 0.5; });
+    out.sort(function (a, b) { return b.score - a.score; });
+    out = out.slice(0, 6);
+    FUZZY_CACHE[key] = out;
+    return out;
+  });
+}
+
+/** 唯一高分、且年份/片长不冲突时自动采用；出现多个高分候选一律交给用户点选 */
+function pickAutoCandidate(cands, rec) {
+  if (!cands || !cands.length) return null;
+  if (cands[0].score < 0.8) return null;
+  if (cands.length > 1 && cands[1].score >= 0.8) return null;
+  var mi = rec.movieInfo || {};
+  var c = cands[0];
+  var cy = Number(c.year), my = Number(mi.movieTime);
+  if (cy && my && Math.abs(cy - my) > 1) return null;   // 年份不符 → 只列为候选
+  var cm = Number(c.min), mm = Number(mi.movieMinute);
+  if (cm && mm && Math.abs(cm - mm) > 15) return null;  // 片长差太多 → 防跨片错配
+  return c;
+}
+
+/** 用选定的票务候选条目取场次明细（复用 progCache） */
+function screensFromCandidate(rec, cand) {
+  var mi = rec.movieInfo || {};
+  var gid = mi.movieId || rec.movieId || mi.movieName || '';
+  var merged = [], seen = {};
+  (progCache[gid] || []).forEach(function (s) {
+    var k = s.id + '|' + s.place_id;
+    if (!seen[k]) { seen[k] = 1; merged.push(s); }
+  });
+  function merge(arr) {
+    (arr || []).forEach(function (s) {
+      var k = s.id + '|' + s.place_id;
+      if (!seen[k]) { seen[k] = 1; merged.push(s); }
+    });
+  }
+  return collectScreens([rec], [cand.raw], merge, merged).then(function () {
+    if (gid) progCache[gid] = merged;
+    return merged;
   });
 }
 
@@ -2008,6 +2147,62 @@ function fitSeatMap() {
   }
 }
 
+/** 片段检索命中多个相近条目：列出来让用户点选，不自动采用 */
+function renderSeatCandidates(r, cands) {
+  var st = $('seatStatus');
+  st.hidden = false;
+  st.className = 'seat-status cands';
+  st.textContent = '';
+
+  var tip = document.createElement('div');
+  tip.className = 'seat-cand-tip';
+  tip.textContent = '票务系统里没有完全同名的条目，但检索到这几部相近的影片。请确认是哪一部：';
+  st.appendChild(tip);
+
+  var box = document.createElement('div');
+  box.className = 'seat-cands';
+  cands.forEach(function (c) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'seat-cand';
+    b.textContent = c.name + (c.year ? '（' + c.year + '）' : '') + ' · 相近度 ' + Math.round(c.score * 100) + '%';
+    b.onclick = function () { chooseCandidate(r, c, box); };
+    box.appendChild(b);
+  });
+  st.appendChild(box);
+
+  var note = document.createElement('div');
+  note.className = 'seat-cand-tip';
+  note.textContent = '如果都不是，说明票务系统用了完全不同的名字，可到 APP 内搜索购票。';
+  st.appendChild(note);
+}
+
+/** 用户点选相近条目后，用该条目查本场座位 */
+function chooseCandidate(r, cand, box) {
+  var btns = box ? box.getElementsByTagName('button') : [];
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+  seatStatusText('正在按「' + cand.name + '」查询本场座位…');
+  screensFromCandidate(r, cand)
+    .then(function (screens) {
+      var sc = matchScreen(r, screens);
+      if (sc) return fetchSeatOf(sc);
+      return verifyAuth().then(function (ok) {
+        if (!ok) { var e = new Error('登录已失效'); e.auth = true; throw e; }
+        return { nomatch: true, films: 1, alive: true, fuzzyName: cand.name };
+      });
+    })
+    .then(function (res) { showSeatResult(r, res || {}); })
+    ['catch'](function (err) {
+      if (err && err.auth) {
+        closeSeat();
+        clearAuth();
+        openLogin('登录已失效，请重新登录');
+        return;
+      }
+      showSeatResult(r, { error: (err && err.message) || '网络错误' });
+    });
+}
+
 function showSeatResult(r, res) {
   if (res && res.nomatch) {
     var tm = r.playTime.slice(11, 16);
@@ -2022,6 +2217,10 @@ function showSeatResult(r, res) {
             ? '票务检索这次整体没有返回结果（可能登录态失效或接口调整），无法判断这两部影片是否存在。'
             : '票务系统的影片库里没有这两部影片的条目，可能尚未上架（或译名不同）。'),
         true, { text: '去上一场官网页面 →', href: DETAIL_PAGE + ((c.movieInfo || {}).movieId || c.movieId || '') });
+      return;
+    }
+    if (res.candidates && res.candidates.length) {
+      renderSeatCandidates(r, res.candidates);
       return;
     }
     if (!res.films) {
@@ -2046,6 +2245,10 @@ function showSeatResult(r, res) {
           '票务系统可能用的是不同译名，或该片尚未上架，因此无法取得本场（' + tm + ' ' + hall + '）的座位图。' +
           '影展 / 专场、尚未上架或未开售的场次都会出现这种情况。', true, goApp);
       }
+    } else if (res.fuzzyName) {
+      seatStatusText('票务系统里找到了相近条目《' + res.fuzzyName + '》，但该条目下没有本场（' + tm + ' ' + hall + '）的排期，' +
+        '可能尚未开售。',
+        true, { text: '去官网该片页面（含 APP 购票入口）→', href: DETAIL_PAGE + ((r.movieInfo || {}).movieId || r.movieId || '') });
     } else {
       seatStatusText('影片已在票务系统中，但未查到本场次（' + tm + ' ' + hall + '）的排期，' +
         '可能尚未开售，或该场次只在淘票票 / 线下渠道售票。',
@@ -2154,7 +2357,21 @@ function openSeat(r) {
           return { nomatch: true, films: films, tried: (out && out.tried) || [], chain: prev || null };
         }
         return probeSearchAlive().then(function (alive) {
-          return { nomatch: true, films: 0, alive: alive, tried: (out && out.tried) || [], chain: prev || null };
+          if (!alive) {
+            return { nomatch: true, films: 0, alive: false, tried: (out && out.tried) || [], chain: prev || null };
+          }
+          // 精确检索全部为空：用片段检索找相近条目，唯一高分才自动采用
+          return fuzzyCandidates(r).then(function (cands) {
+            var auto = pickAutoCandidate(cands, r);
+            if (!auto) {
+              return { nomatch: true, films: 0, alive: true, candidates: cands, tried: (out && out.tried) || [], chain: prev || null };
+            }
+            return screensFromCandidate(r, auto).then(function (screens) {
+              var sc = matchScreen(r, screens);
+              if (sc) return fetchSeatOf(sc);
+              return { nomatch: true, films: 1, alive: true, fuzzyName: auto.name, tried: (out && out.tried) || [], chain: prev || null };
+            });
+          });
         });
       });
     })
