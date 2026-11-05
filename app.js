@@ -2752,12 +2752,15 @@ $('loginPassword').addEventListener('keydown', function (e) {
  * 与排片数据共用 fetchAmount / fetchDay / mergeArchive / priceOf，
  * 加载走独立缓存，不打断页面当前的查询状态。
  * ========================================================= */
-var PLAN_STORE = 'cfa_plan_v1';
+var PLAN_STORE = 'cfa_plan_v1';          // 旧版：单列表（首次启动自动迁移）
+var PLAN_STORE_V2 = 'cfa_plan_v2';       // 新版：按月份分档 { v:1, months:{ 'YYYY-MM': { items, updatedAt } } }
 var PLAN_CINEMA = '江南分馆影院';
 var PLAN_BUDGET = 500;
 
 var plan = {
-  items: [],
+  months: {},         // 'YYYY-MM' -> { items: [], updatedAt: 毫秒 }
+  month: '',          // 当前查看的月份 'YYYY-MM'
+  items: [],          // 当前月份的场次（plan.months[month].items 的别名）
   tab: 'add',
   cache: {},          // 'YYYY-MM' -> {amount, days, done}
   candidates: null,   // 已构建的候选场次
@@ -2770,6 +2773,22 @@ var plan = {
 
 function planKeyOf(o) {
   return String(o.t || '') + '|' + String(o.c || '') + '|' + String(o.h || '') + '|' + normName(o.n);
+}
+
+/** 场次所属月份（YYYY-MM，按开场时间；北京时间的时间串本身即本地日期） */
+function planMonthOf(it) { return String(it.t || '').slice(0, 7); }
+function planIsMonthKey(k) { return /^\d{4}-\d{2}$/.test(String(k)); }
+
+function planMonthLabel(k) {
+  var y = String(k).slice(0, 4), m = Number(String(k).slice(5, 7));
+  // 跨年时带上年份，避免「1 月」分不清是哪一年
+  return (y === String(cstNow().getFullYear()) ? m + ' 月' : y + ' 年 ' + m + ' 月');
+}
+function planUpdatedText(ts) {
+  var n = Number(ts) || 0;
+  if (!n) return '';
+  var d = new Date(n + new Date(n).getTimezoneOffset() * 60000 + 8 * 3600000);
+  return (d.getMonth() + 1) + '月' + d.getDate() + '日';
 }
 
 /** 存档快照 -> 兼容 priceOf / 渲染的排片记录 */
@@ -2814,53 +2833,112 @@ function planSnapshot(r) {
   };
 }
 
+/** 存档里的单条记录 -> 规范化的计划项；无效返回 null（不抛错） */
+function normalizePlanItem(o) {
+  if (!o || !o.t || !o.n) return null;
+  var it = {
+    t: String(o.t), c: o.c || PLAN_CINEMA, h: o.h || '', n: String(o.n),
+    en: o.en || '', y: o.y || '', min: Number(o.min) || 0, note: o.note || '',
+    extra: !!o.extra, mid: o.mid || '',
+    price: Number(o.price) || 0, priceMax: Number(o.priceMax) || 0, priceNote: o.priceNote || ''
+  };
+  it.k = planKeyOf(it);
+  return it;
+}
+
+/** 取某月档（不存在时创建，但不落盘） */
+function planArch(mk) {
+  if (!plan.months[mk]) plan.months[mk] = { items: [], updatedAt: 0 };
+  return plan.months[mk];
+}
+
+/** 切换到某个月份视图；plan.items 始终指向该月档的数组 */
+function setPlanMonth(mk) {
+  plan.month = planIsMonthKey(mk) ? mk : planMonthKeys()[0];
+  var arch = plan.months[plan.month];
+  plan.items = arch ? arch.items : [];
+}
+
+/** 全部月份合计场次（浮动按钮 / 页签角标用） */
+function planTotalCount() {
+  var n = 0;
+  Object.keys(plan.months).forEach(function (k) { n += (plan.months[k].items || []).length; });
+  return n;
+}
+
 function planHas(k) {
-  for (var i = 0; i < plan.items.length; i++) {
-    if (plan.items[i].k === k) return true;
+  var keys = Object.keys(plan.months);
+  for (var i = 0; i < keys.length; i++) {
+    var arr = plan.months[keys[i]].items || [];
+    for (var j = 0; j < arr.length; j++) if (arr[j].k === k) return true;
   }
   return false;
 }
 
-function loadPlanStore() {
+/** 旧版单列表 -> 按月分档（只在没有 v2 数据时执行一次，幂等） */
+function migrateLegacyPlan() {
   var raw = null;
   try { raw = localStorage.getItem(PLAN_STORE); } catch (e) { return; }
   if (!raw) return;
-  try {
-    var arr = JSON.parse(raw);
-    if (!Array.isArray(arr)) return;
-    plan.items = arr.filter(function (o) {
-      return o && o.t && o.n;
-    }).map(function (o) {
-      var it = {
-        t: String(o.t), c: o.c || PLAN_CINEMA, h: o.h || '', n: String(o.n),
-        en: o.en || '', y: o.y || '', min: Number(o.min) || 0, note: o.note || '',
-        extra: !!o.extra, mid: o.mid || '',
-        price: Number(o.price) || 0, priceMax: Number(o.priceMax) || 0, priceNote: o.priceNote || ''
-      };
-      it.k = planKeyOf(it);
-      return it;
-    });
-    // 去重（历史数据可能含重复键）
-    var seen = {}, uniq = [];
-    plan.items.forEach(function (it) {
-      if (seen[it.k]) return;
-      seen[it.k] = 1;
-      uniq.push(it);
-    });
-    plan.items = uniq;
-  } catch (e) { plan.items = []; }
+  var arr = null;
+  try { arr = JSON.parse(raw); } catch (e) { return; }
+  if (!Array.isArray(arr)) return;
+  arr.forEach(function (o) {
+    var it = normalizePlanItem(o);
+    if (!it) return;
+    var mk = planMonthOf(it);
+    if (!planIsMonthKey(mk)) return;
+    var arch = planArch(mk);
+    var exists = false;
+    for (var i = 0; i < arch.items.length; i++) if (arch.items[i].k === it.k) { exists = true; break; }
+    if (!exists) arch.items.push(it);
+  });
+  var now = Date.now();
+  Object.keys(plan.months).forEach(function (mk) {
+    if (!plan.months[mk].updatedAt) plan.months[mk].updatedAt = now;
+  });
+  try { localStorage.removeItem(PLAN_STORE); } catch (e) {}
+  try { localStorage.setItem(PLAN_STORE_V2, JSON.stringify({ v: 1, months: plan.months })); } catch (e) {}
 }
 
-function savePlanStore() {
+function loadPlanStore() {
+  plan.months = {};
+  var raw = null;
+  try { raw = localStorage.getItem(PLAN_STORE_V2); } catch (e) { raw = null; }
+  if (raw) {
+    // 有 v2 数据就以它为准（即使损坏也不回灌旧列表，避免重复）
+    try {
+      var obj = JSON.parse(raw);
+      if (obj && obj.months && typeof obj.months === 'object') {
+        Object.keys(obj.months).forEach(function (mk) {
+          if (!planIsMonthKey(mk)) return;
+          var mo = obj.months[mk] || {};
+          var src = Array.isArray(mo.items) ? mo.items : [];
+          var items = [];
+          src.forEach(function (o) {
+            var it = normalizePlanItem(o);
+            if (!it) return;
+            var dup = false;
+            for (var i = 0; i < items.length; i++) if (items[i].k === it.k) { dup = true; break; }
+            if (!dup) items.push(it);
+          });
+          plan.months[mk] = { items: items, updatedAt: Number(mo.updatedAt) || 0 };
+        });
+      }
+    } catch (e) { plan.months = {}; }
+  } else {
+    migrateLegacyPlan();
+  }
+  setPlanMonth(planMonthKeys()[0]);
+}
+
+/** 落盘；touched 为本次变更的月份（用于写 updatedAt） */
+function savePlanStore(touched) {
+  if (touched && plan.months[touched]) plan.months[touched].updatedAt = Date.now();
   try {
-    localStorage.setItem(PLAN_STORE, JSON.stringify(plan.items.map(function (it) {
-      return {
-        t: it.t, c: it.c, h: it.h, n: it.n, en: it.en, y: it.y, min: it.min,
-        note: it.note, extra: it.extra, mid: it.mid,
-        price: it.price, priceMax: it.priceMax, priceNote: it.priceNote
-      };
-    })));
+    localStorage.setItem(PLAN_STORE_V2, JSON.stringify({ v: 1, months: plan.months }));
   } catch (e) { /* 隐私模式等场景写入失败时静默 */ }
+  setPlanMonth(plan.month);
   renderPlanFab();
 }
 
@@ -3032,13 +3110,14 @@ function planCandidatesList() {
 
 /* ---------- 渲染 ---------- */
 function renderPlanFab() {
+  var total = planTotalCount();
   var el = $('planFabCount');
-  el.textContent = plan.items.length;
-  el.hidden = !plan.items.length;
+  el.textContent = total;
+  el.hidden = !total;
   var eh = $('planFabCountHead');
   if (eh) {
-    eh.textContent = plan.items.length;
-    eh.hidden = !plan.items.length;
+    eh.textContent = total;
+    eh.hidden = !total;
   }
 }
 
@@ -3046,9 +3125,34 @@ function renderPlanTabs() {
   Array.prototype.forEach.call($('planTabs').querySelectorAll('.tab'), function (t) {
     t.classList.toggle('is-active', t.dataset.planTab === plan.tab);
   });
+  var total = planTotalCount();
   var n = $('planTabCount');
-  n.textContent = plan.items.length;
-  n.hidden = !plan.items.length;
+  n.textContent = total;
+  n.hidden = !total;
+}
+
+/** 月份切换可选范围：当月 + 下月，再并入所有已有场次的月份档 */
+function planAvailableMonths() {
+  var keys = planMonthKeys(), out = {};
+  keys.forEach(function (k) { out[k] = 1; });
+  Object.keys(plan.months).forEach(function (k) {
+    if ((plan.months[k].items || []).length) out[k] = 1;
+  });
+  return Object.keys(out).sort();
+}
+
+/** 月份切换条：显示每月场次数，当前月高亮 */
+function renderPlanMonths() {
+  var box = $('planMonths');
+  if (!box) return;
+  box.innerHTML = planAvailableMonths().map(function (k) {
+    var arch = plan.months[k];
+    var n = arch ? arch.items.length : 0;
+    var on = k === plan.month;
+    return '<button type="button" class="plan-mtab' + (on ? ' is-active' : '') + '" role="tab"' +
+      ' aria-selected="' + (on ? 'true' : 'false') + '" data-m="' + esc(k) + '">' +
+      planMonthLabel(k) + (n ? '<i>' + n + '</i>' : '') + '</button>';
+  }).join('');
 }
 
 function renderPlanSummary() {
@@ -3071,9 +3175,12 @@ function renderPlanSummary() {
   el.hidden = !html;
 }
 
-function planDateHead(d, count) {
+function planDateHead(d, count, halls) {
+  var hallTxt = halls && halls.length
+    ? '<em class="plan-date-halls">' + esc(halls.join('、')) + '</em>'
+    : '';
   return '<div class="plan-date-head"><b>' + mdTextOf(d) + '</b><span>' + WEEK[weekdayOf(d)] + '</span>' +
-    (count ? '<em>' + count + ' 场</em>' : '') + '</div>';
+    (count ? '<em>' + count + ' 场</em>' : '') + hallTxt + '</div>';
 }
 
 /** 厅号排序：有数字的按数字升序，无数字厅名排最后（同类再按名称） */
@@ -3197,12 +3304,16 @@ function renderPlanCandidates() {
 function renderPlanMine() {
   var items = planSorted();
   var tot = planTotals(items);
+  var arch = plan.months[plan.month];
+  var upd = planUpdatedText(arch ? arch.updatedAt : 0);
   $('planTotal').innerHTML = items.length
-    ? '<b>共 ' + items.length + ' 场</b> · 合计 <b>' + esc(planTotalText(tot)) + '</b>' +
-      (tot.unknown ? ' · <span class="plan-pending">' + tot.unknown + ' 场待定</span>' : '')
+    ? '<b>共 ' + items.length + ' 场</b> · 合计 <b class="plan-total-amt">' + esc(planTotalText(tot)) + '</b>' +
+      (tot.unknown ? ' · <span class="plan-pending">' + tot.unknown + ' 场待定</span>' : '') +
+      (upd ? ' · <span class="plan-updated">更新于 ' + esc(upd) + '</span>' : '')
     : '';
   if (!items.length) {
-    $('planList').innerHTML = '<div class="plan-empty">还没有加入场次。切到「选择场次」挑几场吧。<br>' +
+    $('planList').innerHTML = '<div class="plan-empty">「' + esc(planMonthLabel(plan.month)) +
+      '」还没有加入场次。切到「选择场次」挑几场吧。<br>' +
       '<span class="muted">仅江南分馆 · 当月与下月</span></div>';
     return;
   }
@@ -3216,7 +3327,16 @@ function renderPlanMine() {
   });
 
   $('planList').innerHTML = groups.map(function (g) {
-    return planDateHead(g.d, g.items.length) + g.items.map(function (it) {
+    // 厅号统一放到日期组头上：同日同厅只显示一个厅名，跨厅按厅号顺序用「、」串联
+    var halls = [];
+    g.items.forEach(function (it) {
+      var h = String(it.h || '').trim() || '未标注影厅';
+      if (halls.indexOf(h) < 0) halls.push(h);
+    });
+    halls.sort(function (a, b) {
+      return (planHallRank(a) - planHallRank(b)) || a.localeCompare(b, 'zh');
+    });
+    return planDateHead(g.d, g.items.length, halls) + g.items.map(function (it) {
       var p = planPriceOf(it);
       var bad = !!confKeys[it.k];
       var endTxt = planEndText(it);
@@ -3225,9 +3345,6 @@ function renderPlanMine() {
           '<span>– ' + esc(endTxt) + '</span></div>' +
         '<div class="plan-title"><span class="plan-name">《' + esc(it.n) + '》</span>' +
           (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
-        '<div class="plan-meta">' + esc(it.h || '未标注影厅') +
-          (it.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') +
-          (it.min ? ' · ' + it.min + ' 分钟' : ' · 片长未知') + '</div>' +
         '<div class="plan-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</div>' +
         '<button type="button" class="plan-del" data-k="' + esc(it.k) + '" aria-label="移除该场次">&times;</button>' +
       '</div>';
@@ -3238,6 +3355,7 @@ function renderPlanMine() {
 function renderPlan() {
   renderPlanFab();
   renderPlanTabs();
+  renderPlanMonths();
   renderPlanSummary();
   $('planAddPane').hidden = plan.tab !== 'add';
   $('planMinePane').hidden = plan.tab !== 'mine';
@@ -3266,15 +3384,15 @@ function planToast(msg) {
 /* ---------- 导出 PNG（Canvas 自绘，无外部依赖） ---------- */
 function exportPlanPng() {
   var items = planSorted();
-  if (!items.length) { planToast('计划为空，先加入场次再导出'); return; }
+  if (!items.length) { planToast(planMonthLabel(plan.month) + '计划为空，先加入场次再导出'); return; }
   var conf = planConflicts(items);
   var confKeys = {};
   conf.forEach(function (p) { confKeys[p[0].k] = 1; confKeys[p[1].k] = 1; });
   var tot = planTotals(items);
 
-  var keys = planMonthKeys();
-  var rangeText = '仅江南分馆 · ' + keys[0].slice(0, 4) + ' 年 ' + Number(keys[0].slice(5, 7)) + ' 月 – ' +
-    keys[1].slice(0, 4) + ' 年 ' + Number(keys[1].slice(5, 7)) + ' 月';
+  var mk = plan.month;
+  var rangeText = '仅江南分馆 · ' + mk.slice(0, 4) + ' 年 ' + Number(mk.slice(5, 7)) + ' 月';
+  var titleText = Number(mk.slice(5, 7)) + ' 月观影计划';
 
   var W = 620, S = 2, PAD = 40, FONT = '"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif';
   var canvas = document.createElement('canvas');
@@ -3354,7 +3472,7 @@ function exportPlanPng() {
   setFont(28, 'bold');
   ctx.fillStyle = '#22242b';
   ctx.textBaseline = 'alphabetic';
-  ctx.fillText('观影计划', PAD, yTitle);
+  ctx.fillText(titleText, PAD, yTitle);
   setFont(11.5);
   ctx.fillStyle = '#767c8a';
   var genText = '生成于 ' + todayStr();
@@ -3452,18 +3570,18 @@ function exportPlanPng() {
   ctx.stroke();
   setFont(10.5);
   ctx.fillStyle = '#9aa0ad';
-  ctx.fillText('中国电影资料馆 · 排片查询 · 观影计划（仅江南分馆 / 当月与下月）', PAD, footerTop + 18);
+  ctx.fillText('中国电影资料馆 · 排片查询 · ' + titleText + '（仅江南分馆）', PAD, footerTop + 18);
   ctx.fillText('价格为站内已登记票价，实际以官方购票页为准。', PAD, footerTop + 34);
 
   try {
     var url = canvas.toDataURL('image/png');
     var a = document.createElement('a');
     a.href = url;
-    a.download = '观影计划_' + todayStr() + '.png';
+    a.download = '观影计划_' + mk + '.png';
     document.body.appendChild(a);
     a.click();
     setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); }, 0);
-    planToast('已导出图片：' + W * S + ' × ' + Math.round(H * S) + ' px');
+    planToast('已导出「' + planMonthLabel(mk) + '」：' + W * S + ' × ' + Math.round(H * S) + ' px');
   } catch (e) {
     planToast('导出失败：' + (e && e.message ? e.message : '浏览器不支持'));
   }
@@ -3473,7 +3591,9 @@ function exportPlanPng() {
 function openPlan() {
   $('planModal').hidden = false;
   document.body.classList.add('modal-open');
-  plan.tab = plan.items.length ? 'mine' : 'add';
+  // 每次打开先回到当月（默认视图），再看该月是否已有场次决定落在哪个页签
+  setPlanMonth(planMonthKeys()[0]);
+  plan.tab = planTotalCount() ? 'mine' : 'add';
   renderPlan();
   planLoadAll();
   setTimeout(function () { $('planSearch').focus(); }, 30);
@@ -3520,6 +3640,16 @@ $('planTabs').addEventListener('click', function (e) {
   renderPlan();
 });
 
+var planMonthsEl = $('planMonths');
+if (planMonthsEl) planMonthsEl.addEventListener('click', function (e) {
+  var btn = e.target.closest ? e.target.closest('.plan-mtab') : null;
+  if (!btn) return;
+  var mk = btn.getAttribute('data-m');
+  if (!planIsMonthKey(mk) || mk === plan.month) return;
+  setPlanMonth(mk);
+  renderPlan();
+});
+
 var planSearchTimer;
 $('planSearch').addEventListener('input', function () {
   var v = this.value.trim();
@@ -3535,9 +3665,11 @@ $('planCandidates').addEventListener('click', function (e) {
   if (!r) return;
   if (planHas(k)) { planToast('该场次已在计划中'); renderPlan(); return; }
   var snap = planSnapshot(r);
-  plan.items.push(snap);
-  savePlanStore();
-  planToast('已加入：' + mdTextOf(String(r.playTime).slice(0, 10)) + ' ' +
+  var mk = planMonthOf(snap);
+  if (!planIsMonthKey(mk)) { planToast('该场次缺少有效日期，无法加入计划'); return; }
+  planArch(mk).items.push(snap);
+  savePlanStore(mk);
+  planToast('已加入「' + planMonthLabel(mk) + '」：' + mdTextOf(String(r.playTime).slice(0, 10)) + ' ' +
     String(r.playTime).slice(11, 16) + '《' + (r.movieInfo || {}).movieName + '》');
   renderPlan();
 });
@@ -3546,18 +3678,28 @@ $('planList').addEventListener('click', function (e) {
   var btn = e.target.closest ? e.target.closest('.plan-del') : null;
   if (!btn) return;
   var k = btn.getAttribute('data-k');
-  plan.items = plan.items.filter(function (it) { return it.k !== k; });
-  savePlanStore();
+  var mk = plan.month;
+  var arch = plan.months[mk];
+  if (arch) arch.items = arch.items.filter(function (it) { return it.k !== k; });
+  savePlanStore(mk);
   renderPlan();
-  planToast('已从计划中移除');
+  planToast('已从「' + planMonthLabel(mk) + '」计划中移除');
 });
 
 $('planClear').addEventListener('click', function () {
-  if (!plan.items.length) { planToast('计划已经是空的'); return; }
-  plan.items = [];
-  savePlanStore();
+  var mk = plan.month;
+  var n = plan.items.length;
+  if (!n) { planToast(planMonthLabel(mk) + '计划已经是空的'); return; }
+  var others = Object.keys(plan.months).filter(function (k) {
+    return k !== mk && (plan.months[k].items || []).length;
+  });
+  var msg = '确定清空「' + planMonthLabel(mk) + '」的 ' + n + ' 场观影计划吗？' +
+    (others.length ? '\n仅清空本月，' + others.map(planMonthLabel).join('、') + '的计划会保留。' : '');
+  if (typeof confirm === 'function' && !confirm(msg)) return;
+  planArch(mk).items = [];
+  savePlanStore(mk);
   renderPlan();
-  planToast('已清空观影计划');
+  planToast('已清空「' + planMonthLabel(mk) + '」观影计划');
 });
 
 $('planExport').addEventListener('click', exportPlanPng);
