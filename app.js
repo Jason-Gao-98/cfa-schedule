@@ -3505,7 +3505,9 @@ function planLoadAll() {
 }
 
 $('planBtn').addEventListener('click', openPlan);
-$('planBtnHead').addEventListener('click', openPlan);
+// 页头入口为移动端新增元素；若页面 HTML 尚未更新（缓存旧版）则跳过，避免中断后续初始化
+var planBtnHeadEl = $('planBtnHead');
+if (planBtnHeadEl) planBtnHeadEl.addEventListener('click', openPlan);
 $('planClose').addEventListener('click', closePlan);
 $('planModal').addEventListener('click', function (e) {
   if (e.target === this) closePlan();
