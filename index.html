@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>中国电影资料馆 · 排片查询</title>
 <meta name="description" content="查询中国电影资料馆（北京小西天、百子湾艺术影院与苏州江南分馆）排片表，支持跨月连续查询。">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/logo-cfa-32.png">
@@ -21,6 +21,9 @@
         <p>排片查询 · 北京 / 江南分馆</p>
       </div>
     </div>
+    <button type="button" class="head-plan-btn" id="planBtnHead" aria-haspopup="dialog" aria-controls="planModal">
+      观影计划<span class="head-plan-count" id="planFabCountHead" hidden>0</span>
+    </button>
     <nav class="header-links">
       <a href="changelog.html">更新日志</a>
       <a href="https://www.cfa.org.cn/eportal/ui?pageId=14b6b67fc1704838b760c4786a5fb46d" target="_blank" rel="noopener">官网放映日历</a>
