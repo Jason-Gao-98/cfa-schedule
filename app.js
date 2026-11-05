@@ -3118,7 +3118,7 @@ function renderPlanCandidates() {
           (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
         '<span class="pc-body"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
           (mi.note ? '<span class="pc-note">' + esc(mi.note) + '</span>' : '') +
-          (r.extra ? '<span class="pc-meta">公众号 · 淘票票</span>' : '') + '</span>' +
+          (r.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') + '</span>' +
         '<span class="pc-info">' +
           '<span class="pc-hall">' + esc(hall || '影厅未知') + '</span>' +
           '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
@@ -3162,7 +3162,7 @@ function renderPlanMine() {
           '<div class="plan-title">《' + esc(it.n) + '》' +
             (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
           '<div class="plan-meta">' + esc(it.h || '未标注影厅') +
-            ' · ' + (it.extra ? '公众号 · 淘票票' : '官网') +
+            (it.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') +
             (it.min ? ' · ' + it.min + ' 分钟' : ' · 片长未知') + '</div>' +
         '</div>' +
         '<div class="plan-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</div>' +
