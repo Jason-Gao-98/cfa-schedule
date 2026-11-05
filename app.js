@@ -3044,9 +3044,12 @@ function renderPlanCandidates() {
         '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
           (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
         '<span class="pc-body"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
-          '<span class="pc-meta">' + esc(hall) + (r.extra ? ' · 公众号 · 淘票票' : '') +
-            ' · ' + esc(planPriceText(p)) + '</span>' +
-          (mi.note ? '<span class="pc-note">' + esc(mi.note) + '</span>' : '') + '</span>' +
+          (mi.note ? '<span class="pc-note">' + esc(mi.note) + '</span>' : '') +
+          (r.extra ? '<span class="pc-meta">公众号 · 淘票票</span>' : '') + '</span>' +
+        '<span class="pc-info">' +
+          '<span class="pc-hall">' + esc(hall || '影厅未知') + '</span>' +
+          '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
+        '</span>' +
         '<span class="pc-add">' + (added ? '已加入' : '加入') + '</span>' +
       '</button>';
     }).join('');
