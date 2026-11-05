@@ -3070,6 +3070,41 @@ function planDateHead(d) {
   return '<div class="plan-date-head"><b>' + mdTextOf(d) + '</b><span>' + WEEK[weekdayOf(d)] + '</span></div>';
 }
 
+/** 厅号排序：有数字的按数字升序，无数字厅名排最后（同类再按名称） */
+function planHallRank(h) {
+  var m = String(h || '').match(/\d+/);
+  return m ? Number(m[0]) : Number.MAX_SAFE_INTEGER;
+}
+
+/** 拆出紧跟片名的制式标签（4K / IMAX / 3D 等）与剩余备注（连场、映后交流等） */
+function planFormatOf(r) {
+  var mi = r.movieInfo || {};
+  var FORMAT_WORD = /^(4K|IMAX|3D|HFR|杜比全景声|杜比|ATMOS)$/i;
+  var tags = [];
+  (r.node || []).forEach(function (x) {
+    var t = String(x || '').trim();
+    if (t && /4K|IMAX|3D|HFR|杜比|ATMOS|Dolby/i.test(t)) tags.push(t);
+  });
+  var note = String(mi.note || '').trim();
+  if (note) {
+    var parts = note.split(/\s*(?:·|｜|\||，|,|；|;)\s*/);
+    var lead = [];
+    while (parts.length && FORMAT_WORD.test(String(parts[0]).trim())) {
+      lead.push(String(parts.shift()).trim());
+    }
+    if (lead.length) {
+      tags = tags.concat(lead);
+      note = parts.join(' · ');
+    }
+  }
+  var nameUp = String(mi.movieName || '').toUpperCase();
+  tags = tags.filter(function (t, i, arr) {
+    return nameUp.indexOf(t.toUpperCase()) < 0 &&
+      arr.map(function (x) { return x.toUpperCase(); }).indexOf(t.toUpperCase()) === i;
+  });
+  return { tags: tags, note: note };
+}
+
 function renderPlanCandidates() {
   var box = $('planCandidates');
   var q = normName(plan.search);
@@ -3089,42 +3124,66 @@ function renderPlanCandidates() {
     return;
   }
 
-  var groups = [], cur = null;
+  // 先按日期、日期内再按影厅分组；厅号自然排序，同厅内按开场时间升序
+  var groups = [], byDate = {};
   list.forEach(function (r) {
     var d = String(r.playTime).slice(0, 10);
-    if (!cur || cur.d !== d) { cur = { d: d, items: [] }; groups.push(cur); }
-    cur.items.push(r);
+    var g = byDate[d];
+    if (!g) { g = byDate[d] = { d: d, halls: [], hallMap: {} }; groups.push(g); }
+    var h = String(r.movieHall || '');
+    var hg = g.hallMap[h];
+    if (!hg) { hg = g.hallMap[h] = { h: h, items: [] }; g.halls.push(hg); }
+    hg.items.push(r);
+  });
+  groups.forEach(function (g) {
+    g.halls.sort(function (a, b) {
+      var na = planHallRank(a.h), nb = planHallRank(b.h);
+      if (na !== nb) return na - nb;
+      return a.h.localeCompare(b.h, 'zh');
+    });
+    g.halls.forEach(function (hg) {
+      hg.items.sort(function (a, b) {
+        return a.playTime < b.playTime ? -1 : (a.playTime > b.playTime ? 1 : 0);
+      });
+    });
   });
 
   box.innerHTML = groups.map(function (g) {
-    return planDateHead(g.d) + g.items.map(function (r) {
-      var mi = r.movieInfo || {};
-      var k = planKeyOf({ t: r.playTime, c: r.cinemaInfo, h: r.movieHall, n: mi.movieName });
-      plan.candIndex[k] = r;
-      var added = planHas(k);
-      var p = priceOf(r);
-      var end = planEndMins({
-        t: r.playTime, min: Number(mi.movieMinute) || 0
-      });
-      var endTxt = '';
-      if (end >= 0) {
-        var mm = end % 1440;
-        endTxt = (end >= 1440 ? '次日 ' : '') + pad2(Math.floor(mm / 60)) + ':' + pad2(mm % 60);
-      }
-      var hall = r.movieHall || '';
-      return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') + '" data-k="' + esc(k) + '"' +
-        (added ? ' disabled' : '') + '>' +
-        '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
-          (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
-        '<span class="pc-body"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
-          (mi.note ? '<span class="pc-note">' + esc(mi.note) + '</span>' : '') +
-          (r.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') + '</span>' +
-        '<span class="pc-info">' +
-          '<span class="pc-hall">' + esc(hall || '影厅未知') + '</span>' +
-          '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
-        '</span>' +
-        '<span class="pc-add">' + (added ? '已加入' : '加入') + '</span>' +
-      '</button>';
+    return planDateHead(g.d) + g.halls.map(function (hg) {
+      return '<div class="plan-hall-head" data-h="' + esc(hg.h) + '"><b>' + esc(hg.h || '影厅未知') + '</b><span>' +
+        hg.items.length + ' 场</span></div>' +
+        hg.items.map(function (r) {
+          var mi = r.movieInfo || {};
+          var k = planKeyOf({ t: r.playTime, c: r.cinemaInfo, h: r.movieHall, n: mi.movieName });
+          plan.candIndex[k] = r;
+          var added = planHas(k);
+          var p = priceOf(r);
+          var end = planEndMins({
+            t: r.playTime, min: Number(mi.movieMinute) || 0
+          });
+          var endTxt = '';
+          if (end >= 0) {
+            var mm = end % 1440;
+            endTxt = (end >= 1440 ? '次日 ' : '') + pad2(Math.floor(mm / 60)) + ':' + pad2(mm % 60);
+          }
+          var fmt = planFormatOf(r);
+          var fmtTags = fmt.tags.map(function (t) {
+            return '<span class="fmt-title">' + esc(t) + '</span>';
+          }).join('');
+          return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') + '" data-k="' + esc(k) + '"' +
+            (added ? ' disabled' : '') + '>' +
+            '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
+              (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
+            '<span class="pc-body"><span class="pc-title"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
+              fmtTags + '</span>' +
+              (fmt.note ? '<span class="pc-note">' + esc(fmt.note) + '</span>' : '') +
+              (r.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') + '</span>' +
+            '<span class="pc-info">' +
+              '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
+            '</span>' +
+            '<span class="pc-add">' + (added ? '已加入' : '加入') + '</span>' +
+          '</button>';
+        }).join('');
     }).join('');
   }).join('');
 }
