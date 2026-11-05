@@ -40,9 +40,19 @@
 
       <article class="cl-item">
         <div class="cl-head">
-          <span class="cl-ver">v1.9.1</span>
+          <span class="cl-ver">v1.9.2</span>
           <span class="cl-date">2026-11-05</span>
           <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>修复首页空白（0 场排片）</b>：v1.9.1 的页头「观影计划」入口只更新了前端代码、未同步 <code>index.html</code>，线上页面缺少该按钮，初始化时读取空元素报错并中断后续加载，导致当天视图停在 0 场。已补发页面模板，并为该入口增加空元素保护；官网接口当天已无场次（全部放映完）时，仍由站内每日存档补全并提示来源。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.9.1</span>
+          <span class="cl-date">2026-11-05</span>
         </div>
         <ul class="cl-list">
           <li><b>移动端页头</b>：窄屏隐藏副标题、保留完整站名，右上角新增常驻「观影计划」入口（带数量角标），不再只靠右下角浮动按钮；浮动按钮下移并给页面增加底部留白，不遮挡最后一张卡片。</li>
