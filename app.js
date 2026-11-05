@@ -747,22 +747,27 @@ function pricePill(r) {
   return '<span class="price-tag" title="' + esc(tip) + '"><span class="cur">¥</span>' + amount + '</span>';
 }
 
-/** 影厅水印：解析厅号数字（无数字降级为首字），返回 {n=水印文字, h=色相(1/2/3/0)}；空影厅返回 null */
-function hallWatermark(hall) {
-  var s = String(hall || '').trim();
-  if (!s) return null;
-  var m = s.match(/\d+/);
-  if (m) {
-    var n = Number(m[0]);
-    // 按厅号给极克制的色相差异：1 蓝 / 2 青 / 3 琥珀 / 其余中性，始终是浅色水印质感
-    var h = (n >= 1 && n <= 3) ? n : 0;
-    return { n: m[0], h: h };
-  }
-  return { n: s.slice(0, 1), h: 0 };   // 无数字厅名（多功能厅）→ 首字，中性色
+/** 影院排序：小西天 → 百子湾 → 江南分馆 → 其他 */
+function venueRank(name) {
+  if (name === '小西天艺术影院') return 0;
+  if (name === '百子湾艺术影院') return 1;
+  if (name === '江南分馆影院') return 2;
+  return 3;
+}
+function venueShortOf(name) {
+  if (name === '江南分馆影院') return '江南分馆';
+  if (name === '小西天艺术影院') return '小西天';
+  if (name === '百子湾艺术影院') return '百子湾';
+  return String(name || '未标注影院');
+}
+/** 厅号自然排序键：取厅名首个数字；无数字（多功能厅等）返回 9999 排最后 */
+function hallRank(h) {
+  var m = String(h || '').match(/\d+/);
+  return m ? Number(m[0]) : 9999;
 }
 
 /** 构造影片海报区：优先本地缓存的豆瓣海报（构建期已下载，避开 ORB/防盗链），整体包裹为可点击跳转豆瓣 */
-function posterBlock(mi, db, dbUrl, isExtra) {
+function posterBlock(mi, db, dbUrl) {
   var orig = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
   var doub = (db && db.p) ? db.p : '';
   // 本地副本 assets/posters/<id>.jpg 存在时优先；失败逐级回退：豆瓣 CDN -> 资料馆
@@ -777,7 +782,7 @@ function posterBlock(mi, db, dbUrl, isExtra) {
     inner = '<img class="poster" src="' + esc(primary) + '" alt="' + esc(mi.movieName) + '" loading="lazy"' +
             (fb.length ? ' data-fb="' + esc(fb.join('|')) + '"' : '') + '>';
   } else {
-    inner = '<div class="poster-ph">' + (isExtra ? '公众号<br>排片表' : '暂无海报') + '</div>';
+    inner = '<div class="poster-ph">暂无海报</div>';
   }
   if (!dbUrl) return inner;
   var tip = (db && db.i) ? ('在豆瓣打开《' + mi.movieName + '》') : '在豆瓣搜索该片';
@@ -803,7 +808,10 @@ function renderList(records) {
     groups[date].push(r);
   });
 
-  var seq = 0;   // 与 .occ-open 的 data-i 对应
+  // data-i 指向 records 原数组下标，分组重排后仍能正确映射到上座率场次
+  var idxOf = new Map();
+  records.forEach(function (r, i) { idxOf.set(r, i); });
+
   var html = order.map(function (date) {
     var list = groups[date];
     var wk = WEEK[new Date(date.replace(/-/g, '/')).getDay()];
@@ -814,8 +822,8 @@ function renderList(records) {
     if (bjN) badge.push('北京 ' + bjN + ' 场');
     if (jnN) badge.push('江南 ' + jnN + ' 场');
 
-    var items = list.map(function (r) {
-      var myIdx = seq++;
+    var renderFilm = function (r) {
+      var myIdx = idxOf.get(r);
       var mi = r.movieInfo || {};
       var time = r.playTime.slice(11, 16);
       // 散场时间 = 开始 + 片长（推算，实际以现场为准）
@@ -826,30 +834,49 @@ function renderList(records) {
         endStr = pad2(Math.floor(endMin / 60) % 24) + ':' + pad2(endMin % 60);
       }
       var isJn = r.cinemaInfo === '江南分馆影院';
-      var venueShort = isJn ? '江南分馆' :
-        (r.cinemaInfo === '小西天艺术影院' ? '小西天' : '百子湾');
+      var venueShort = venueShortOf(r.cinemaInfo);
       var db = doubanOf(mi);                    // 豆瓣映射表命中项（可能为 null）
       var dbUrl = doubanUrlOf(mi, db);          // 豆瓣链接（精确条目 / 搜索兜底，可能为空）
-      var fmt = (r.node || []).join(' + ');
+      // 制式拆分：4K/IMAX/3D 等紧跟片名，其余（DCP 等）留在备注行，避免重复
+      var fmtTokens = (r.node || []).map(function (x) { return String(x || '').trim(); }).filter(Boolean);
+      var titleFmt = fmtTokens.filter(function (t) { return /4K|IMAX|3D|HFR|杜比|ATMOS|Dolby/i.test(t); });
+      var metaFmt = fmtTokens.filter(function (t) { return titleFmt.indexOf(t) < 0; });
+      // 补充场次没有 node 字段，制式写在备注开头（如「4K · 映后交流」「4K · 连场…」），同样前移
+      var noteText = String(mi.note || '').trim();
+      var noteFmt = [];
+      if (noteText) {
+        var parts = noteText.split(/\s*(?:·|｜|\||，|,|；|;)\s*/);
+        var FORMAT_WORD = /^(4K|IMAX|3D|HFR|杜比全景声|杜比|ATMOS)$/i;
+        while (parts.length && FORMAT_WORD.test(String(parts[0]).trim())) {
+          noteFmt.push(String(parts.shift()).trim());
+        }
+        if (noteFmt.length) noteText = parts.join(' · ');
+      }
+      titleFmt = titleFmt.concat(noteFmt).filter(function (t, i, arr) {
+        return arr.map(function (x) { return x.toUpperCase(); }).indexOf(t.toUpperCase()) === i;
+      });
+      var nameUp = String(mi.movieName || '').toUpperCase();
+      var fmtTags = titleFmt.filter(function (t) { return nameUp.indexOf(t.toUpperCase()) < 0; })
+        .map(function (t) { return '<span class="fmt-title">' + esc(t) + '</span>'; }).join('');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
       var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
       // 连场第二场虽为补充场次，但可用前一场的合并场次查座位图，因此同样给上座率入口
       var chainPrev = isChainRec(r) ? chainPrevOf(r, records) : null;
-      var wm = hallWatermark(r.movieHall);   // 影厅水印（纯装饰，厅号由 sr-only 文本承载）
 
       var meta = [];
       if (mi.movieTime) meta.push(esc(mi.movieTime) + ' 年');
       if (mi.movieMinute) meta.push(esc(mi.movieMinute) + ' 分钟');
-      if (fmt) meta.push('<span class="fmt">' + esc(fmt) + '</span>');
-      if (mi.note) meta.push('<span class="extra-note">' + esc(mi.note) + '</span>');
+      if (metaFmt.length) meta.push('<span class="fmt">' + esc(metaFmt.join(' + ')) + '</span>');
+      if (noteText) meta.push('<span class="extra-note">' + esc(noteText) + '</span>');
 
+      // 来源徽章不再视觉呈现，仅保留屏幕阅读器文本
+      var extraSr = '<span class="sr-only">公众号补充场次（淘票票可购票）</span>';
       var side = '';
       if (isExtra && chainPrev && !r.archived) {
         side = '<button type="button" class="occ-open" data-i="' + myIdx +
-          '" title="连场：与前一场同一张票，座位图来自票务系统的合并场次">上座率</button>' +
-          '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>';
+          '" title="连场：与前一场同一张票，座位图来自票务系统的合并场次">上座率</button>' + extraSr;
       } else if (isExtra) {
-        side = '<span class="src-badge" title="官网放映日历未上架，来源：江南分馆公众号排片表，淘票票可购票">公众号 · 淘票票</span>';
+        side = extraSr;
       } else if (r.archived) {
         // 已放映场次不再提供上座率入口
         side = '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>';
@@ -859,8 +886,7 @@ function renderList(records) {
       }
 
       return '<article class="film">' +
-        (wm ? '<span class="hall-wm h' + wm.h + '" aria-hidden="true">' + esc(wm.n) + '</span>' : '') +
-        posterBlock(mi, db, dbUrl, isExtra) +
+        posterBlock(mi, db, dbUrl) +
         '<div class="film-main">' +
           '<div class="film-time">' +
             '<span class="time-pill">' + esc(time) + '</span>' +
@@ -868,17 +894,64 @@ function renderList(records) {
             occBadge(r) +
             doubanPill(db) +
             '<span class="venue-tag ' + (isJn ? 'jn' : 'bj') + '">' + venueShort + '</span>' +
-            // 厅号不再用可见小标签，改为屏幕阅读器可读的隐藏文本（水印本身是纯装饰）
-            (r.movieHall ? '<span class="sr-only">影厅 ' + esc(r.movieHall) + '</span>' : '') +
           '</div>' +
           '<h3 class="film-title">' + (isExtra
             ? esc(mi.movieName)
-            : '<a href="' + link + '" target="_blank" rel="noopener">' + esc(mi.movieName) + '</a>') + '</h3>' +
+            : '<a href="' + link + '" target="_blank" rel="noopener">' + esc(mi.movieName) + '</a>') +
+            fmtTags + '</h3>' +
           (mi.englishName ? '<p class="film-en">' + esc(mi.englishName) + '</p>' : '<p class="film-en"></p>') +
           '<div class="film-meta">' + meta.join('<span class="sep">／</span>') + '</div>' +
         '</div>' +
         '<div class="film-side">' + side + pricePill(r) + '</div>' +
       '</article>';
+    };
+
+    // 影院 → 影厅 两级分组：影院顺序固定（北京在前），厅内按开场时间升序、厅间按厅号自然排序
+    var cinemaMap = {};
+    var cinemaKeys = [];
+    list.forEach(function (r) {
+      var ck = r.cinemaInfo || '';
+      if (!Object.prototype.hasOwnProperty.call(cinemaMap, ck)) {
+        cinemaMap[ck] = [];
+        cinemaKeys.push(ck);
+      }
+      cinemaMap[ck].push(r);
+    });
+    cinemaKeys.sort(function (a, b) {
+      return venueRank(a) - venueRank(b) || String(a).localeCompare(String(b), 'zh');
+    });
+    var multiCinema = cinemaKeys.length > 1;
+
+    var items = cinemaKeys.map(function (ck) {
+      var rows = cinemaMap[ck];
+      var hallMap = {};
+      var hallKeys = [];
+      rows.forEach(function (r) {
+        var hk = String(r.movieHall || '').trim() || '__none';
+        if (!hallMap[hk]) { hallMap[hk] = []; hallKeys.push(hk); }
+        hallMap[hk].push(r);
+      });
+      hallKeys.sort(function (a, b) {
+        if (a === '__none') return 1;
+        if (b === '__none') return -1;
+        return hallRank(a) - hallRank(b) || String(a).localeCompare(String(b), 'zh');
+      });
+      return hallKeys.map(function (hk) {
+        var hr = hallMap[hk].slice().sort(function (a, b) {
+          if (a.playTime === b.playTime) return 0;
+          return a.playTime < b.playTime ? -1 : 1;
+        });
+        var label = hk === '__none' ? '未标注影厅' : hk;
+        return '<div class="hall-group">' +
+          '<div class="hall-head">' +
+            (multiCinema ? '<span class="hall-venue ' + (ck === '江南分馆影院' ? 'jn' : 'bj') + '">' +
+              esc(venueShortOf(ck)) + '</span>' : '') +
+            '<span class="hall-name">' + esc(label) + '</span>' +
+            '<span class="hall-count">' + hr.length + ' 场</span>' +
+          '</div>' +
+          hr.map(renderFilm).join('') +
+        '</div>';
+      }).join('');
     }).join('');
 
     return '<section class="day-group' + (isToday ? ' is-today' : '') + '" data-day="' + Number(date.slice(8, 10)) + '" id="day-' + date + '">' +
