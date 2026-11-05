@@ -2875,6 +2875,16 @@ function planHas(k) {
   return false;
 }
 
+/** 按稳定 key 精确查找场次所在月份（跨月同名同时刻不会误判；找不到返回 ''） */
+function planMonthOfKey(k) {
+  var keys = Object.keys(plan.months);
+  for (var i = 0; i < keys.length; i++) {
+    var arr = plan.months[keys[i]].items || [];
+    for (var j = 0; j < arr.length; j++) if (arr[j].k === k) return keys[i];
+  }
+  return '';
+}
+
 /** 旧版单列表 -> 按月分档（只在没有 v2 数据时执行一次，幂等） */
 function migrateLegacyPlan() {
   var raw = null;
@@ -3284,7 +3294,8 @@ function renderPlanCandidates() {
             return '<span class="fmt-title">' + esc(t) + '</span>';
           }).join('');
           return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') + '" data-k="' + esc(k) + '"' +
-            (added ? ' disabled' : '') + '>' +
+            ' aria-pressed="' + (added ? 'true' : 'false') + '"' +
+            ' aria-label="' + (added ? '取消加入' : '加入') + '《' + esc(mi.movieName) + '》">' +
             '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
               (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
             '<span class="pc-body"><span class="pc-title"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
@@ -3294,7 +3305,7 @@ function renderPlanCandidates() {
             '<span class="pc-info">' +
               '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
             '</span>' +
-            '<span class="pc-add">' + (added ? '已加入' : '加入') + '</span>' +
+            '<span class="pc-add">' + (added ? '取消' : '加入') + '</span>' +
           '</button>';
         }).join('');
     }).join('');
@@ -3659,11 +3670,23 @@ $('planSearch').addEventListener('input', function () {
 
 $('planCandidates').addEventListener('click', function (e) {
   var btn = e.target.closest ? e.target.closest('.plan-cand') : null;
-  if (!btn || btn.disabled) return;
+  if (!btn) return;
   var k = btn.getAttribute('data-k');
   var r = plan.candIndex[k];
   if (!r) return;
-  if (planHas(k)) { planToast('该场次已在计划中'); renderPlan(); return; }
+
+  // 已选：就地取消（按其所属月份精确移除，避免误删另一月的同名同时刻场次）
+  var oldMk = planMonthOfKey(k);
+  if (oldMk) {
+    plan.months[oldMk].items = plan.months[oldMk].items.filter(function (it) { return it.k !== k; });
+    savePlanStore(oldMk);
+    renderPlan();
+    planToast('已取消「' + planMonthLabel(oldMk) + '」：' +
+      mdTextOf(String(r.playTime).slice(0, 10)) + ' ' + String(r.playTime).slice(11, 16) +
+      '《' + (r.movieInfo || {}).movieName + '》');
+    return;
+  }
+
   var snap = planSnapshot(r);
   var mk = planMonthOf(snap);
   if (!planIsMonthKey(mk)) { planToast('该场次缺少有效日期，无法加入计划'); return; }
