@@ -597,9 +597,15 @@ body.modal-open{overflow:hidden}
   background:var(--panel);border:1px dashed var(--line);border-radius:12px;
 }
 
-.plan-date-head{display:flex;align-items:baseline;gap:8px;margin:16px 0 8px;font-size:13px;font-weight:700;color:var(--txt)}
-.plan-date-head span{font-size:11.5px;color:#9aa0ad;font-weight:500}
-.plan-date-head em{font-style:normal;font-size:11.5px;color:#9aa0ad;font-weight:500}
+.plan-date-head{display:flex;align-items:baseline;flex-wrap:nowrap;gap:8px;margin:16px 0 8px;font-size:13px;font-weight:700;color:var(--txt)}
+.plan-date-head span{font-size:11.5px;color:#9aa0ad;font-weight:500;flex:none}
+.plan-date-head em{font-style:normal;font-size:11.5px;color:#9aa0ad;font-weight:500;flex:none}
+/* 场次数与厅名前的分隔点，避免组头变成多个并列词 */
+.plan-date-head em::before{content:'·';margin:0 6px;color:#c2c7d0;font-weight:400}
+.plan-date-head .plan-date-halls{
+  flex:0 1 auto;min-width:0;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
 /* 候选列表的影厅组小标题（厅号 + 场次数），轻量、比日期标题弱一级 */
 .plan-hall-head{
   display:flex;align-items:baseline;gap:7px;margin:9px 2px 6px;padding-left:8px;
@@ -641,6 +647,29 @@ body.modal-open{overflow:hidden}
 }
 .plan-cand.is-added .pc-add{color:var(--muted);border-color:var(--line);background:#fff}
 
+/* 月份切换条：列出当月/下月与已有档案的月份，横向滚动不换行 */
+.plan-months{
+  display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;
+  padding:2px 2px 8px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.plan-months::-webkit-scrollbar{display:none}
+.plan-mtab{
+  flex:none;display:inline-flex;align-items:center;gap:6px;
+  min-height:34px;padding:6px 14px;border-radius:999px;cursor:pointer;
+  font-family:inherit;font-size:13px;font-weight:600;color:var(--muted);
+  background:var(--panel-2);border:1px solid var(--line);transition:.18s;white-space:nowrap;
+}
+.plan-mtab:hover{color:var(--txt);border-color:#c6c9d1;background:#fff}
+.plan-mtab.is-active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.plan-mtab i{
+  font-style:normal;min-width:18px;height:18px;padding:0 5px;border-radius:999px;
+  display:inline-grid;place-items:center;
+  background:rgba(255,255,255,.92);color:var(--accent);
+  font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;
+}
+.plan-mtab:not(.is-active) i{background:var(--accent);color:#fff}
+
 .plan-toolbar{
   display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
   padding:10px 12px;margin:4px 0 10px;
@@ -649,31 +678,34 @@ body.modal-open{overflow:hidden}
 .plan-total{font-size:12.5px;color:var(--muted)}
 .plan-total b{color:var(--txt);font-variant-numeric:tabular-nums}
 .plan-total b:last-child{color:var(--accent)}
+/* 合计金额单独放大 3px（说明文字保持原字号） */
+.plan-total .plan-total-amt{font-size:15.5px;font-weight:700;line-height:1.35}
 .plan-pending{color:#b45309}
+.plan-updated{color:#9aa0ad}
 .plan-toolbar-btns{display:flex;gap:8px}
 .plan-toolbar-btns .ghost-btn{padding:7px 13px}
 
-/* 计划行：稳定网格 —— 时间列(112px) → 片名+元信息(弹性) → 票价(右对齐) → 删除(32px) */
+/* 计划行：稳定网格 —— 时间列(112px) → 片名(弹性) → 票价(右对齐) → 删除(32px)；厅号统一在日期组头 */
 .plan-item{
   display:grid;
   grid-template-columns:112px minmax(0,1fr) auto 32px;
-  grid-template-rows:auto auto;
+  grid-template-rows:auto;
   align-items:center;
-  column-gap:12px;row-gap:1px;
-  min-height:68px;padding:12px 14px;margin-bottom:8px;
+  column-gap:12px;row-gap:0;
+  min-height:56px;padding:11px 14px;margin-bottom:8px;
   background:var(--panel);border:1px solid var(--line);border-radius:10px;
 }
 .plan-item.conflict{border-color:rgba(180,83,9,.42);background:rgba(180,83,9,.045)}
 /* 开场与散场同一行、同字号同字重；列宽固定，绝不换行 */
 .plan-time{
-  grid-column:1;grid-row:1/3;align-self:center;display:flex;align-items:baseline;gap:5px;
+  grid-column:1;grid-row:1;align-self:center;display:flex;align-items:baseline;gap:5px;
   white-space:nowrap;line-height:1.25;font-variant-numeric:tabular-nums;
 }
 .plan-time b{font-size:15px;font-weight:700;color:var(--accent)}
 .plan-time span{font-size:15px;font-weight:700;color:#5f6673}
 .plan-item.conflict .plan-time b,.plan-item.conflict .plan-time span{color:#b45309}
 .plan-title{
-  grid-column:2;grid-row:1;align-self:end;min-width:0;
+  grid-column:2;grid-row:1;align-self:center;min-width:0;
   display:flex;align-items:baseline;gap:6px;
   font-size:14.5px;font-weight:700;line-height:1.35;
 }
@@ -684,19 +716,14 @@ body.modal-open{overflow:hidden}
   background:rgba(180,83,9,.12);border:1px solid rgba(180,83,9,.3);
   vertical-align:2px;
 }
-.plan-meta{
-  grid-column:2;grid-row:2;align-self:start;min-width:0;
-  font-size:12px;line-height:1.4;color:var(--muted);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
 .plan-price{
-  grid-column:3;grid-row:1/3;justify-self:end;align-self:center;text-align:right;
+  grid-column:3;grid-row:1;justify-self:end;align-self:center;text-align:right;
   min-width:48px;font-size:18px;font-weight:700;color:var(--accent);
   line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;
 }
 .plan-price.pending{font-size:12px;font-weight:500;color:var(--muted);min-width:0}
 .plan-del{
-  grid-column:4;grid-row:1/3;width:32px;height:32px;border-radius:8px;cursor:pointer;
+  grid-column:4;grid-row:1;width:32px;height:32px;border-radius:8px;cursor:pointer;
   font-size:16px;line-height:1;display:inline-flex;align-items:center;justify-content:center;
   background:#fff;border:1px solid var(--line);color:var(--muted);transition:.16s;
 }
@@ -723,20 +750,20 @@ body.modal-open{overflow:hidden}
     order:4;flex:1 1 100%;flex-direction:row;align-items:baseline;
     justify-content:flex-end;gap:12px;padding-top:1px;
   }
-  /* 窄屏计划行：两行式 —— 第一行 时间 + 片名 + 票价，第二行 厅号·片长 + 删除 */
+  /* 窄屏计划行：单行 —— 时间 + 片名 + 票价 + 删除（厅号已移到日期组头） */
   .plan-item{
-    grid-template-columns:auto minmax(0,1fr) auto;
-    grid-template-rows:auto auto;
-    column-gap:10px;row-gap:4px;
-    min-height:0;padding:10px 12px;
+    grid-template-columns:auto minmax(0,1fr) auto 40px;
+    grid-template-rows:auto;
+    column-gap:8px;row-gap:0;
+    min-height:0;padding:8px 12px;
   }
   .plan-time{grid-column:1;grid-row:1;align-self:center}
   .plan-title{grid-column:2;grid-row:1;align-self:center;font-size:14px}
-  .plan-price{grid-column:3;grid-row:1;align-self:center;justify-self:end;min-width:44px;font-size:18px}
-  .plan-meta{grid-column:2;grid-row:2;align-self:start}
-  .plan-del{grid-column:3;grid-row:2;justify-self:end;width:40px;height:40px;font-size:18px}
+  .plan-price{grid-column:3;grid-row:1;align-self:center;justify-self:end;min-width:40px;font-size:18px}
+  .plan-del{grid-column:4;grid-row:1;justify-self:end;width:40px;height:40px;font-size:18px}
   .plan-toolbar-btns{width:100%}
   .plan-toolbar-btns .ghost-btn{flex:1}
+  .plan-mtab{min-height:40px;padding:8px 14px}
 }
 
 /* ================= v1.9.1 移动端体验 ================= */
@@ -815,7 +842,7 @@ body.modal-open{overflow:hidden}
   .pc-when b,.pc-when i{font-size:15px}
   .pc-name{font-size:13.5px}
   .pc-add{min-height:40px;padding:8px 13px;display:inline-flex;align-items:center}
-  .plan-item{padding:12px}
+  .plan-item{padding:8px 12px}
   .plan-del{width:40px;height:40px;font-size:18px;display:inline-flex;align-items:center;justify-content:center}
   .plan-toolbar{padding:9px 10px;gap:8px}
   .plan-total{flex:1 1 100%;line-height:1.5}
