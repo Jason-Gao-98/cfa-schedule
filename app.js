@@ -898,7 +898,7 @@ function renderList(records) {
           '<h3 class="film-title">' + (isExtra
             ? esc(mi.movieName)
             : '<a href="' + link + '" target="_blank" rel="noopener">' + esc(mi.movieName) + '</a>') +
-            fmtTags + '</h3>' +
+            fmtTags + planEventBadge(r) + '</h3>' +
           (mi.englishName ? '<p class="film-en">' + esc(mi.englishName) + '</p>' : '<p class="film-en"></p>') +
           '<div class="film-meta">' + meta.join('<span class="sep">／</span>') + '</div>' +
         '</div>' +
@@ -3093,11 +3093,11 @@ function planLoadMonth(key) {
   });
 }
 
-/** 候选场次：仅江南分馆、仅当月与下月、仅尚未开场 */
+/** 候选场次：仅江南分馆、仅当月与下月；含已开场/已放映（渲染时标记，不再过滤） */
 function planCandidatesList() {
   if (plan.candidates) return plan.candidates;
   mergeExtras(plan.cache);
-  var keys = planMonthKeys(), now = nowStamp(), out = [];
+  var keys = planMonthKeys(), out = [];
   keys.forEach(function (k) {
     var c = plan.cache[k];
     if (!c) return;
@@ -3105,7 +3105,6 @@ function planCandidatesList() {
       (c.days[d] || []).forEach(function (r) {
         if (r.cinemaInfo !== PLAN_CINEMA) return;
         if (String(r.playTime).slice(0, 7) !== k) return;
-        if (String(r.playTime) < now) return;
         out.push(r);
       });
     });
@@ -3272,7 +3271,7 @@ function renderPlanCandidates() {
   });
 
   box.innerHTML = groups.map(function (g) {
-    return planDateHead(g.d) + g.halls.map(function (hg) {
+    return '<div class="plan-day">' + planDateHead(g.d) + g.halls.map(function (hg) {
       return '<div class="plan-hall-head" data-h="' + esc(hg.h) + '"><b>' + esc(hg.h || '影厅未知') + '</b><span>' +
         hg.items.length + ' 场</span></div>' +
         hg.items.map(function (r) {
@@ -3293,23 +3292,55 @@ function renderPlanCandidates() {
           var fmtTags = fmt.tags.map(function (t) {
             return '<span class="fmt-title">' + esc(t) + '</span>';
           }).join('');
-          return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') + '" data-k="' + esc(k) + '"' +
+          // 已开场的场次保留在列表里，但不再允许新加入；已选中的仍可取消
+          var past = String(r.playTime) < nowStamp();
+          var locked = past && !added;
+          var evTag = planEventBadge(r);
+          return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') +
+            (past ? ' is-past' : '') + '" data-k="' + esc(k) + '"' +
             ' aria-pressed="' + (added ? 'true' : 'false') + '"' +
-            ' aria-label="' + (added ? '取消加入' : '加入') + '《' + esc(mi.movieName) + '》">' +
+            (locked ? ' disabled aria-disabled="true"' : '') +
+            ' aria-label="' + (added ? '取消加入' : (past ? '已放映，无法加入' : '加入')) + '《' + esc(mi.movieName) + '》">' +
             '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
               (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
             '<span class="pc-body"><span class="pc-title"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
-              fmtTags + '</span>' +
+              fmtTags + evTag + (past ? '<span class="pc-past">已放映</span>' : '') + '</span>' +
               (fmt.note ? '<span class="pc-note">' + esc(fmt.note) + '</span>' : '') +
               (r.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') + '</span>' +
             '<span class="pc-info">' +
               '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
             '</span>' +
-            '<span class="pc-add">' + (added ? '取消' : '加入') + '</span>' +
+            '<span class="pc-add">' + (added ? '取消' : (past ? '已放映' : '加入')) + '</span>' +
           '</button>';
         }).join('');
-    }).join('');
+    }).join('') + '</div>';
   }).join('');
+}
+
+/* ---------- 特殊活动标注（映前导赏 / 映后交流等） ----------
+ * 数据来自 events-2026-11.js（人工核对公众号片单文章后写入），
+ * 按「日期 | 时间 | 影厅 | 片名」精确匹配；找不到就不标，不做猜测。
+ */
+var EVENT_MAP = {};
+(function buildEventMap() {
+  var info = window.EVENT_INFO;
+  if (!info || !info.events) return;
+  info.events.forEach(function (ev) {
+    EVENT_MAP[ev.date + '|' + ev.time + '|' + ev.hall + '|' + ev.movie] = ev;
+  });
+})();
+
+function planEventOf(x) {
+  var t = String(x.t || x.playTime || '');
+  var h = String(x.h || x.movieHall || '');
+  var n = String(x.n || (x.movieInfo && x.movieInfo.movieName) || '');
+  return EVENT_MAP[t.slice(0, 10) + '|' + t.slice(11, 16) + '|' + h + '|' + n] || null;
+}
+
+function planEventBadge(x) {
+  var ev = planEventOf(x);
+  if (!ev) return '';
+  return '<span class="ev-badge" title="' + esc(ev.note || ev.type) + '">' + esc(ev.type) + '</span>';
 }
 
 function renderPlanMine() {
@@ -3355,6 +3386,8 @@ function renderPlanMine() {
         '<div class="plan-time"><b>' + esc(String(it.t).slice(11, 16)) + '</b>' +
           '<span>– ' + esc(endTxt) + '</span></div>' +
         '<div class="plan-title"><span class="plan-name">《' + esc(it.n) + '》</span>' +
+          (String(it.t) < nowStamp() ? '<span class="plan-past">已放映</span>' : '') +
+          planEventBadge(it) +
           (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
         '<div class="plan-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</div>' +
         '<button type="button" class="plan-del" data-k="' + esc(it.k) + '" aria-label="移除该场次">&times;</button>' +
@@ -3690,6 +3723,7 @@ $('planCandidates').addEventListener('click', function (e) {
   var snap = planSnapshot(r);
   var mk = planMonthOf(snap);
   if (!planIsMonthKey(mk)) { planToast('该场次缺少有效日期，无法加入计划'); return; }
+  if (String(r.playTime) < nowStamp()) { planToast('该场次已放映，无法加入计划'); return; }
   planArch(mk).items.push(snap);
   savePlanStore(mk);
   planToast('已加入「' + planMonthLabel(mk) + '」：' + mdTextOf(String(r.playTime).slice(0, 10)) + ' ' +
