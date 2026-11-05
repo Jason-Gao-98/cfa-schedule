@@ -3035,6 +3035,11 @@ function renderPlanFab() {
   var el = $('planFabCount');
   el.textContent = plan.items.length;
   el.hidden = !plan.items.length;
+  var eh = $('planFabCountHead');
+  if (eh) {
+    eh.textContent = plan.items.length;
+    eh.hidden = !plan.items.length;
+  }
 }
 
 function renderPlanTabs() {
@@ -3066,8 +3071,9 @@ function renderPlanSummary() {
   el.hidden = !html;
 }
 
-function planDateHead(d) {
-  return '<div class="plan-date-head"><b>' + mdTextOf(d) + '</b><span>' + WEEK[weekdayOf(d)] + '</span></div>';
+function planDateHead(d, count) {
+  return '<div class="plan-date-head"><b>' + mdTextOf(d) + '</b><span>' + WEEK[weekdayOf(d)] + '</span>' +
+    (count ? '<em>' + count + ' 场</em>' : '') + '</div>';
 }
 
 /** 厅号排序：有数字的按数字升序，无数字厅名排最后（同类再按名称） */
@@ -3210,20 +3216,18 @@ function renderPlanMine() {
   });
 
   $('planList').innerHTML = groups.map(function (g) {
-    return planDateHead(g.d) + g.items.map(function (it) {
+    return planDateHead(g.d, g.items.length) + g.items.map(function (it) {
       var p = planPriceOf(it);
       var bad = !!confKeys[it.k];
       var endTxt = planEndText(it);
       return '<div class="plan-item' + (bad ? ' conflict' : '') + '">' +
         '<div class="plan-time"><b>' + esc(String(it.t).slice(11, 16)) + '</b>' +
           '<span>– ' + esc(endTxt) + '</span></div>' +
-        '<div class="plan-main">' +
-          '<div class="plan-title">《' + esc(it.n) + '》' +
-            (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
-          '<div class="plan-meta">' + esc(it.h || '未标注影厅') +
-            (it.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') +
-            (it.min ? ' · ' + it.min + ' 分钟' : ' · 片长未知') + '</div>' +
-        '</div>' +
+        '<div class="plan-title"><span class="plan-name">《' + esc(it.n) + '》</span>' +
+          (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
+        '<div class="plan-meta">' + esc(it.h || '未标注影厅') +
+          (it.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') +
+          (it.min ? ' · ' + it.min + ' 分钟' : ' · 片长未知') + '</div>' +
         '<div class="plan-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</div>' +
         '<button type="button" class="plan-del" data-k="' + esc(it.k) + '" aria-label="移除该场次">&times;</button>' +
       '</div>';
@@ -3501,6 +3505,7 @@ function planLoadAll() {
 }
 
 $('planBtn').addEventListener('click', openPlan);
+$('planBtnHead').addEventListener('click', openPlan);
 $('planClose').addEventListener('click', closePlan);
 $('planModal').addEventListener('click', function (e) {
   if (e.target === this) closePlan();
