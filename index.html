@@ -133,7 +133,7 @@
     <div class="plan-head">
       <div class="plan-headtext">
         <h3 id="planTitle">观影计划</h3>
-        <p class="plan-sub">仅支持<strong>江南分馆</strong>（苏州）<strong>当月与下月</strong>场次；计划只保存在本机浏览器。</p>
+        <p class="plan-sub">仅支持<strong>江南分馆</strong>（苏州）<strong>当月与下月</strong>场次；计划按月份保存在本机浏览器。</p>
       </div>
       <button type="button" class="modal-x" id="planClose" aria-label="关闭">&times;</button>
     </div>
@@ -154,6 +154,7 @@
       </div>
 
       <div id="planMinePane" hidden>
+        <div class="plan-months" id="planMonths" role="tablist" aria-label="观影计划月份"></div>
         <div class="plan-toolbar">
           <span class="plan-total" id="planTotal"></span>
           <div class="plan-toolbar-btns">
