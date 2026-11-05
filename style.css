@@ -614,6 +614,13 @@ body.modal-open{overflow:hidden}
 }
 .plan-hall-head span{font-size:11px;font-weight:500;color:#9aa0ad}
 
+/* 日期组之间用整宽细线 + 明显留白分隔；组内厅标题仍保持轻量 */
+.plan-day + .plan-day{
+  margin-top:10px;padding-top:12px;
+  border-top:1px solid #d9dce2;
+}
+.plan-day + .plan-day .plan-date-head{margin-top:0}
+
 .plan-cand{
   display:flex;align-items:center;gap:12px;width:100%;text-align:left;
   min-height:44px;
@@ -655,6 +662,36 @@ body.modal-open{overflow:hidden}
 /* 已加入 -> 「取消」：白底描边，弱于红色实底的「加入」 */
 .plan-cand.is-added .pc-add{
   color:var(--accent);border-color:rgba(212,32,46,.42);background:#fff;
+}
+
+/* 已放映场次：保留在列表里，视觉弱化但可读；不可再加入（已选中的仍可取消） */
+.plan-cand.is-past{background:var(--panel-2);border-color:#e0e2e8}
+.plan-cand.is-past .pc-when b{color:#8b909c}
+.plan-cand.is-past .pc-when i{color:#a3a8b3}
+.plan-cand.is-past .pc-name{color:#6b7280}
+.plan-cand.is-past:hover{border-color:#d3d6de;background:#eceef2}
+.plan-cand.is-past.is-added{
+  background:rgba(212,32,46,.04);border-color:rgba(212,32,46,.24);
+  box-shadow:inset 3px 0 0 rgba(212,32,46,.32);
+}
+.plan-cand.is-past .pc-price{color:#8b909c}
+.plan-cand:disabled{cursor:not-allowed}
+.pc-past{
+  flex:none;display:inline-flex;align-items:center;
+  padding:0 7px;line-height:17px;border-radius:999px;
+  font-size:10.5px;font-weight:600;color:#7d828f;
+  background:#eef0f3;border:1px solid #e2e5ea;
+}
+.plan-cand.is-past .pc-add{
+  color:#8b909c;border-color:#dfe2e8;background:#f6f7f9;
+}
+/* 特殊活动（映前导赏 / 映后交流等）：与制式标签并列的小徽章，金色系，不压片名 */
+.ev-badge{
+  flex:none;display:inline-flex;align-items:center;
+  padding:0 7px;line-height:17px;border-radius:999px;
+  font-size:10.5px;font-weight:600;color:#8a5a00;
+  background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.4);
+  white-space:nowrap;margin-left:6px;vertical-align:2px;
 }
 
 /* 月份切换条：列出当月/下月与已有档案的月份，横向滚动不换行 */
@@ -725,6 +762,12 @@ body.modal-open{overflow:hidden}
   font-size:10px;font-weight:600;color:#8a4a09;
   background:rgba(180,83,9,.12);border:1px solid rgba(180,83,9,.3);
   vertical-align:2px;
+}
+/* 计划行里的「已放映」小标：不参与冲突提示，灰阶弱化但保持可读 */
+.plan-past{
+  flex:none;display:inline-flex;align-items:center;padding:0 7px;line-height:18px;border-radius:6px;
+  font-size:10px;font-weight:600;color:#7d828f;
+  background:#eef0f3;border:1px solid #e2e5ea;
 }
 .plan-price{
   grid-column:3;grid-row:1;justify-self:end;align-self:center;text-align:right;
