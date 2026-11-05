@@ -121,6 +121,51 @@
   </div>
 </div>
 
+<button type="button" class="plan-fab" id="planBtn" aria-haspopup="dialog" aria-controls="planModal">
+  观影计划<span class="plan-fab-count" id="planFabCount" hidden>0</span>
+</button>
+
+<div class="modal-mask" id="planModal" hidden>
+  <div class="modal plan-modal" role="dialog" aria-modal="true" aria-labelledby="planTitle">
+    <div class="plan-head">
+      <div class="plan-headtext">
+        <h3 id="planTitle">观影计划</h3>
+        <p class="plan-sub">仅支持<strong>江南分馆</strong>（苏州）<strong>当月与下月</strong>场次；计划只保存在本机浏览器。</p>
+      </div>
+      <button type="button" class="modal-x" id="planClose" aria-label="关闭">&times;</button>
+    </div>
+
+    <div class="plan-tabs" id="planTabs" role="tablist" aria-label="观影计划视图">
+      <button type="button" class="tab is-active" data-plan-tab="add" role="tab">选择场次</button>
+      <button type="button" class="tab" data-plan-tab="mine" role="tab">我的计划<span class="plan-tab-count" id="planTabCount" hidden>0</span></button>
+    </div>
+
+    <div class="plan-summary" id="planSummary" hidden></div>
+
+    <div class="plan-body">
+      <div class="plan-load" id="planLoad" hidden></div>
+
+      <div id="planAddPane" hidden>
+        <input type="search" id="planSearch" class="plan-search" placeholder="搜索片名（中 / 英文）…" autocomplete="off">
+        <div class="plan-cands" id="planCandidates"></div>
+      </div>
+
+      <div id="planMinePane" hidden>
+        <div class="plan-toolbar">
+          <span class="plan-total" id="planTotal"></span>
+          <div class="plan-toolbar-btns">
+            <button type="button" class="ghost-btn" id="planExport">导出图片</button>
+            <button type="button" class="ghost-btn" id="planClear">清空计划</button>
+          </div>
+        </div>
+        <div class="plan-list" id="planList"></div>
+      </div>
+    </div>
+
+    <p class="plan-toast" id="planToast" hidden></p>
+  </div>
+</div>
+
 <div class="modal-mask" id="seatModal" hidden>
   <div class="modal seat-modal" role="dialog" aria-modal="true" aria-labelledby="seatTitle">
     <div class="seat-head">
