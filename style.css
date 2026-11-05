@@ -616,13 +616,18 @@ body.modal-open{overflow:hidden}
 
 .plan-cand{
   display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  min-height:44px;
   padding:10px 12px;margin-bottom:7px;cursor:pointer;font-size:13px;
   background:#fff;border:1px solid var(--line);border-radius:10px;
   font-family:inherit;color:var(--txt);transition:border-color .16s, background .16s;
 }
 .plan-cand:hover{border-color:rgba(212,32,46,.45);background:var(--accent-soft)}
-.plan-cand.is-added{opacity:.55;cursor:default;background:var(--panel-2)}
-.plan-cand.is-added:hover{border-color:var(--line);background:var(--panel-2)}
+/* 已加入：淡淡的选中底 + 左侧色条，一眼可辨但不抢眼；按钮可点击取消 */
+.plan-cand.is-added{
+  background:rgba(212,32,46,.045);border-color:rgba(212,32,46,.3);
+  box-shadow:inset 3px 0 0 rgba(212,32,46,.45);
+}
+.plan-cand.is-added:hover{background:rgba(212,32,46,.075);border-color:rgba(212,32,46,.48)}
 /* 开场与散场同一字号字重，形成一个完整时间段（散场颜色略淡） */
 .pc-when{flex:none;width:112px;display:flex;align-items:baseline;gap:4px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .pc-when b{font-size:15px;font-weight:700;color:var(--accent)}
@@ -641,11 +646,16 @@ body.modal-open{overflow:hidden}
 .pc-price{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
 .pc-price.pending{font-size:13px;font-weight:500;color:var(--muted)}
 .pc-add{
-  flex:none;font-size:11.5px;font-weight:600;color:var(--accent);
-  padding:5px 12px;border-radius:999px;border:1px solid rgba(212,32,46,.35);
-  background:var(--accent-soft);
+  flex:none;display:inline-flex;align-items:center;justify-content:center;
+  min-height:40px;min-width:52px;font-size:11.5px;font-weight:600;
+  padding:8px 14px;border-radius:999px;
+  border:1px solid var(--accent);
+  background:var(--accent);color:#fff;
 }
-.plan-cand.is-added .pc-add{color:var(--muted);border-color:var(--line);background:#fff}
+/* 已加入 -> 「取消」：白底描边，弱于红色实底的「加入」 */
+.plan-cand.is-added .pc-add{
+  color:var(--accent);border-color:rgba(212,32,46,.42);background:#fff;
+}
 
 /* 月份切换条：列出当月/下月与已有档案的月份，横向滚动不换行 */
 .plan-months{
@@ -745,7 +755,7 @@ body.modal-open{overflow:hidden}
   .plan-cand{flex-wrap:wrap;gap:8px 12px}
   .pc-when{width:110px;order:1}
   .pc-body{order:2;flex:1 1 0}
-  .pc-add{order:3;margin-left:auto;padding:5px 9px}
+  .pc-add{order:3;margin-left:auto;padding:7px 12px;min-height:40px}
   .pc-info{
     order:4;flex:1 1 100%;flex-direction:row;align-items:baseline;
     justify-content:flex-end;gap:12px;padding-top:1px;
