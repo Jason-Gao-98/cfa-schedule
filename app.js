@@ -303,11 +303,12 @@ function matchQuery(film) {
  * 合并进已加载的接口数据。幂等：接口同日已有同片名或同开始时间的场次
  * 就跳过，官网日后上架这些场次也不会重复显示。
  */
-function mergeExtras() {
+function mergeExtras(cacheMap) {
   var list = window.EXTRA_SCHEDULE;
   if (!list || !list.length) return;
+  var map = cacheMap || state.cache;
   list.forEach(function (e) {
-    var cache = state.cache[e.d.slice(0, 7)];   // 该月尚未加载时跳过，加载后自然合入
+    var cache = map[e.d.slice(0, 7)];   // 该月尚未加载时跳过，加载后自然合入
     if (!cache) return;
     var day = Number(e.d.slice(8, 10));
     var recs = cache.days[day];
@@ -2608,6 +2609,7 @@ $('seatModal').addEventListener('click', function (e) {
 document.addEventListener('keydown', function (e) {
   if (e.key !== 'Escape') return;
   if (!$('seatModal').hidden) closeSeat();
+  else if (!$('planModal').hidden) closePlan();
   else if (!$('loginModal').hidden) closeLogin();
 });
 
@@ -2670,6 +2672,756 @@ $('loginPassword').addEventListener('keydown', function (e) {
     renderOccBtn();
   });
 })();
+
+/* =========================================================
+ * 观影计划
+ * 范围：仅江南分馆、仅当月与下月（北京时间），只存本机 localStorage。
+ * 与排片数据共用 fetchAmount / fetchDay / mergeArchive / priceOf，
+ * 加载走独立缓存，不打断页面当前的查询状态。
+ * ========================================================= */
+var PLAN_STORE = 'cfa_plan_v1';
+var PLAN_CINEMA = '江南分馆影院';
+var PLAN_BUDGET = 500;
+
+var plan = {
+  items: [],
+  tab: 'add',
+  cache: {},          // 'YYYY-MM' -> {amount, days, done}
+  candidates: null,   // 已构建的候选场次
+  candIndex: {},
+  loading: false,
+  error: '',
+  search: '',
+  toastTimer: null
+};
+
+function planKeyOf(o) {
+  return String(o.t || '') + '|' + String(o.c || '') + '|' + String(o.h || '') + '|' + normName(o.n);
+}
+
+/** 存档快照 -> 兼容 priceOf / 渲染的排片记录 */
+function planRecord(it) {
+  return {
+    playTime: it.t,
+    cinemaInfo: it.c,
+    movieHall: it.h || '',
+    extra: !!it.extra,
+    price: Number(it.price) || 0,
+    priceMax: Number(it.priceMax) || 0,
+    priceNote: it.priceNote || '',
+    movieInfo: {
+      movieName: it.n || '',
+      englishName: it.en || '',
+      movieTime: it.y || '',
+      movieMinute: Number(it.min) || 0,
+      note: it.note || '',
+      movieId: it.mid || ''
+    }
+  };
+}
+
+/** 排片记录 -> 计划快照（只保留展示与计算需要的字段） */
+function planSnapshot(r) {
+  var mi = r.movieInfo || {};
+  return {
+    k: planKeyOf({ t: r.playTime, c: r.cinemaInfo, h: r.movieHall, n: mi.movieName }),
+    t: r.playTime,
+    c: r.cinemaInfo,
+    h: r.movieHall || '',
+    n: mi.movieName || '',
+    en: mi.englishName || '',
+    y: mi.movieTime || '',
+    min: Number(mi.movieMinute) || 0,
+    note: mi.note || '',
+    extra: !!r.extra,
+    mid: mi.movieId || r.movieId || '',
+    price: Number(r.price) || 0,
+    priceMax: Number(r.priceMax) || 0,
+    priceNote: r.priceNote || ''
+  };
+}
+
+function planHas(k) {
+  for (var i = 0; i < plan.items.length; i++) {
+    if (plan.items[i].k === k) return true;
+  }
+  return false;
+}
+
+function loadPlanStore() {
+  var raw = null;
+  try { raw = localStorage.getItem(PLAN_STORE); } catch (e) { return; }
+  if (!raw) return;
+  try {
+    var arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return;
+    plan.items = arr.filter(function (o) {
+      return o && o.t && o.n;
+    }).map(function (o) {
+      var it = {
+        t: String(o.t), c: o.c || PLAN_CINEMA, h: o.h || '', n: String(o.n),
+        en: o.en || '', y: o.y || '', min: Number(o.min) || 0, note: o.note || '',
+        extra: !!o.extra, mid: o.mid || '',
+        price: Number(o.price) || 0, priceMax: Number(o.priceMax) || 0, priceNote: o.priceNote || ''
+      };
+      it.k = planKeyOf(it);
+      return it;
+    });
+    // 去重（历史数据可能含重复键）
+    var seen = {}, uniq = [];
+    plan.items.forEach(function (it) {
+      if (seen[it.k]) return;
+      seen[it.k] = 1;
+      uniq.push(it);
+    });
+    plan.items = uniq;
+  } catch (e) { plan.items = []; }
+}
+
+function savePlanStore() {
+  try {
+    localStorage.setItem(PLAN_STORE, JSON.stringify(plan.items.map(function (it) {
+      return {
+        t: it.t, c: it.c, h: it.h, n: it.n, en: it.en, y: it.y, min: it.min,
+        note: it.note, extra: it.extra, mid: it.mid,
+        price: it.price, priceMax: it.priceMax, priceNote: it.priceNote
+      };
+    })));
+  } catch (e) { /* 隐私模式等场景写入失败时静默 */ }
+  renderPlanFab();
+}
+
+/* ---------- 时间 / 票价 / 冲突计算 ---------- */
+function planStartMins(it) { return minsOf(String(it.t)); }
+
+/** 散场分钟数；片长缺失返回 -1（不做瞎猜） */
+function planEndMins(it) {
+  var d = Number(it.min) || 0;
+  return d > 0 ? planStartMins(it) + d : -1;
+}
+
+/** 散场时间文本；片长缺失时明确显示未知，绝不出现 NaN */
+function planEndText(it) {
+  var e = planEndMins(it);
+  if (e < 0) return '散场未知';
+  var cross = e >= 1440;
+  var mm = e % 1440;
+  return (cross ? '次日 ' : '') + pad2(Math.floor(mm / 60)) + ':' + pad2(mm % 60);
+}
+
+function planPriceOf(it) { return priceOf(planRecord(it)); }
+
+function planPriceText(p) {
+  if (!p) return '待定';
+  return p.max > p.min ? '¥' + p.min + '–' + p.max : '¥' + p.min;
+}
+
+function planSorted() {
+  return plan.items.slice().sort(function (a, b) {
+    if (a.t === b.t) return String(a.h).localeCompare(String(b.h));
+    return a.t < b.t ? -1 : 1;
+  });
+}
+
+/** 冲突：同一影院、同一天，后一场开场 < 前一场散场（相邻刚好衔接不算） */
+function planConflicts(items) {
+  var out = [];
+  for (var i = 0; i < items.length; i++) {
+    var a = items[i];
+    var ea = planEndMins(a);
+    if (ea < 0) continue;                      // 片长缺失不参与冲突判断
+    for (var j = i + 1; j < items.length; j++) {
+      var b = items[j];
+      if (b.c !== a.c) continue;
+      if (String(a.t).slice(0, 10) !== String(b.t).slice(0, 10)) continue;
+      if (planStartMins(b) < ea) out.push([a, b]);
+    }
+  }
+  return out;
+}
+
+function planConflictText(pair) {
+  var a = pair[0], b = pair[1];
+  return mdTextOf(String(a.t).slice(0, 10)) + ' ' + String(a.t).slice(11, 16) +
+    '《' + a.n + '》与 ' + String(b.t).slice(11, 16) + '《' + b.n + '》';
+}
+
+function planTotals(items) {
+  var min = 0, max = 0, unknown = 0;
+  items.forEach(function (it) {
+    var p = planPriceOf(it);
+    if (!p) { unknown++; return; }
+    min += p.min;
+    max += p.max;
+  });
+  return { min: min, max: max, unknown: unknown, known: items.length - unknown };
+}
+
+function planTotalText(tot) {
+  if (!tot.known) return '票价待定';
+  return tot.max > tot.min ? '¥' + tot.min + '–' + tot.max : '¥' + tot.min;
+}
+
+/* ---------- 范围：北京时间当月 + 下月 ---------- */
+function planMonthKeys() {
+  var n = cstNow();
+  var y = n.getFullYear(), m = n.getMonth() + 1;
+  var out = [y + '-' + pad2(m)];
+  var m2 = m + 1, y2 = y;
+  if (m2 > 12) { m2 = 1; y2++; }
+  out.push(y2 + '-' + pad2(m2));
+  return out;
+}
+
+/** 页面已完整加载的月份直接复用，避免重复请求 */
+function planAdoptCache(key) {
+  var main = state.cache[key];
+  if (!main || !main.done) return null;
+  mergeExtras(state.cache);
+  plan.cache[key] = { amount: main.amount || {}, days: main.days || {}, done: true };
+  return plan.cache[key];
+}
+
+/** 按需加载单月明细（独立缓存，不写页面进度条） */
+function planLoadMonth(key) {
+  if (plan.cache[key] && plan.cache[key].done) return Promise.resolve(true);
+  if (planAdoptCache(key)) return Promise.resolve(true);
+
+  var y = Number(key.slice(0, 4)), m = Number(key.slice(5, 7));
+  var c = plan.cache[key] || (plan.cache[key] = { amount: {}, days: {}, done: false });
+  var archP = loadArchive(key);
+
+  return fetchAmount(y, m).then(function (j) {
+    c.amount = parseAmount(j);
+    var dim = daysInMonth(y, m), tasks = [];
+    for (var d = 1; d <= dim; d++) {
+      if ((Number(c.amount[key + '-' + pad2(d)]) || 0) > 0) tasks.push(d);
+    }
+    if (!tasks.length) return 0;
+    return new Promise(function (resolve) {
+      var LIMIT = 5, idx = 0, active = 0;
+      function next() {
+        if (idx >= tasks.length && active === 0) { resolve(0); return; }
+        while (active < LIMIT && idx < tasks.length) {
+          (function (day) {
+            active++;
+            fetchDay(y, m, day).then(function (json) {
+              c.days[day] = (json && json.data && json.data.records) ? json.data.records : [];
+            })['catch'](function () { c.days[day] = c.days[day] || []; })
+              .then(function () { active--; next(); });
+          })(tasks[idx++]);
+        }
+      }
+      next();
+    });
+  }).then(function () {
+    return archP;
+  }).then(function (arch) {
+    if (arch && arch.length) mergeArchive(c, arch);
+    mergeExtras(plan.cache);
+    c.done = true;
+    return true;
+  })['catch'](function () {
+    // 接口不可用时仍尽量用存档兜底
+    return archP.then(function (arch) {
+      if (arch && arch.length) mergeArchive(c, arch);
+      mergeExtras(plan.cache);
+      c.done = true;
+      return !!(arch && arch.length);
+    });
+  });
+}
+
+/** 候选场次：仅江南分馆、仅当月与下月、仅尚未开场 */
+function planCandidatesList() {
+  if (plan.candidates) return plan.candidates;
+  mergeExtras(plan.cache);
+  var keys = planMonthKeys(), now = nowStamp(), out = [];
+  keys.forEach(function (k) {
+    var c = plan.cache[k];
+    if (!c) return;
+    Object.keys(c.days).forEach(function (d) {
+      (c.days[d] || []).forEach(function (r) {
+        if (r.cinemaInfo !== PLAN_CINEMA) return;
+        if (String(r.playTime).slice(0, 7) !== k) return;
+        if (String(r.playTime) < now) return;
+        out.push(r);
+      });
+    });
+  });
+  out.sort(function (a, b) {
+    if (a.playTime === b.playTime) return String(a.movieHall || '').localeCompare(String(b.movieHall || ''));
+    return a.playTime < b.playTime ? -1 : 1;
+  });
+  plan.candidates = out;
+  return out;
+}
+
+/* ---------- 渲染 ---------- */
+function renderPlanFab() {
+  var el = $('planFabCount');
+  el.textContent = plan.items.length;
+  el.hidden = !plan.items.length;
+}
+
+function renderPlanTabs() {
+  Array.prototype.forEach.call($('planTabs').querySelectorAll('.tab'), function (t) {
+    t.classList.toggle('is-active', t.dataset.planTab === plan.tab);
+  });
+  var n = $('planTabCount');
+  n.textContent = plan.items.length;
+  n.hidden = !plan.items.length;
+}
+
+function renderPlanSummary() {
+  var el = $('planSummary');
+  var items = planSorted();
+  if (!items.length) { el.hidden = true; el.innerHTML = ''; return; }
+  var conf = planConflicts(items);
+  var tot = planTotals(items);
+  var html = '';
+  if (conf.length) {
+    var shown = conf.slice(0, 4).map(planConflictText).join('；');
+    html += '<div class="plan-warn"><b>时间冲突</b>：' + esc(shown) +
+      (conf.length > 4 ? ' 等 ' + conf.length + ' 组' : '') + '（可保留，请自行取舍）</div>';
+  }
+  if (tot.max > PLAN_BUDGET) {
+    html += '<div class="plan-warn budget"><b>已超出 ' + PLAN_BUDGET + ' 元预算</b>（已选场次票价合计 ' +
+      esc(planTotalText(tot)) + (tot.unknown ? '，另有 ' + tot.unknown + ' 场待定' : '') + '）</div>';
+  }
+  el.innerHTML = html;
+  el.hidden = !html;
+}
+
+function planDateHead(d) {
+  return '<div class="plan-date-head"><b>' + mdTextOf(d) + '</b><span>' + WEEK[weekdayOf(d)] + '</span></div>';
+}
+
+function renderPlanCandidates() {
+  var box = $('planCandidates');
+  var q = normName(plan.search);
+  var all = planCandidatesList();
+  var list = all.filter(function (r) {
+    if (!q) return true;
+    var mi = r.movieInfo || {};
+    return normName(mi.movieName).indexOf(q) >= 0 || normName(mi.englishName).indexOf(q) >= 0;
+  });
+  plan.candIndex = {};
+
+  if (!list.length) {
+    box.innerHTML = '<div class="plan-empty">' + (all.length
+      ? '没有匹配「' + esc(plan.search) + '」的场次。'
+      : (plan.loading ? '正在加载当月与下月排片…'
+        : '当月与下月暂无可选场次（下月片单可能尚未发布，或均已开场）。')) + '</div>';
+    return;
+  }
+
+  var groups = [], cur = null;
+  list.forEach(function (r) {
+    var d = String(r.playTime).slice(0, 10);
+    if (!cur || cur.d !== d) { cur = { d: d, items: [] }; groups.push(cur); }
+    cur.items.push(r);
+  });
+
+  box.innerHTML = groups.map(function (g) {
+    return planDateHead(g.d) + g.items.map(function (r) {
+      var mi = r.movieInfo || {};
+      var k = planKeyOf({ t: r.playTime, c: r.cinemaInfo, h: r.movieHall, n: mi.movieName });
+      plan.candIndex[k] = r;
+      var added = planHas(k);
+      var p = priceOf(r);
+      var end = planEndMins({
+        t: r.playTime, min: Number(mi.movieMinute) || 0
+      });
+      var endTxt = '';
+      if (end >= 0) {
+        var mm = end % 1440;
+        endTxt = (end >= 1440 ? '次日 ' : '') + pad2(Math.floor(mm / 60)) + ':' + pad2(mm % 60);
+      }
+      var hall = r.movieHall || '';
+      return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') + '" data-k="' + esc(k) + '"' +
+        (added ? ' disabled' : '') + '>' +
+        '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
+          (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
+        '<span class="pc-body"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
+          '<span class="pc-meta">' + esc(hall) + (r.extra ? ' · 公众号 · 淘票票' : '') +
+            ' · ' + esc(planPriceText(p)) + '</span>' +
+          (mi.note ? '<span class="pc-note">' + esc(mi.note) + '</span>' : '') + '</span>' +
+        '<span class="pc-add">' + (added ? '已加入' : '加入') + '</span>' +
+      '</button>';
+    }).join('');
+  }).join('');
+}
+
+function renderPlanMine() {
+  var items = planSorted();
+  var tot = planTotals(items);
+  $('planTotal').innerHTML = items.length
+    ? '<b>共 ' + items.length + ' 场</b> · 合计 <b>' + esc(planTotalText(tot)) + '</b>' +
+      (tot.unknown ? ' · <span class="plan-pending">' + tot.unknown + ' 场待定</span>' : '')
+    : '';
+  if (!items.length) {
+    $('planList').innerHTML = '<div class="plan-empty">还没有加入场次。切到「选择场次」挑几场吧。<br>' +
+      '<span class="muted">仅江南分馆 · 当月与下月</span></div>';
+    return;
+  }
+  var confKeys = {};
+  planConflicts(items).forEach(function (p) { confKeys[p[0].k] = 1; confKeys[p[1].k] = 1; });
+  var groups = [], cur = null;
+  items.forEach(function (it) {
+    var d = String(it.t).slice(0, 10);
+    if (!cur || cur.d !== d) { cur = { d: d, items: [] }; groups.push(cur); }
+    cur.items.push(it);
+  });
+
+  $('planList').innerHTML = groups.map(function (g) {
+    return planDateHead(g.d) + g.items.map(function (it) {
+      var p = planPriceOf(it);
+      var bad = !!confKeys[it.k];
+      var endTxt = planEndText(it);
+      return '<div class="plan-item' + (bad ? ' conflict' : '') + '">' +
+        '<div class="plan-time"><b>' + esc(String(it.t).slice(11, 16)) + '</b>' +
+          '<span>– ' + esc(endTxt) + '</span></div>' +
+        '<div class="plan-main">' +
+          '<div class="plan-title">《' + esc(it.n) + '》' +
+            (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
+          '<div class="plan-meta">' + esc(it.h || '未标注影厅') +
+            ' · ' + (it.extra ? '公众号 · 淘票票' : '官网') +
+            (it.min ? ' · ' + it.min + ' 分钟' : ' · 片长未知') + '</div>' +
+        '</div>' +
+        '<div class="plan-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</div>' +
+        '<button type="button" class="plan-del" data-k="' + esc(it.k) + '" aria-label="移除该场次">&times;</button>' +
+      '</div>';
+    }).join('');
+  }).join('');
+}
+
+function renderPlan() {
+  renderPlanFab();
+  renderPlanTabs();
+  renderPlanSummary();
+  $('planAddPane').hidden = plan.tab !== 'add';
+  $('planMinePane').hidden = plan.tab !== 'mine';
+  var loadEl = $('planLoad');
+  if (plan.loading) {
+    loadEl.hidden = false;
+    loadEl.textContent = '正在加载当月与下月排片…';
+  } else if (plan.error) {
+    loadEl.hidden = false;
+    loadEl.textContent = plan.error;
+  } else {
+    loadEl.hidden = true;
+  }
+  if (plan.tab === 'add') renderPlanCandidates();
+  else renderPlanMine();
+}
+
+function planToast(msg) {
+  var el = $('planToast');
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(plan.toastTimer);
+  plan.toastTimer = setTimeout(function () { el.hidden = true; }, 2800);
+}
+
+/* ---------- 导出 PNG（Canvas 自绘，无外部依赖） ---------- */
+function exportPlanPng() {
+  var items = planSorted();
+  if (!items.length) { planToast('计划为空，先加入场次再导出'); return; }
+  var conf = planConflicts(items);
+  var confKeys = {};
+  conf.forEach(function (p) { confKeys[p[0].k] = 1; confKeys[p[1].k] = 1; });
+  var tot = planTotals(items);
+
+  var keys = planMonthKeys();
+  var rangeText = '仅江南分馆 · ' + keys[0].slice(0, 4) + ' 年 ' + Number(keys[0].slice(5, 7)) + ' 月 – ' +
+    keys[1].slice(0, 4) + ' 年 ' + Number(keys[1].slice(5, 7)) + ' 月';
+
+  var W = 620, S = 2, PAD = 40, FONT = '"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif';
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  if (!ctx) { planToast('当前浏览器不支持导出图片'); return; }
+  canvas.width = W * S;
+
+  function setFont(size, weight) { ctx.font = (weight || 'normal') + ' ' + size + 'px ' + FONT; }
+  function wrap(text, maxW) {
+    var lines = [], cur = '';
+    for (var i = 0; i < text.length; i++) {
+      if (ctx.measureText(cur + text.charAt(i)).width > maxW && cur) {
+        lines.push(cur); cur = text.charAt(i);
+      } else cur += text.charAt(i);
+    }
+    if (cur) lines.push(cur);
+    return lines;
+  }
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+  function fit(text, maxW) {
+    if (ctx.measureText(text).width <= maxW) return text;
+    var s = text;
+    while (s.length && ctx.measureText(s + '…').width > maxW) s = s.slice(0, -1);
+    return s + '…';
+  }
+
+  // 摘要与提示行（先量宽度换行，再据此计算画布高度）
+  var summary = '共 ' + items.length + ' 场 · 合计 ' + planTotalText(tot) +
+    (tot.unknown ? '（' + tot.unknown + ' 场票价待定）' : '');
+  setFont(12.5);
+  var warnLines = [];
+  conf.slice(0, 5).forEach(function (p) { warnLines.push('时间冲突：' + planConflictText(p)); });
+  if (conf.length > 5) warnLines.push('另有 ' + (conf.length - 5) + ' 组时间冲突');
+  if (tot.max > PLAN_BUDGET) warnLines.push('已超出 ' + PLAN_BUDGET + ' 元预算（已选场次票价合计 ' + planTotalText(tot) + '）');
+
+  var summaryW = W - PAD * 2 - 28;
+  var sumLines = wrap(summary, summaryW);
+  var warnWrapped = [];
+  warnLines.forEach(function (t) { warnWrapped = warnWrapped.concat(wrap(t, summaryW)); });
+
+  var groups = [];
+  var cur = null;
+  items.forEach(function (it) {
+    var d = String(it.t).slice(0, 10);
+    if (!cur || cur.d !== d) { cur = { d: d, items: [] }; groups.push(cur); }
+    cur.items.push(it);
+  });
+
+  // 布局（逻辑坐标，实际按 S 倍输出）
+  var top = 6, yTitle = top + 34, ySub = yTitle + 26, yDiv = ySub + 18;
+  var boxTop = yDiv + 18, lineH = 20;
+  var boxH = 20 + lineH * (sumLines.length + warnWrapped.length);
+  var listTop = boxTop + boxH + 18;
+  var listH = 0;
+  groups.forEach(function (g) { listH += 34 + g.items.length * 38; });
+  var footerTop = listTop + listH + 24;
+  var H = footerTop + 44;
+
+  canvas.height = H * S;
+  ctx.scale(S, S);
+
+  // 背景与顶部色条
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#d4202e';
+  ctx.fillRect(0, top - 6, W, 6);
+
+  // 标题
+  setFont(28, 'bold');
+  ctx.fillStyle = '#22242b';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText('观影计划', PAD, yTitle);
+  setFont(11.5);
+  ctx.fillStyle = '#767c8a';
+  var genText = '生成于 ' + todayStr();
+  ctx.fillText(genText, W - PAD - ctx.measureText(genText).width, yTitle - 2);
+
+  setFont(12.5);
+  ctx.fillStyle = '#767c8a';
+  ctx.fillText(rangeText, PAD, ySub);
+
+  ctx.strokeStyle = '#e4e6eb';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PAD, yDiv + 0.5);
+  ctx.lineTo(W - PAD, yDiv + 0.5);
+  ctx.stroke();
+
+  // 摘要卡片
+  ctx.fillStyle = (warnWrapped.length || tot.max > PLAN_BUDGET) ? '#fff7f7' : '#f4f5f7';
+  ctx.strokeStyle = (warnWrapped.length || tot.max > PLAN_BUDGET) ? 'rgba(212,32,46,.25)' : '#e4e6eb';
+  roundRect(PAD, boxTop, W - PAD * 2, boxH, 10);
+  ctx.fill();
+  ctx.stroke();
+
+  var ty = boxTop + 26;
+  setFont(13, 'bold');
+  ctx.fillStyle = '#22242b';
+  ctx.fillText(sumLines[0], PAD + 14, ty);
+  sumLines.slice(1).forEach(function (l) { ty += lineH; setFont(13); ctx.fillText(l, PAD + 14, ty); });
+  setFont(12);
+  ctx.fillStyle = '#8a4a09';
+  warnWrapped.forEach(function (l) { ty += lineH; ctx.fillText(l, PAD + 14, ty); });
+
+  // 场次清单
+  var y = listTop;
+  groups.forEach(function (g) {
+    ctx.fillStyle = '#d4202e';
+    ctx.fillRect(PAD, y - 12, 3, 14);
+    setFont(14, 'bold');
+    ctx.fillStyle = '#22242b';
+    ctx.fillText(mdTextOf(g.d) + ' ' + WEEK[weekdayOf(g.d)], PAD + 10, y);
+    y += 34;
+    g.items.forEach(function (it) {
+      var bad = !!confKeys[it.k];
+      if (bad) {
+        ctx.fillStyle = 'rgba(180,83,9,.08)';
+        roundRect(PAD - 4, y - 14, W - PAD * 2 + 8, 33, 7);
+        ctx.fill();
+        ctx.fillStyle = '#b45309';
+        ctx.fillRect(PAD - 4, y - 14, 3, 33);
+      }
+      var p = planPriceOf(it);
+      var timeEnd = planEndText(it);
+      setFont(12.5);
+      ctx.fillStyle = '#22242b';
+      ctx.fillText(it.t.slice(11, 16), PAD + 6, y + 6);
+      var tw = ctx.measureText(it.t.slice(11, 16)).width;
+      setFont(10.5);
+      ctx.fillStyle = '#767c8a';
+      ctx.fillText('– ' + timeEnd, PAD + 6 + tw + 4, y + 6);
+
+      setFont(11, 'normal');
+      ctx.fillStyle = '#767c8a';
+      ctx.fillText(fit(it.h || '影厅未知', 62), PAD + 132, y + 6);
+
+      setFont(12.5, 'bold');
+      ctx.fillStyle = '#22242b';
+      ctx.fillText(fit('《' + it.n + '》', 300), PAD + 196, y + 6);
+
+      setFont(12, 'bold');
+      ctx.fillStyle = p ? '#b01b26' : '#767c8a';
+      var ptxt = planPriceText(p);
+      ctx.fillText(ptxt, W - PAD - ctx.measureText(ptxt).width, y + 6);
+
+      if (bad) {
+        setFont(9);
+        ctx.fillStyle = '#b45309';
+        ctx.textAlign = 'right';
+        ctx.fillText('时间冲突', W - PAD, y + 20);
+        ctx.textAlign = 'left';
+      } else if (it.min) {
+        setFont(9);
+        ctx.fillStyle = '#9aa0ad';
+        ctx.fillText(it.min + ' 分钟', PAD + 196, y + 19);
+      }
+      y += 38;
+    });
+    y += 4;
+  });
+
+  // 页脚
+  ctx.strokeStyle = '#e4e6eb';
+  ctx.beginPath();
+  ctx.moveTo(PAD, footerTop + 0.5);
+  ctx.lineTo(W - PAD, footerTop + 0.5);
+  ctx.stroke();
+  setFont(10.5);
+  ctx.fillStyle = '#9aa0ad';
+  ctx.fillText('中国电影资料馆 · 排片查询 · 观影计划（仅江南分馆 / 当月与下月）', PAD, footerTop + 18);
+  ctx.fillText('价格为站内已登记票价，实际以官方购票页为准。', PAD, footerTop + 34);
+
+  try {
+    var url = canvas.toDataURL('image/png');
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '观影计划_' + todayStr() + '.png';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); }, 0);
+    planToast('已导出图片：' + W * S + ' × ' + Math.round(H * S) + ' px');
+  } catch (e) {
+    planToast('导出失败：' + (e && e.message ? e.message : '浏览器不支持'));
+  }
+}
+
+/* ---------- 交互 ---------- */
+function openPlan() {
+  $('planModal').hidden = false;
+  document.body.classList.add('modal-open');
+  plan.tab = plan.items.length ? 'mine' : 'add';
+  renderPlan();
+  planLoadAll();
+  setTimeout(function () { $('planSearch').focus(); }, 30);
+}
+
+function closePlan() {
+  $('planModal').hidden = true;
+  if ($('seatModal').hidden) document.body.classList.remove('modal-open');
+}
+
+function planLoadAll() {
+  if (plan.loading) return;
+  var keys = planMonthKeys();
+  var need = keys.some(function (k) { return !(plan.cache[k] && plan.cache[k].done); });
+  if (!need) return;
+  plan.loading = true;
+  plan.error = '';
+  plan.candidates = null;
+  renderPlan();
+  var failed = 0;
+  Promise.all(keys.map(function (k) {
+    return planLoadMonth(k).then(function (ok) { if (!ok) failed++; });
+  })).then(function () {
+    plan.loading = false;
+    plan.candidates = null;
+    plan.error = failed ? '部分排片加载失败，以下为可用场次（可稍后重试）' : '';
+    renderPlan();
+  });
+}
+
+$('planBtn').addEventListener('click', openPlan);
+$('planClose').addEventListener('click', closePlan);
+$('planModal').addEventListener('click', function (e) {
+  if (e.target === this) closePlan();
+});
+
+$('planTabs').addEventListener('click', function (e) {
+  var btn = e.target.closest('.tab');
+  if (!btn) return;
+  plan.tab = btn.dataset.planTab;
+  renderPlan();
+});
+
+var planSearchTimer;
+$('planSearch').addEventListener('input', function () {
+  var v = this.value.trim();
+  clearTimeout(planSearchTimer);
+  planSearchTimer = setTimeout(function () { plan.search = v; renderPlanCandidates(); }, 160);
+});
+
+$('planCandidates').addEventListener('click', function (e) {
+  var btn = e.target.closest ? e.target.closest('.plan-cand') : null;
+  if (!btn || btn.disabled) return;
+  var k = btn.getAttribute('data-k');
+  var r = plan.candIndex[k];
+  if (!r) return;
+  if (planHas(k)) { planToast('该场次已在计划中'); renderPlan(); return; }
+  var snap = planSnapshot(r);
+  plan.items.push(snap);
+  savePlanStore();
+  planToast('已加入：' + mdTextOf(String(r.playTime).slice(0, 10)) + ' ' +
+    String(r.playTime).slice(11, 16) + '《' + (r.movieInfo || {}).movieName + '》');
+  renderPlan();
+});
+
+$('planList').addEventListener('click', function (e) {
+  var btn = e.target.closest ? e.target.closest('.plan-del') : null;
+  if (!btn) return;
+  var k = btn.getAttribute('data-k');
+  plan.items = plan.items.filter(function (it) { return it.k !== k; });
+  savePlanStore();
+  renderPlan();
+  planToast('已从计划中移除');
+});
+
+$('planClear').addEventListener('click', function () {
+  if (!plan.items.length) { planToast('计划已经是空的'); return; }
+  plan.items = [];
+  savePlanStore();
+  renderPlan();
+  planToast('已清空观影计划');
+});
+
+$('planExport').addEventListener('click', exportPlanPng);
+
+loadPlanStore();
+renderPlanFab();
 
 /* ---------- 启动 ---------- */
 /* 默认展示「今天」（Asia/Shanghai）；URL 带 ?date=YYYY-MM-DD 时按参数走，
