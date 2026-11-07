@@ -40,9 +40,23 @@
 
       <article class="cl-item">
         <div class="cl-head">
-          <span class="cl-ver">v1.9.5</span>
+          <span class="cl-ver">v1.9.6</span>
           <span class="cl-date">2026-11-07</span>
           <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>页头新增两个公众号入口</b>：页头新增「北京公众号」「江南公众号」两个按钮，分别对应微信公众号「中国电影资料馆」与「中国电影资料馆江南分馆」。桌面端与「更新日志 / 官网放映日历 / 资料馆官网」并排；移动端在品牌行下方独占一行，两个按钮等宽铺满，不挤压品牌与「观影计划」入口。</li>
+          <li><b>文章弹层</b>：点击任一入口打开统一弹层，默认落在对应公众号的页签，可切换另一个公众号；文章按发布日期倒序排列，每条显示日期、标题与摘要，点击以新标签打开微信原文（<code>rel="noopener noreferrer"</code>）。支持关闭按钮、点击遮罩、Esc 退出，关闭后焦点回到触发按钮；面板内 Tab 焦点循环，打开时日期速选小日历自动隐藏、浮动「观影计划」按钮位于遮罩之下，不产生叠层。</li>
+          <li><b>文章清单与维护方式</b>：清单独立存放于 <code>feeds.js</code>（结构同 <code>events-2026-11.js</code>，按公众号分组，每条含 <code>title / date / url</code> 与可选 <code>summary</code>，文件顶部注释写明字段与维护方式），页面按日期自动倒序渲染。新增文章只需在对应公众号的 <code>articles</code> 数组追加一条记录，无需改动逻辑代码；只收录能核实标题与链接的真实文章。</li>
+          <li><b>静态站无法实时抓取</b>：微信公众号没有可跨域读取的文章列表接口（<code>mp.weixin.qq.com</code> 有反爬与防盗链，浏览器端请求会被拦截），因此本站不做实时抓取、也不经过第三方服务，文章必须人工收录；面板内已注明「文章由人工收录，最新文章可能尚未同步」，并给出在微信内搜索并关注对应公众号的查看方式（未核实到公众号主页 / 文章合集链接，故不放外部链接）。</li>
+          <li><b>当前收录</b>：北京《放映预告 | 冬日渐近，11月片单热烈呈现！》（2026-10-27，<a href="https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg" target="_blank" rel="noopener noreferrer">原文</a>）、江南分馆《江南分馆11月片单｜百年辉煌，戏梦重逢》（2026-10-28，<a href="https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA" target="_blank" rel="noopener noreferrer">原文</a>）；标题、日期与链接均以 <code>scripts/sources/2026-11-*/article.html</code> 存档中的 <code>og:url</code>、<code>og:title</code> 与发布时间核对，其余文章因缺少可核实链接暂未收录。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.9.5</span>
+          <span class="cl-date">2026-11-07</span>
         </div>
         <ul class="cl-list">
           <li><b>「按月查看」取消自动定位</b>：切换到按月查看后不再滚动到今天所在分组，页面保持在日历 / 月份选择区域（若从列表深处切换，则原样保留切换前的滚动位置，不跳转）。「全部排片」定位到今天的行为保持不变。</li>
