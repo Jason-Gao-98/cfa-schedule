@@ -679,13 +679,13 @@ function renderMiniCal() {
   var days = miniCalDayMap();
   var today = todayStr();
   var html = '';
-  // 空白占位用 span，避免被键盘聚焦
-  for (var p = 0; p < lead; p++) html += '<span class="mc-day blank" aria-hidden="true"></span>';
+  // 空白占位：不可见空格子，仅按星期偏移占位，不带边框/虚线/独立高度
+  for (var p = 0; p < lead; p++) html += '<span class="mc-day mc-blank" aria-hidden="true"></span>';
   for (var d = 1; d <= dim; d++) {
     var ds = y + '-' + pad2(m) + '-' + pad2(d);
     var has = !!days[ds];
     var isToday = ds === today;
-    html += '<button type="button" class="mc-day ' + (has ? 'has' : 'empty') + (isToday ? ' today' : '') + '"' +
+    html += '<button type="button" class="mc-day ' + (has ? 'mc-has' : 'mc-empty') + (isToday ? ' mc-today' : '') + '"' +
       ' data-day="' + ds + '"' + (has ? '' : ' disabled') +
       (isToday ? ' aria-current="date"' : '') +
       ' aria-label="' + m + ' 月 ' + d + ' 日' + (has ? '，有排片，点击定位' : '，无排片') + '">' + d + '</button>';
@@ -724,7 +724,7 @@ $('mcClose').addEventListener('click', function () {
 $('mcPrev').addEventListener('click', function () { goMonth(-1); });
 $('mcNext').addEventListener('click', function () { goMonth(1); });
 $('mcGrid').addEventListener('click', function (e) {
-  var btn = e.target.closest('.mc-day.has');
+  var btn = e.target.closest('.mc-day.mc-has');
   if (!btn) return;
   var el = document.getElementById('day-' + btn.dataset.day);
   if (!el) { updateMiniCal(); return; }
