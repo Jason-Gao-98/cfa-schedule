@@ -242,8 +242,9 @@ var state = {
   dayFallbackFrom: '', // 当天无场次时自动跳转的来源日期（用于提示）
   dayArchiveOnly: false, // 接口失败、仅存档可用时的提示标记
   dayArchived: 0,       // 当日从存档补入的已放映场次数
-  anchorPending: false, // 切换进「全部排片 / 按月」后，等渲染完成再定位到今天
-  anchorFrom: ''        // 「全部排片」里今天无场次时，实际定位到的最近前向日期（用于提示）
+  anchorPending: false, // 切换进「全部排片」后，等渲染完成再定位到今天
+  anchorFrom: '',       // 「全部排片」里今天无场次时，实际定位到的最近前向日期（用于提示）
+  keepScrollY: -1       // 切到「按月查看」时记住当前滚动位置，渲染后原样恢复（不做跳转）
 };
 
 var VENUES = ['小西天艺术影院', '百子湾艺术影院', '江南分馆影院'];
@@ -647,6 +648,100 @@ function renderCalendar(records) {
   });
 }
 
+/* ---------- 日期速选小日历（仅「按月查看」） ----------
+ * 滚过顶部日历区后浮现，固定在不与「观影计划」浮动按钮重叠的位置；
+ * 数据直接取自已渲染的日期分组，因此与当前影院 / 搜索筛选保持一致。
+ */
+var miniCalOpen = !(window.matchMedia && window.matchMedia('(max-width:760px)').matches);
+
+function setMiniCalOpen(open) {
+  miniCalOpen = !!open;
+  $('miniCalPanel').hidden = !miniCalOpen;
+  $('miniCalToggle').setAttribute('aria-expanded', miniCalOpen ? 'true' : 'false');
+  $('miniCalToggle').setAttribute('aria-label', miniCalOpen ? '收起日期速选小日历' : '打开日期速选小日历');
+  if (miniCalOpen) renderMiniCal();
+}
+
+/** 已渲染日期分组（反映当前筛选），按 'YYYY-MM-DD' 索引 */
+function miniCalDayMap() {
+  var map = {};
+  Array.prototype.forEach.call($('dayList').querySelectorAll('.day-group[id]'), function (g) {
+    map[g.id.slice(4)] = true;
+  });
+  return map;
+}
+
+function renderMiniCal() {
+  var y = state.year, m = state.month;
+  $('mcTitle').textContent = y + ' 年 ' + m + ' 月';
+  var dim = daysInMonth(y, m);
+  var lead = (new Date(y, m - 1, 1).getDay() + 6) % 7;   // 周一为起点
+  var days = miniCalDayMap();
+  var today = todayStr();
+  var html = '';
+  // 空白占位用 span，避免被键盘聚焦
+  for (var p = 0; p < lead; p++) html += '<span class="mc-day blank" aria-hidden="true"></span>';
+  for (var d = 1; d <= dim; d++) {
+    var ds = y + '-' + pad2(m) + '-' + pad2(d);
+    var has = !!days[ds];
+    var isToday = ds === today;
+    html += '<button type="button" class="mc-day ' + (has ? 'has' : 'empty') + (isToday ? ' today' : '') + '"' +
+      ' data-day="' + ds + '"' + (has ? '' : ' disabled') +
+      (isToday ? ' aria-current="date"' : '') +
+      ' aria-label="' + m + ' 月 ' + d + ' 日' + (has ? '，有排片，点击定位' : '，无排片') + '">' + d + '</button>';
+  }
+  $('mcGrid').innerHTML = html;
+}
+
+/** 出现阈值：滚过顶部日历区底部（至少 300px），并补偿吸顶头部高度 */
+function miniCalThreshold() {
+  var block = $('calendarBlock');
+  if (!block || block.hidden) return 300;
+  var hd = document.querySelector('.site-header');
+  var hh = hd ? hd.getBoundingClientRect().height : 0;
+  var bottom = block.getBoundingClientRect().bottom + (window.pageYOffset || 0);
+  return Math.max(300, bottom - hh);
+}
+
+function updateMiniCal() {
+  var el = $('miniCal');
+  var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  var th = miniCalThreshold();
+  // 已显示时用 40px 回滞，避免在阈值附近来回闪隐
+  var show = state.scope === 'month' && !loading && (el.hidden ? y > th : y > th - 40);
+  if (show === !el.hidden) return;
+  el.hidden = !show;
+  if (show) renderMiniCal();
+}
+
+$('miniCalToggle').addEventListener('click', function () {
+  setMiniCalOpen(!miniCalOpen);
+});
+$('mcClose').addEventListener('click', function () {
+  setMiniCalOpen(false);
+  $('miniCalToggle').focus();
+});
+$('mcPrev').addEventListener('click', function () { goMonth(-1); });
+$('mcNext').addEventListener('click', function () { goMonth(1); });
+$('mcGrid').addEventListener('click', function (e) {
+  var btn = e.target.closest('.mc-day.has');
+  if (!btn) return;
+  var el = document.getElementById('day-' + btn.dataset.day);
+  if (!el) { updateMiniCal(); return; }
+  scrollDayIntoView(el);
+  // 窄屏点选后收起，避免大面积遮挡列表
+  if (window.matchMedia && window.matchMedia('(max-width:760px)').matches) setMiniCalOpen(false);
+});
+$('miniCal').addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && miniCalOpen) {
+    setMiniCalOpen(false);
+    $('miniCalToggle').focus();
+  }
+});
+window.addEventListener('scroll', updateMiniCal, { passive: true });
+window.addEventListener('resize', updateMiniCal);
+setMiniCalOpen(miniCalOpen);
+
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
@@ -984,6 +1079,13 @@ function render() {
   renderNotice();
   if (state.scope === 'month') renderCalendar(records);
   renderList(records);
+  updateMiniCal();
+  // 「按月查看」切换后不自动定位：恢复切换前的滚动位置，抵消内容替换带来的滚动锚定位移
+  if (state.keepScrollY >= 0 && !loading) {
+    var keepY = state.keepScrollY;
+    state.keepScrollY = -1;
+    window.scrollTo({ top: keepY, behavior: 'auto' });
+  }
 }
 
 /** 今天在「全部排片」里没有场次 → 返回最近的前向有排片日期；否则返回 '' */
@@ -1016,13 +1118,21 @@ function anchorTarget() {
   return first ? { ds: first } : null;      // 全都无排片 → 停在顶部
 }
 
+/** 把某个日期分组滚到吸顶头部下方（绝对定位，偏移只由头部高度决定） */
+function scrollDayIntoView(el) {
+  var hd = document.querySelector('.site-header');
+  var hh = hd ? hd.getBoundingClientRect().height : 0;
+  var off = ((hh > 0 && hh < 140) ? hh : 72) + 10;
+  var y = el.getBoundingClientRect().top + (window.pageYOffset || 0) - off;
+  window.scrollTo({ top: Math.max(0, y), behavior: reducedMotion() ? 'auto' : 'smooth' });
+}
+
 function applyAnchor() {
   if (!state.anchorPending) return;
   state.anchorPending = false;
   var target = anchorTarget();
   var el = target ? document.getElementById('day-' + target.ds) : null;
   if (!el) { window.scrollTo({ top: 0, behavior: 'auto' }); return; }
-  // 吸顶头部高度随屏宽变化，实测后补偿；极端布局（视口异常）时回退到常见高度
   var hd = document.querySelector('.site-header');
   var hh = hd ? hd.getBoundingClientRect().height : 0;
   var off = ((hh > 0 && hh < 140) ? hh : 72) + 10;
@@ -2621,8 +2731,9 @@ $('scopeSwitch').addEventListener('click', function (e) {
   state.dayFallbackFrom = '';
   state.dayArchiveOnly = false;
   state.anchorFrom = '';
-  // 跨月/按月视图：等渲染完成后再定位到今天；当日视图仍回到顶部
-  state.anchorPending = state.scope !== 'day';
+  // 「全部排片」等渲染完成后定位到今天；「按月查看」不滚动，恢复切换前的滚动位置
+  state.anchorPending = state.scope === 'all';
+  state.keepScrollY = state.scope === 'month' ? (window.pageYOffset || 0) : -1;
   if (state.scope === 'day' && !state.day) setDay(todayStr());
   renderMonthLabel();
   if (state.scope === 'day') window.scrollTo({ top: 0, behavior: 'smooth' });
