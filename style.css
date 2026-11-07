@@ -1243,3 +1243,8 @@ article.film.assist-hit,
   .assist-spinner{animation:none}
   .assist-btn,.assist-btn:hover{transform:none}
 }
+
+/* 页头站名 / 方章：可点击返回首页 */
+a.brand{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+a.brand:hover .brand-text h1{color:var(--accent)}
+a.brand:focus-visible{outline:2px solid rgba(212,32,46,.5);outline-offset:3px;border-radius:6px}
