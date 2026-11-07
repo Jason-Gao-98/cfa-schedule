@@ -991,3 +991,77 @@ body.modal-open{overflow:hidden}
   .plan-del{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center}
   .plan-toolbar-btns .ghost-btn{min-height:40px}
 }
+
+/* ================= v1.9.6 公众号文章入口 ================= */
+/* 页头两个入口（北京 / 江南），点击打开统一弹层并按公众号分组展示人工收录的文章 */
+.feeds-nav{display:flex;gap:8px;flex:none;margin-left:auto}
+.feeds-btn{
+  font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;
+  padding:7px 13px;border:1px solid var(--line);border-radius:999px;
+  background:var(--panel);transition:.18s;white-space:nowrap;
+}
+.feeds-btn:hover{color:var(--accent);border-color:rgba(212,32,46,.45);background:var(--accent-soft)}
+.feeds-btn:focus-visible{outline:2px solid rgba(212,32,46,.5);outline-offset:2px}
+
+.feeds-modal{
+  width:min(620px, calc(100vw - 32px));max-width:none;
+  max-height:min(80vh, 660px);padding:20px;
+  display:flex;flex-direction:column;
+}
+.feeds-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.feeds-head h3{margin:0;font-size:18px}
+.feeds-sub{margin:3px 0 0;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.feeds-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.feeds-tab{
+  display:inline-flex;align-items:center;gap:6px;max-width:100%;
+  font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;
+  padding:7px 13px;border:1px solid var(--line);border-radius:999px;
+  background:var(--panel-2);transition:.18s;
+}
+.feeds-tab:hover{color:var(--txt);border-color:#c6c9d1}
+.feeds-tab.is-active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.feeds-count{
+  min-width:18px;height:18px;padding:0 5px;border-radius:999px;
+  display:inline-grid;place-items:center;
+  background:#e6e8ee;color:var(--muted);font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;
+}
+.feeds-tab.is-active .feeds-count{background:var(--accent);color:#fff}
+.feeds-note{
+  margin:12px 0;padding:10px 12px;font-size:12.5px;line-height:1.65;
+  color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:9px;
+  overflow-wrap:anywhere;
+}
+.feeds-list{
+  flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  display:flex;flex-direction:column;gap:8px;padding-right:2px;
+}
+.feeds-empty{padding:34px 12px;text-align:center;font-size:13.5px;color:var(--muted)}
+.feed-item{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;
+  padding:12px 14px;border:1px solid var(--line);border-radius:11px;
+  background:#fff;text-decoration:none;transition:.18s;
+}
+.feed-item:hover{border-color:rgba(212,32,46,.45);background:var(--accent-soft)}
+.feed-item:focus-visible{outline:2px solid rgba(212,32,46,.5);outline-offset:2px}
+.feed-date{font-size:12px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.feed-title{font-size:14px;font-weight:600;color:var(--txt);min-width:0;overflow-wrap:anywhere}
+.feed-summary{display:block;margin-top:3px;font-size:12px;font-weight:400;color:var(--muted);line-height:1.55}
+.feed-go{font-size:12px;color:var(--accent);white-space:nowrap}
+
+@media (max-width:760px){
+  /* 页头换成两行：品牌 + 观影计划在第一行，两个公众号入口铺满第二行，互不挤压 */
+  .header-inner{flex-wrap:wrap}
+  .feeds-nav{order:3;flex:0 0 100%;width:100%;margin-left:0;gap:6px}
+  .feeds-btn{flex:1;min-width:0;min-height:36px;padding:6px 8px;font-size:12.5px;border-radius:10px}
+
+  #feedsModal{padding:12px}
+  .feeds-modal{width:100%;max-width:100%;max-height:calc(100dvh - 24px);padding:16px}
+  .feeds-head h3{font-size:17px}
+  .feeds-tabs{gap:6px;margin-top:12px}
+  .feeds-tab{flex:1;justify-content:center;min-height:38px;padding:7px 8px;font-size:12.5px}
+  .feeds-note{margin:10px 0;padding:9px 10px;font-size:12px}
+  .feed-item{gap:10px;padding:11px 12px}
+  .feed-title{font-size:13.5px}
+  .feed-summary{font-size:11.5px}
+  .feed-go{font-size:11.5px}
+}
