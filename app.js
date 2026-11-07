@@ -954,7 +954,7 @@ function renderList(records) {
       var fmtTags = titleFmt.filter(function (t) { return nameUp.indexOf(t.toUpperCase()) < 0; })
         .map(function (t) { return '<span class="fmt-title">' + esc(t) + '</span>'; }).join('');
       var link = DETAIL_PAGE + (mi.movieId || r.movieId || '');
-      var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页、无座位数据）
+      var isExtra = !!r.extra;   // 公众号 / 淘票票渠道补充场次（APP 未上架，无详情页）
       // 连场第二场虽为补充场次，但可用前一场的合并场次查座位图，因此同样给上座率入口
       var chainPrev = isChainRec(r) ? chainPrevOf(r, records) : null;
 
@@ -967,11 +967,13 @@ function renderList(records) {
       // 来源徽章不再视觉呈现，仅保留屏幕阅读器文本
       var extraSr = '<span class="sr-only">公众号补充场次（淘票票可购票）</span>';
       var side = '';
-      if (isExtra && chainPrev && !r.archived) {
-        side = '<button type="button" class="occ-open" data-i="' + myIdx +
-          '" title="连场：与前一场同一张票，座位图来自票务系统的合并场次">上座率</button>' + extraSr;
-      } else if (isExtra) {
-        side = extraSr;
+      if (isExtra) {
+        // 补充场次没有详情页，但同样提供上座率入口，走既有 openSeat 链路；
+        // 查不到排期时由既有分支文案说明（票务检索为空 / 无本场排期 / 登录失效等）
+        var chainTip = (chainPrev && !r.archived)
+          ? ' title="连场：与前一场同一张票，座位图来自票务系统的合并场次"'
+          : '';
+        side = '<button type="button" class="occ-open" data-i="' + myIdx + '"' + chainTip + '>上座率</button>' + extraSr;
       } else if (r.archived) {
         // 已放映场次不再提供上座率入口
         side = '<a class="detail-link" href="' + link + '" target="_blank" rel="noopener">影片详情</a>';
