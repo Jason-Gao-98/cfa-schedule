@@ -40,9 +40,23 @@
 
       <article class="cl-item">
         <div class="cl-head">
-          <span class="cl-ver">v1.9.12</span>
+          <span class="cl-ver">v1.9.13</span>
           <span class="cl-date">2026-11-07</span>
           <span class="cl-badge">最新</span>
+        </div>
+        <ul class="cl-list">
+          <li><b>收录口径收窄为月度片单</b>：两个公众号清单只保留月度片单/放映片单性质的文章，移除开票通知、影人对话、嘉宾招募、影展介绍、活动预告、映后交流、特别策划等 13 篇非片单内容，且全部仍为 <code>mp.weixin.qq.com</code> 官方原文。</li>
+          <li><b>最终片单</b>：北京 2 篇——2026-08-26《金秋九月，艺术影院30周年片单精彩呈现》、2026-10-27《放映预告 | 冬日渐近，11月片单热烈呈现！》；江南分馆 2 篇——2026-09-22《江南分馆10月片单｜时空穿越，戏梦江南》、2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》。</li>
+          <li><b>界面文案</b>：页头入口由「北京公众号 / 江南公众号」改为「北京片单 / 江南片单」，弹层标题、说明与空态统一为片单口径，移除与「全部文章 / 历史消息」相关的承诺；说明改为「仅收录两个公众号的月度片单文章，均为人工逐篇核实的微信原文；片单一般在月末发布，最新一期请以微信内该号为准」。</li>
+          <li><b>折叠与空态</b>：以 2026-11-07 为基准（30 天窗口起点 2026-10-08），两号各默认显示 1 篇、折叠 1 篇（北京展开 2、江南展开 2）；不存在更早条目时不显示折叠按钮。置顶标记仍为空。</li>
+          <li><b>布局实测</b>：1280 与 375 宽度下，页头两个入口等宽并排、无横向溢出；主排片页与 <code>events-2026-11.js</code> 未改动。</li>
+        </ul>
+      </article>
+
+      <article class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v1.9.12</span>
+          <span class="cl-date">2026-11-07</span>
         </div>
         <ul class="cl-list">
           <li><b>微信侧公开枚举排查</b>：从两篇已收录原文页确认两个号的 <code>__biz</code>：北京 <code>MzAxMTEwNTgyNQ==</code>、江南分馆 <code>Mzk0NDY5MDEwOA==</code>。原文页内 <code>album_info_list</code> 为空，没有 <code>album_id</code>，也未出现「合集」入口，说明这两篇未加入任何合集。</li>
