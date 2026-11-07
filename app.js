@@ -3608,13 +3608,111 @@ function exportPlanPng() {
     cur.items.push(it);
   });
 
+  // 片名换行：中文与《》按字符断行，英文按单词断行，超长单词按字符断行；
+  // 避免行首出现「》」、行尾出现「《」这类孤字
+  function wrapTitle(text, maxW) {
+    var units = [], i = 0;
+    while (i < text.length) {
+      var ch = text.charAt(i);
+      if (/[A-Za-z0-9]/.test(ch)) {
+        var j = i + 1;
+        while (j < text.length && /[A-Za-z0-9'’\-\.]/.test(text.charAt(j))) j++;
+        units.push(text.slice(i, j)); i = j;
+      } else { units.push(ch); i++; }
+    }
+    var lines = [], cur = '';
+    for (var n = 0; n < units.length; n++) {
+      var u = units[n];
+      if (!cur) {
+        if (u.length > 1 && ctx.measureText(u).width > maxW) {
+          // 超长英文单词：按字符断行塞满当前行
+          var rest = u;
+          while (rest.length) {
+            var k = 1;
+            while (k < rest.length && ctx.measureText(rest.slice(0, k + 1)).width <= maxW) k++;
+            var piece = rest.slice(0, k), tail = rest.slice(k);
+            if (tail.length) { lines.push(piece); rest = tail; } else { cur = piece; rest = ''; }
+          }
+          continue;
+        }
+        cur = u;
+        continue;
+      }
+      if (ctx.measureText(cur + u).width <= maxW) { cur += u; continue; }
+      if (u === '》' && cur.length > 1) {
+        // 不把 」 放到行首：把上一行末字一起挪到新行
+        lines.push(cur.slice(0, -1));
+        cur = cur.slice(-1) + u;
+        continue;
+      }
+      if (cur.charAt(cur.length - 1) === '《' && cur.length > 1) {
+        // 不把 《 放在行尾：把书名号挪到新行
+        lines.push(cur.slice(0, -1));
+        cur = '《' + u;
+        continue;
+      }
+      lines.push(cur);
+      cur = u;
+    }
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  // 逐场预排版：片名换行、制式标签位置、行高（用于计算画布总高）
+  var nameX = PAD + 196;
+  var chipPad = 5, chipGap = 4, chipH = 16;
+  var rowMap = {};
+  items.forEach(function (it) {
+    var bad = !!confKeys[it.k];
+    var p = planPriceOf(it);
+    var ptxt = planPriceText(p);
+    setFont(12, 'bold');
+    var pw = ctx.measureText(ptxt).width;
+    var priceX = W - PAD - pw;
+    var confW = 0, confX = priceX;
+    if (bad) {
+      setFont(9);
+      confW = ctx.measureText('时间冲突').width;
+      confX = priceX - 10 - confW;
+    }
+    var rightBound = bad ? confX : priceX;
+    var availW = Math.max(60, rightBound - 12 - nameX);
+
+    // 制式标签与主列表同规则：去重，片名本身已含该制式则不重复
+    var tags = planFormatOf(planRecord(it)).tags;
+    setFont(10, 'bold');
+    var chipW = tags.map(function (t) { return ctx.measureText(t).width + chipPad * 2; });
+    var tagsW = chipW.reduce(function (a, b) { return a + b; }, 0) +
+      (tags.length ? (tags.length - 1) * chipGap : 0);
+
+    setFont(12.5, 'bold');
+    var lines = wrapTitle('《' + it.n + '》', availW);
+    if (lines.length > 2) {
+      var restText = lines.slice(1).join('');
+      var l2 = fit(restText, availW);
+      if (l2.charAt(l2.length - 1) === '《') l2 = l2.slice(0, -1) + '…';
+      lines = [lines[0], l2];
+    }
+    var lastW = ctx.measureText(lines[lines.length - 1]).width;
+    var chipOwnLine = !!tags.length && (lastW + 7 + tagsW > availW);
+    var rowH = 18 * lines.length + 10 + (chipOwnLine ? 16 : 0);
+    rowMap[it.k] = {
+      it: it, bad: bad, p: p, ptxt: ptxt, pw: pw, priceX: priceX,
+      confW: confW, confX: confX, tags: tags, chipW: chipW, tagsW: tagsW,
+      lines: lines, chipOwnLine: chipOwnLine, rowH: rowH
+    };
+  });
+
   // 布局（逻辑坐标，实际按 S 倍输出）
   var top = 6, yTitle = top + 34, ySub = yTitle + 26, yDiv = ySub + 18;
   var boxTop = yDiv + 18, lineH = 20;
   var boxH = 20 + lineH * (sumLines.length + warnWrapped.length);
   var listTop = boxTop + boxH + 18;
   var listH = 0;
-  groups.forEach(function (g) { listH += 36 + g.items.length * 28; });
+  groups.forEach(function (g) {
+    listH += 36;
+    g.items.forEach(function (it) { listH += rowMap[it.k].rowH; });
+  });
   if (groups.length > 1) listH += (groups.length - 1) * 20;
   var footerTop = listTop + listH + 24;
   var H = footerTop + 44;
@@ -3668,7 +3766,7 @@ function exportPlanPng() {
   // 场次清单
   var y = listTop;
   groups.forEach(function (g, gi) {
-    if (gi) y += 20;   // 日期分组之间留白，避免组标题贴着上一组最后一行
+    if (gi) y += 20;
     ctx.fillStyle = '#d4202e';
     ctx.fillRect(PAD, y - 12, 3, 14);
     setFont(14, 'bold');
@@ -3676,17 +3774,16 @@ function exportPlanPng() {
     ctx.fillText(mdTextOf(g.d) + ' ' + WEEK[weekdayOf(g.d)], PAD + 10, y);
     y += 30;
     g.items.forEach(function (it) {
+      var r = rowMap[it.k];
       var rowTop = y;
-      var bad = !!confKeys[it.k];
-      if (bad) {
+      if (r.bad) {
         ctx.fillStyle = 'rgba(180,83,9,.08)';
-        roundRect(PAD - 4, rowTop + 2, W - PAD * 2 + 8, 24, 7);
+        roundRect(PAD - 4, rowTop + 2, W - PAD * 2 + 8, r.rowH - 4, 7);
         ctx.fill();
         ctx.fillStyle = '#b45309';
-        ctx.fillRect(PAD - 4, rowTop + 2, 3, 24);
+        ctx.fillRect(PAD - 4, rowTop + 2, 3, r.rowH - 4);
       }
       var base = rowTop + 18;
-      var p = planPriceOf(it);
       var timeEnd = planEndText(it);
       setFont(12.5);
       ctx.fillStyle = '#22242b';
@@ -3700,43 +3797,20 @@ function exportPlanPng() {
       ctx.fillStyle = '#767c8a';
       ctx.fillText(fit(it.h || '影厅未知', 62), PAD + 132, base);
 
-      // 票价固定右对齐；有冲突时把「时间冲突」小标放在票价左侧，两者不重叠
-      var ptxt = planPriceText(p);
-      setFont(12, 'bold');
-      var pw = ctx.measureText(ptxt).width;
-      var priceX = W - PAD - pw;
-      var confW = 0;
-      var confX = priceX;
-      if (bad) {
-        setFont(9);
-        confW = ctx.measureText('时间冲突').width;
-        confX = priceX - 10 - confW;
-      }
-
-      // 制式标签与主列表同规则：去重，片名本身已含该制式则不重复
-      var tags = planFormatOf(planRecord(it)).tags;
-      var chipPad = 5, chipGap = 4, chipH = 16;
-      setFont(10, 'bold');
-      var chipW = tags.map(function (t) { return ctx.measureText(t).width + chipPad * 2; });
-      var tagsW = chipW.reduce(function (a, b) { return a + b; }, 0) +
-        (tags.length ? (tags.length - 1) * chipGap : 0);
-
-      var nameX = PAD + 196;
-      var rightBound = bad ? confX : priceX;
-      var nameMax = Math.max(40, rightBound - 12 - nameX - (tagsW ? tagsW + 7 : 0));
+      // 片名：最多 2 行，首行基线与时间/影厅/票价一致
       setFont(12.5, 'bold');
       ctx.fillStyle = '#22242b';
-      var nameTxt = fit('《' + it.n + '》', nameMax);
-      ctx.fillText(nameTxt, nameX, base);
-      var nw = ctx.measureText(nameTxt).width;
+      r.lines.forEach(function (line, li) { ctx.fillText(line, nameX, base + li * 18); });
+      var lastBase = base + (r.lines.length - 1) * 18;
+      var lastW = ctx.measureText(r.lines[r.lines.length - 1]).width;
 
-      // 制式小标签紧跟片名：片名先按剩余宽度截断，标签始终完整显示
-      if (tags.length) {
-        var cx = nameX + nw + 7;
-        var chipTop = base - 12;
-        tags.forEach(function (t, i) {
+      // 制式小标签：优先接在最后一行片名后；放不下则整体另起一行，标签不截断
+      if (r.tags.length) {
+        var cx = r.chipOwnLine ? nameX : nameX + lastW + 7;
+        var chipTop = r.chipOwnLine ? lastBase + 6 : lastBase - 12;
+        r.tags.forEach(function (t, i) {
           setFont(10, 'bold');
-          roundRect(cx, chipTop, chipW[i], chipH, 4.5);
+          roundRect(cx, chipTop, r.chipW[i], chipH, 4.5);
           ctx.fillStyle = '#e7e9ee';
           ctx.fill();
           ctx.strokeStyle = '#e4e6eb';
@@ -3746,21 +3820,21 @@ function exportPlanPng() {
           ctx.textBaseline = 'middle';
           ctx.fillText(t, cx + chipPad, chipTop + chipH / 2);
           ctx.textBaseline = 'alphabetic';
-          cx += chipW[i] + chipGap;
+          cx += r.chipW[i] + chipGap;
         });
       }
 
-      if (bad) {
+      if (r.bad) {
         setFont(9);
         ctx.fillStyle = '#b45309';
-        ctx.fillText('时间冲突', confX, base);
+        ctx.fillText('时间冲突', r.confX, base);
       }
 
       setFont(12, 'bold');
-      ctx.fillStyle = p ? '#b01b26' : '#767c8a';
-      ctx.fillText(ptxt, priceX, base);
+      ctx.fillStyle = r.p ? '#b01b26' : '#767c8a';
+      ctx.fillText(r.ptxt, r.priceX, base);
 
-      y += 28;
+      y += r.rowH;
     });
     y += 6;
   });
