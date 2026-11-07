@@ -18,11 +18,9 @@
  *   articles[]  文章列表，每条包含：
  *                 title   文章标题（与原文一致）
  *                 date    发布日期，格式 YYYY-MM-DD（用于排序、近一月过滤与显示）
- *                 url     可核实的内容链接：优先微信原文（https://mp.weixin.qq.com/s/...）；
- *                         无法取得原文时，可用公开可访问的转载页（幕味儿网易号、
- *                         文慧园路三号搜狐号等），并在 summary 开头注明转载渠道
- *                 summary 可选摘要，仅在能核实原文内容时填写；转载条目的开头注明来源
- *                         （如「幕味儿网易号 · …」），便于读者区分是否为公众号原文
+ *                 url     必须是该公众号的微信原文链接（https://mp.weixin.qq.com/s/...）；
+ *                         不接受网易号、搜狐号等第三方转载页，也不猜 token
+ *                 summary 可选摘要，仅在能核实原文内容时填写，不写转载来源
  *                 pinned  可选布尔，置顶标记；置顶文章始终显示并排在最前
  *
  * 置顶标记维护：
@@ -35,11 +33,9 @@
  *   1. 新收录一篇文章时，只在对应公众号的 articles 数组追加一条
  *      { title: '标题', date: 'YYYY-MM-DD', url: '原文链接' } 即可；
  *   2. 不需要改 feeds.js 之外的任何代码，页面会自动按日期倒序渲染；
- *   3. 只收录标题、发布日期、链接三者都能核实的真实文章，禁止编造或改写标题；
- *      链接优先用公众号原文，其次用公开可访问的转载页，并在 summary 注明来源；
- *      幕味儿（网易号）与文慧园路三号（搜狐号）是第三方转载渠道，并非这两个
- *      公众号本身；只收录其中可确认为公众号首发的开票、片单、活动与展映通知，
- *      不把转载号自采的每日影讯、影评、影史或其它影展报道算进这两个号；
+ *   3. 只收录该公众号的微信原文：打开链接后需同时确认标题一致、页面署名为该
+ *      公众号、发布日期可确认；三者不满足就不收录，不用转载页顶替、不改写标题、
+ *      不猜链接；找不到就留空，数量少也按实际上线；
  *   4. 微信公众号没有可跨域读取的文章列表接口（mp.weixin.qq.com 有反爬与
  *      防盗链，浏览器端 fetch 会被拦截），因此清单必须人工维护，
  *      本站不做实时抓取、也不经过任何第三方抓取服务。
@@ -54,88 +50,34 @@ window.FEEDS = {
       searchHint: '中国电影资料馆',
       articles: [
         {
-          title: '电影资料馆11月北京放映今天中午开票！',
-          date: '2026-10-29',
-          url: 'https://www.163.com/dy/article/LADHQ1EP05178AGV.html',
-          summary: '幕味儿网易号 · 11月北京开票：费穆诞辰120周年、白杨纪念、维斯康蒂、瓦伊达等专题'
-        },
-        {
           title: '放映预告 | 冬日渐近，11月片单热烈呈现！',
           date: '2026-10-27',
           url: 'https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg',
           summary: '11 月片单，含小西天、百子湾艺术影院全月排片长图'
         },
         {
-          title: '神秘纪念品发送！ 《上海女儿》北京首映式今晚举办',
-          date: '2026-10-12',
-          url: 'https://www.163.com/dy/article/L91K1KMN05178AGV.html',
-          summary: '幕味儿网易号 · 《上海女儿》10月12日小西天首映，导演沈仲旻、主演梁翠珊映后交流'
+          title: '默片的万千气象：法国百代经典影片回顾展双城联映',
+          date: '2026-10-24',
+          url: 'https://mp.weixin.qq.com/s/OLw0_rXMfTtlsLnRyt3ZeQ',
+          summary: '法国百代经典默片回顾展，北京、苏州双城联映'
         },
         {
-          title: '电影资料馆艺术影院北京10月放映今日开票！',
-          date: '2026-09-30',
-          url: 'https://www.163.com/dy/article/L82NQHR705178AGV.html',
-          summary: '幕味儿网易号 · 10月北京开票：长征胜利90周年、世界音像遗产日、郭兰英、怀尔德、百代等专题'
+          title: '致敬经典·国际修复电影展 | 贝克街的侦探遇见茂瑙的日出',
+          date: '2026-10-24',
+          url: 'https://mp.weixin.qq.com/s/CA_BPbhqJXeYyDmeWyRn-g',
+          summary: '致敬经典·国际修复电影展专题文章'
         },
         {
-          title: '传奇摄影大师杜可风首度到访艺术影院，今天中午开票！',
-          date: '2026-09-08',
-          url: 'https://www.163.com/dy/article/L6A2QG3V05178AGV.html',
-          summary: '幕味儿网易号 · 9月11日《花样年华》特别放映暨《可疯》新书分享会，9月8日开票'
+          title: '嘉宾招募｜修复时光，邀你共赴光影之约——致敬经典·修复电影论坛嘉宾招募',
+          date: '2026-10-19',
+          url: 'https://mp.weixin.qq.com/s/su9j0ILXhMefO4lYNeYknA',
+          summary: '致敬经典·修复电影论坛嘉宾招募'
         },
         {
-          title: '海影节获奖精粹来了，专业交流映后周边一个不能少！',
-          date: '2026-08-20',
-          url: 'https://www.163.com/dy/article/L4P6J3FN05178AGV.html',
-          summary: '幕味儿网易号 · 海南岛国际电影节8月21—23日资料馆特别展映及映后交流'
-        },
-        {
-          title: '8月重磅｜《红菱艳》修复版特别放映及芭蕾跨界展演',
-          date: '2026-07-30',
-          url: 'https://www.163.com/dy/article/L3369CKP05178AGV.html',
-          summary: '幕味儿网易号 · 8月29日《红菱艳》数字修复版放映，中央芭蕾舞团演员现场演出及映后交流'
-        },
-        {
-          title: '电影资料馆艺术影院8月放映中午开票！',
-          date: '2026-07-29',
-          url: 'https://www.163.com/dy/article/L30GCN1I05178AGV.html',
-          summary: '幕味儿网易号 · 8月北京开票：吕班、赫尔佐格、海南岛国际电影节等专题'
-        },
-        {
-          title: '今日开票｜《恐怖游轮》开到小西天来了！',
-          date: '2026-07-24',
-          url: 'https://www.163.com/dy/article/L2JIENJV05178AGV.html',
-          summary: '幕味儿网易号 · 7月27日小西天特别放映，资料馆副研究员周舟映后交流'
-        },
-        {
-          title: '珍稀经典，双城联映！保加利亚经典电影展本周启幕',
-          date: '2026-07-20',
-          url: 'https://www.163.com/dy/article/L29APGGJ05178AGV.html',
-          summary: '幕味儿网易号 · 保加利亚经典电影展7月24日起北京、苏州两地展映'
-        },
-        {
-          title: '今日开票！翁子光携口碑力作《爸爸》惊喜做客小西天',
-          date: '2026-07-09',
-          url: 'https://www.163.com/dy/article/L1D2VHMT05178AGV.html',
-          summary: '幕味儿网易号 · 7月13日小西天《爸爸》特别放映，翁子光映后交流'
-        },
-        {
-          title: '电影资料馆北京七月放映今日开票！',
-          date: '2026-06-25',
-          url: 'https://www.163.com/dy/article/L08TCDK205178AGV.html',
-          summary: '幕味儿网易号 · 7月北京开票：七一特别放映、香江回响、保加利亚影展等'
-        },
-        {
-          title: '今日开票！《撒旦探戈》小西天首映及交流活动',
-          date: '2026-06-18',
-          url: 'https://www.163.com/dy/article/KVMS6D3E05178AGV.html',
-          summary: '幕味儿网易号 · 6月29日《撒旦探戈》4K修复版小西天首映，米哈伊·维格映后交流'
-        },
-        {
-          title: '年中重磅，毕赣作品展即将本月开启！',
-          date: '2026-06-15',
-          url: 'https://www.163.com/dy/article/KVGJKMMN05178AGV.html',
-          summary: '幕味儿网易号 · “毕赣作品展：穿过黑夜的漫长旅程”6月26—27日北京、7月4—5日苏州'
+          title: '金秋九月，艺术影院30周年片单精彩呈现',
+          date: '2026-08-26',
+          url: 'https://mp.weixin.qq.com/s/lJ0recj0pi79nFultUdy8g',
+          summary: '艺术影院开放30周年，9月片单'
         }
       ]
     },
@@ -147,10 +89,28 @@ window.FEEDS = {
       searchHint: '中国电影资料馆江南分馆',
       articles: [
         {
-          title: '电影资料馆江南分馆11月放映今天开票！',
+          title: '影人对话｜甄珍、林文淇：修复的不只是影像，更是银幕上的女性芳华',
+          date: '2026-11-06',
+          url: 'https://mp.weixin.qq.com/s/pG_XZ0Ujq2HPBqi9iIpI6Q',
+          summary: '影人对话｜甄珍、林文淇谈修复与银幕女性'
+        },
+        {
+          title: '影人对话｜林文淇：棋局终了，忠魂不散',
+          date: '2026-11-05',
+          url: 'https://mp.weixin.qq.com/s/cEz1C_kauZIIOCtaxbkxnw',
+          summary: '影人对话｜林文淇'
+        },
+        {
+          title: '柏林电影节入围影片《上海女儿》 即将登陆江南分馆',
+          date: '2026-11-04',
+          url: 'https://mp.weixin.qq.com/s/sxk1XYzDTqMad-8iCPLekA',
+          summary: '《上海女儿》江南分馆放映预告'
+        },
+        {
+          title: '世界音像遗产日 | 珍贵馆藏《光辉灿烂》京苏再现',
           date: '2026-10-30',
-          url: 'https://www.163.com/dy/article/LAG0S3IP05178AGV.html',
-          summary: '幕味儿网易号 · 江南分馆11月开票：吕班、瓦伊达、百代回顾与致敬经典修复展'
+          url: 'https://mp.weixin.qq.com/s/EZo5g4lT_Y0W4zSoNMlufw',
+          summary: '世界音像遗产日，馆藏《光辉灿烂》京苏再现'
         },
         {
           title: '江南分馆11月片单｜百年辉煌，戏梦重逢',
@@ -159,76 +119,46 @@ window.FEEDS = {
           summary: '江南分馆 11 月片单，含全月观影日历长图'
         },
         {
-          title: '心有千千结，终有重逢时：华语巨星甄珍要来苏州了！',
-          date: '2026-10-23',
-          url: 'https://www.163.com/dy/article/L9TV8AL905178AGV.html',
-          summary: '幕味儿网易号 · 甄珍携《心有千千结》10月25日出席江南分馆映后交流'
+          title: '影人对话｜戴锦华：残破庭院里的时代与人心',
+          date: '2026-10-27',
+          url: 'https://mp.weixin.qq.com/s/F0W8Nph4n2iqj2lN1glFJg',
+          summary: '影人对话｜戴锦华谈“庭院里的女人”'
         },
         {
-          title: '2026苏州“致敬经典·国际修复电影展”海外影片介绍',
-          date: '2026-10-19',
-          url: 'https://www.163.com/dy/article/L9JO8IQC05178AGV.html',
-          summary: '幕味儿网易号 · 苏州致敬经典·国际修复电影展海外影片介绍'
+          title: '致敬经典·国际修复电影展 | 贝克街的侦探遇见茂瑙的日出',
+          date: '2026-10-25',
+          url: 'https://mp.weixin.qq.com/s/0p0m199pB3EFpAdB-AJTKA',
+          summary: '致敬经典·国际修复电影展专题文章'
         },
         {
-          title: '2026苏州“致敬经典·国际修复电影展”国片介绍',
-          date: '2026-10-18',
-          url: 'https://www.163.com/dy/article/L9H5K6HA05178AGV.html',
-          summary: '幕味儿网易号 · 苏州致敬经典·国际修复电影展国片介绍'
+          title: '老电影新亮相，成为影院里的“新鲜事”',
+          date: '2026-10-21',
+          url: 'https://mp.weixin.qq.com/s/veNKPKIR1U5C7UAowiBYFQ',
+          summary: '老电影新亮相，成为影院里的“新鲜事”'
         },
         {
-          title: '2026年致敬经典·国际修复电影展今天中午12点开票',
-          date: '2026-10-16',
-          url: 'https://www.163.com/dy/article/L9BTTDHU05178AGV.html',
-          summary: '幕味儿网易号 · 苏州致敬经典·国际修复电影展开票，含江南分馆多场映后交流'
+          title: '心有千千结，终有重逢时——甄珍来苏州了！',
+          date: '2026-10-20',
+          url: 'https://mp.weixin.qq.com/s/enGZU_EukAi4U8DQ6g758w',
+          summary: '甄珍来苏州，江南分馆映后交流'
         },
         {
-          title: '电影资料馆江南分馆10月放映今日开票！',
-          date: '2026-09-24',
-          url: 'https://www.163.com/dy/article/L7J96E3805178AGV.html',
-          summary: '幕味儿网易号 · 10月江南分馆开票：长征胜利90周年、世界音像遗产日、大师对话等'
+          title: '江南分馆10月片单｜时空穿越，戏梦江南',
+          date: '2026-09-22',
+          url: 'https://mp.weixin.qq.com/s/hZDmG8wFdVYozh2E9DCAnw',
+          summary: '江南分馆10月片单'
         },
         {
-          title: '庭院深处，翩若惊鸿：10月来姑苏游园惊梦',
-          date: '2026-09-23',
-          url: 'https://www.163.com/dy/article/L7GQRP7O05178AGV.html',
-          summary: '幕味儿网易号 · 江南分馆10月“庭院里的女人：景观与女性”专题展映'
+          title: '10月特别策划 | 庭院里的女人：景观与女性',
+          date: '2026-09-21',
+          url: 'https://mp.weixin.qq.com/s/rHVAwOBZN588jIteipIIKw',
+          summary: '10月特别策划“庭院里的女人：景观与女性”'
         },
         {
-          title: '江南分馆9月精彩放映今日已开票！',
-          date: '2026-08-27',
-          url: 'https://m.sohu.com/a/1068237524_817440/',
-          summary: '文慧园路三号搜狐号 · 江南分馆9月开票：王苹诞辰110周年、张国荣诞辰70周年、赫尔佐格回顾等'
-        },
-        {
-          title: '江南分馆8月精彩放映今日中午开票！',
-          date: '2026-07-27',
-          url: 'https://www.163.com/dy/article/L2RB6P0205178AGV.html',
-          summary: '幕味儿网易号 · 8月江南分馆开票：七大板块六十余部，含八一特别策划'
-        },
-        {
-          title: '今日开票｜烧脑神作《恐怖游轮》 江南分馆特别放映',
-          date: '2026-07-13',
-          url: 'https://www.163.com/dy/article/L1N905F805178AGV.html',
-          summary: '幕味儿网易号 · 7月13日《恐怖游轮》江南分馆特别放映开票'
-        },
-        {
-          title: '年度重磅，毕赣作品展苏州站今日开启！',
-          date: '2026-07-04',
-          url: 'https://www.163.com/dy/article/L102KDH605178AGV.html',
-          summary: '幕味儿网易号 · 毕赣作品展苏州站7月4—5日开启'
-        },
-        {
-          title: '毕飞宇路内到场，“书影江南” 苏州文学电影展映周即将启幕',
-          date: '2026-07-01',
-          url: 'https://www.163.com/dy/article/L0OR2NJ305178AGV.html',
-          summary: '幕味儿网易号 · “书影江南”苏州文学电影展映周，毕飞宇、路内到场'
-        },
-        {
-          title: '江南分馆7月精彩放映今天中午开票！',
-          date: '2026-06-26',
-          url: 'https://www.163.com/dy/article/L0BHA18R05178AGV.html',
-          summary: '幕味儿网易号 · 7月江南分馆开票：七一特别放映、香江回响、毕赣作品展等'
+          title: '映后交流｜《燃烧吧！爸爸》：一场轻盈灵动的告别仪式',
+          date: '2026-09-19',
+          url: 'https://mp.weixin.qq.com/s/b3YwoeEYvTwSGZGa7_O_Lg',
+          summary: '《燃烧吧！爸爸》映后交流'
         }
       ]
     }
@@ -343,7 +273,7 @@ window.FEEDS = {
       return;
     }
     titleEl.textContent = acc.name + ' · 文章';
-    subEl.textContent = (acc.desc ? acc.desc + ' · ' : '') + '默认显示近一个月，点击可查看内容';
+    subEl.textContent = (acc.desc ? acc.desc + ' · ' : '') + '默认显示近一个月，更早文章可展开查看';
     if (hintEl) {
       hintEl.textContent = acc.searchHint ? '（微信内搜索「' + acc.searchHint + '」）' : '';
     }
@@ -379,7 +309,7 @@ window.FEEDS = {
         esc(it.title) +
         (it.summary ? '<span class="feed-summary">' + esc(it.summary) + '</span>' : '') +
         '</span>' +
-        '<span class="feed-go">查看 ↗</span></a>';
+        '<span class="feed-go">原文 ↗</span></a>';
     }).join('');
   }
 
