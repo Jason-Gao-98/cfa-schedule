@@ -237,11 +237,35 @@
   </div>
 </div>
 
+<!-- 本地排片问答：入口固定在左下角，避开右下角的观影计划浮动按钮与日期小日历 -->
+<button type="button" class="assist-btn" id="assistBtn" aria-haspopup="dialog" aria-controls="assistPanel" aria-expanded="false">
+  <span class="assist-btn-icon" aria-hidden="true">问</span>
+  <span class="assist-btn-text">问排片</span>
+</button>
+
+<section class="assist-panel" id="assistPanel" role="dialog" aria-modal="false" aria-labelledby="assistTitle" hidden>
+  <div class="assist-head">
+    <div class="assist-headtext">
+      <h2 id="assistTitle">排片问答</h2>
+      <p>本地规则问答 · 不联网、不接大模型</p>
+    </div>
+    <button type="button" class="modal-x" id="assistClose" aria-label="关闭排片问答">&times;</button>
+  </div>
+  <div class="assist-log" id="assistLog" role="log" aria-live="polite" aria-relevant="additions"></div>
+  <form class="assist-form" id="assistForm">
+    <label class="sr-only" for="assistInput">提问</label>
+    <input type="text" id="assistInput" class="assist-input" autocomplete="off" placeholder="例如：明天江南晚上 7 点后有什么 4K">
+    <button type="submit" class="assist-send">发送</button>
+  </form>
+  <p class="assist-note">能答：某天 / 影院 / 影厅 / 某部片 / 时间段 / 制式 / 活动 / 统计。查不到会直说，不编造场次与票价；上座率请点卡片上的按钮登录查看。Esc 关闭。</p>
+</section>
+
 <script src="extra-schedule.js"></script>
 <script src="events-2026-11.js"></script>
 <script src="prices.js"></script>
 <script src="douban-map.js"></script>
 <script src="app.js"></script>
 <script src="feeds.js"></script>
+<script src="assistant.js"></script>
 </body>
 </html>
