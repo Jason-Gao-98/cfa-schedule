@@ -736,26 +736,22 @@ body.modal-open{overflow:hidden}
   color:var(--accent);border-color:rgba(212,32,46,.42);background:#fff;
 }
 
-/* 已放映场次：保留在列表里，视觉弱化但可读；不可再加入（已选中的仍可取消） */
+/* 已放映场次：保留在列表里，视觉弱化但可读；仍可加入计划（补录已看场次），已选中的仍可取消 */
 .plan-cand.is-past{background:var(--panel-2);border-color:#e0e2e8}
 .plan-cand.is-past .pc-when b{color:#8b909c}
 .plan-cand.is-past .pc-when i{color:#a3a8b3}
 .plan-cand.is-past .pc-name{color:#6b7280}
-.plan-cand.is-past:hover{border-color:#d3d6de;background:#eceef2}
+.plan-cand.is-past:hover{border-color:rgba(212,32,46,.4);background:#f7f7f9}
 .plan-cand.is-past.is-added{
   background:rgba(212,32,46,.04);border-color:rgba(212,32,46,.24);
   box-shadow:inset 3px 0 0 rgba(212,32,46,.32);
 }
 .plan-cand.is-past .pc-price{color:#8b909c}
-.plan-cand:disabled{cursor:not-allowed}
 .pc-past{
   flex:none;display:inline-flex;align-items:center;
   padding:0 7px;line-height:17px;border-radius:999px;
   font-size:10.5px;font-weight:600;color:#7d828f;
   background:#eef0f3;border:1px solid #e2e5ea;
-}
-.plan-cand.is-past .pc-add{
-  color:#8b909c;border-color:#dfe2e8;background:#f6f7f9;
 }
 /* 特殊活动（映前导赏 / 映后交流等）：与制式标签并列的小徽章，金色系，不压片名 */
 .ev-badge{
