@@ -2717,6 +2717,21 @@ $('searchBox').addEventListener('input', function () {
   searchTimer = setTimeout(function () { state.query = v; render(); }, 180);
 });
 
+/* 页头站名/方章：返回默认首页。
+ * 已处于默认状态时只回到顶部，避免无谓重载；其余情况交给 <a href="./">
+ * 正常导航，清掉 ?date= 等参数并按新页面恢复当日视图、今天、空搜索与全部影院。 */
+var brandHomeEl = $('brandHome');
+if (brandHomeEl) {
+  brandHomeEl.addEventListener('click', function (e) {
+    var isDefault = location.search === '' && state.scope === 'day' &&
+      (state.day || todayStr()) === todayStr() && state.venue === 'all' &&
+      !state.query && !$('searchBox').value.trim();
+    if (!isDefault) return;
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+}
+
 $('refreshBtn').addEventListener('click', function () {
   session.at = 0;
   load(true);
