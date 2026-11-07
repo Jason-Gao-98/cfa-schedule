@@ -1282,15 +1282,58 @@
     document.body.classList.add('assist-open');
     assistBtn.setAttribute('aria-expanded', 'true');
     if (!logEl.children.length) appendBot(welcomeHtml());
+    applyViewport();
     logScroll();
-    setTimeout(function () { try { inputEl.focus(); } catch (e) { /* 忽略 */ } }, 30);
+    setTimeout(function () {
+      try { inputEl.focus(); } catch (e) { /* 忽略 */ }
+      setTimeout(applyViewport, 180);   // 等软键盘动画结束后再贴合一次
+    }, 30);
   }
   function closePanel(focusBack) {
     if (!panel || panel.hidden) return;
+    panel.style.height = '';
+    panel.style.bottom = '';
+    if (inputEl && document.activeElement === inputEl) { try { inputEl.blur(); } catch (e) { /* 忽略 */ } }
     panel.hidden = true;
     document.body.classList.remove('assist-open');
     assistBtn.setAttribute('aria-expanded', 'false');
     if (focusBack) assistBtn.focus();
+  }
+
+  /* ---------- 移动端视口 / 软键盘自适应 ---------- */
+  function isNarrow() {
+    try { return window.matchMedia('(max-width:760px)').matches; } catch (e) { return false; }
+  }
+  function viewportState() {
+    var vv = window.visualViewport;
+    var h = vv ? vv.height : window.innerHeight;
+    var top = vv ? vv.offsetTop : 0;
+    return { h: h, top: top, kb: Math.max(0, window.innerHeight - (h + top)) };
+  }
+  /**
+   * 把面板限制在「视觉视口」内：软键盘弹出后 visualViewport 变矮，
+   * 面板底边上移键盘占用的高度、高度收缩到可见高度，保证输入框与最新回答不被键盘遮住。
+   * 无键盘时高度仍受设计值（约 82% 屏高、最多 640）约束，不会变成全屏。
+   * forceKb 仅供自测模拟键盘高度，正常调用不传。
+   */
+  function applyViewport(forceKb) {
+    if (!panel || panel.hidden) return;
+    if (!isNarrow()) { panel.style.height = ''; panel.style.bottom = ''; return; }
+    var vs = viewportState();
+    var forced = forceKb != null ? Math.max(0, Number(forceKb) || 0) : null;
+    var kb = forced != null ? forced : vs.kb;
+    var visH = Math.max(240, forced != null ? window.innerHeight - forced : vs.h);
+    var designH = Math.max(240, Math.min(640, Math.round(window.innerHeight * 0.82)));
+    // 收缩前若已停留在底部，收缩后继续贴底，避免最新一条回答被挤出可视区
+    var nearBottom = logEl ? (logEl.scrollHeight - logEl.scrollTop - logEl.clientHeight) < 24 : false;
+    panel.style.height = Math.min(designH, visH - 8) + 'px';
+    panel.style.bottom = kb + 'px';
+    if (logEl && (nearBottom || (inputEl && document.activeElement === inputEl))) setTimeout(logScroll, 60);
+  }
+  var vpTimer = 0;
+  function onViewportChange() {
+    if (vpTimer) return;
+    vpTimer = setTimeout(function () { vpTimer = 0; applyViewport(); }, 120);
   }
 
   function init() {
@@ -1321,6 +1364,17 @@
       else formEl.dispatchEvent(new Event('submit', { cancelable: true }));
     });
 
+    // 聚焦（软键盘即将弹出）与失焦后都重新贴合视口，并让最新一条回答保持可见
+    inputEl.addEventListener('focus', function () {
+      setTimeout(function () { applyViewport(); logScroll(); }, 80);
+    });
+    inputEl.addEventListener('blur', function () { setTimeout(applyViewport, 80); });
+    window.addEventListener('resize', onViewportChange, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', onViewportChange, { passive: true });
+      window.visualViewport.addEventListener('scroll', onViewportChange, { passive: true });
+    }
+
     logEl.addEventListener('click', function (e) {
       var sug = e.target.closest ? e.target.closest('.assist-suggest') : null;
       if (sug && sug.getAttribute('data-q')) { ask(sug.getAttribute('data-q')); return; }
@@ -1341,7 +1395,7 @@
   }
 
   // 供本地调试 / 自测：解析结果与控制台快速提问（不影响正常使用）
-  window.CFA_ASSIST_DEBUG = { parse: parseQuery, ask: ask };
+  window.CFA_ASSIST_DEBUG = { parse: parseQuery, ask: ask, applyInset: applyViewport };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
