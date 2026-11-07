@@ -3403,15 +3403,14 @@ function renderPlanCandidates() {
           var fmtTags = fmt.tags.map(function (t) {
             return '<span class="fmt-title">' + esc(t) + '</span>';
           }).join('');
-          // 已开场的场次保留在列表里，但不再允许新加入；已选中的仍可取消
+          // 已放映的场次保留在列表并弱化显示，但仍可加入计划（补录已看场次）；已选中的仍可取消
           var past = String(r.playTime) < nowStamp();
-          var locked = past && !added;
           var evTag = planEventBadge(r);
           return '<button type="button" class="plan-cand' + (added ? ' is-added' : '') +
             (past ? ' is-past' : '') + '" data-k="' + esc(k) + '"' +
             ' aria-pressed="' + (added ? 'true' : 'false') + '"' +
-            (locked ? ' disabled aria-disabled="true"' : '') +
-            ' aria-label="' + (added ? '取消加入' : (past ? '已放映，无法加入' : '加入')) + '《' + esc(mi.movieName) + '》">' +
+            ' aria-label="' + (added ? '取消加入' : '加入') + '《' + esc(mi.movieName) + '》' +
+            (past ? '（已放映）' : '') + '">' +
             '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
               (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
             '<span class="pc-body"><span class="pc-title"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
@@ -3421,7 +3420,7 @@ function renderPlanCandidates() {
             '<span class="pc-info">' +
               '<span class="pc-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</span>' +
             '</span>' +
-            '<span class="pc-add">' + (added ? '取消' : (past ? '已放映' : '加入')) + '</span>' +
+            '<span class="pc-add">' + (added ? '取消' : '加入') + '</span>' +
           '</button>';
         }).join('');
     }).join('') + '</div>';
@@ -3834,7 +3833,6 @@ $('planCandidates').addEventListener('click', function (e) {
   var snap = planSnapshot(r);
   var mk = planMonthOf(snap);
   if (!planIsMonthKey(mk)) { planToast('该场次缺少有效日期，无法加入计划'); return; }
-  if (String(r.playTime) < nowStamp()) { planToast('该场次已放映，无法加入计划'); return; }
   planArch(mk).items.push(snap);
   savePlanStore(mk);
   planToast('已加入「' + planMonthLabel(mk) + '」：' + mdTextOf(String(r.playTime).slice(0, 10)) + ' ' +
