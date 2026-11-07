@@ -24,9 +24,9 @@
     <button type="button" class="head-plan-btn" id="planBtnHead" aria-haspopup="dialog" aria-controls="planModal">
       观影计划<span class="head-plan-count" id="planFabCountHead" hidden>0</span>
     </button>
-    <div class="feeds-nav" id="feedsNav" aria-label="公众号文章">
-      <button type="button" class="feeds-btn" data-feed="beijing" aria-haspopup="dialog" aria-controls="feedsModal">北京公众号</button>
-      <button type="button" class="feeds-btn" data-feed="jiangnan" aria-haspopup="dialog" aria-controls="feedsModal">江南公众号</button>
+    <div class="feeds-nav" id="feedsNav" aria-label="公众号片单">
+      <button type="button" class="feeds-btn" data-feed="beijing" aria-haspopup="dialog" aria-controls="feedsModal">北京片单</button>
+      <button type="button" class="feeds-btn" data-feed="jiangnan" aria-haspopup="dialog" aria-controls="feedsModal">江南片单</button>
     </div>
     <nav class="header-links">
       <a href="changelog.html">更新日志</a>
@@ -225,15 +225,15 @@
   <div class="modal feeds-modal" role="dialog" aria-modal="true" aria-labelledby="feedsTitle">
     <div class="feeds-head">
       <div class="feeds-headtext">
-        <h3 id="feedsTitle">公众号文章</h3>
-        <p class="feeds-sub" id="feedsSub">点击文章可跳转微信原文</p>
+        <h3 id="feedsTitle">公众号片单</h3>
+        <p class="feeds-sub" id="feedsSub">仅收录月度片单，点击可跳转微信原文</p>
       </div>
       <button type="button" class="modal-x" id="feedsClose" aria-label="关闭">&times;</button>
     </div>
     <div class="feeds-tabs" id="feedsTabs" role="tablist" aria-label="公众号选择"></div>
-    <p class="feeds-note">仅收录官方公众号原文，未收录的以微信内该号历史消息为准；清单为人工逐篇核实，公开渠道通常滞后约 1 天，当天最新文章请以微信内该号为准。<span id="feedsHint"></span></p>
+    <p class="feeds-note">仅收录两个公众号的月度片单文章，均为人工逐篇核实的微信原文；片单一般在月末发布，最新一期请以微信内该号为准。<span id="feedsHint"></span></p>
     <div class="feeds-toolbar" id="feedsToolbar" hidden></div>
-    <div class="feeds-list" id="feedsList" role="tabpanel" aria-label="公众号文章列表"></div>
+    <div class="feeds-list" id="feedsList" role="tabpanel" aria-label="公众号片单列表"></div>
   </div>
 </div>
 
