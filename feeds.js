@@ -239,6 +239,17 @@ window.FEEDS = {
     return { pinned: pinned, recent: recent, older: older };
   }
 
+  // 该号清单中最新的发布日期，用于在面板上显示清单新鲜度
+  function latestDate(acc) {
+    var d = '';
+    var list = (acc && Array.isArray(acc.articles)) ? acc.articles : [];
+    for (var i = 0; i < list.length; i++) {
+      var s = String(list[i].date || '');
+      if (s && s > d) d = s;
+    }
+    return d;
+  }
+
   function renderTabs() {
     tabsEl.innerHTML = data.map(function (acc) {
       var n = sortedArticles(acc).length;
@@ -273,7 +284,9 @@ window.FEEDS = {
       return;
     }
     titleEl.textContent = acc.name + ' · 文章';
-    subEl.textContent = (acc.desc ? acc.desc + ' · ' : '') + '默认显示近一个月，更早文章可展开查看';
+    var latest = latestDate(acc);
+    subEl.textContent = (acc.desc ? acc.desc + ' · ' : '') + '默认显示近一个月，更早文章可展开查看' +
+      (latest ? ' · 清单最近收录 ' + latest : '');
     if (hintEl) {
       hintEl.textContent = acc.searchHint ? '（微信内搜索「' + acc.searchHint + '」）' : '';
     }
