@@ -190,7 +190,7 @@ a{color:inherit}
 .mini-cal[hidden]{display:none!important}
 .mini-cal > *{pointer-events:auto}
 .mini-cal-panel{
-  width:250px;padding:10px 10px 8px;border-radius:14px;
+  width:250px;padding:10px 10px 8px;border-radius:14px;overflow:hidden;
   background:rgba(255,255,255,.97);border:1px solid var(--line);
   box-shadow:0 14px 36px rgba(20,24,40,.18);backdrop-filter:blur(10px);
 }
@@ -214,22 +214,24 @@ a{color:inherit}
   font-size:15px;line-height:1;display:grid;place-items:center;
 }
 .mc-nav:hover,.mc-close:hover{border-color:rgba(212,32,46,.45);color:var(--accent);background:var(--accent-soft)}
-.mc-week,.mc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+/* 7 列等宽网格：minmax(0,1fr) 防止按钮最小内容宽度把列撑破；星期行与日期列共用同一套列宽 */
+.mc-week,.mc-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
 .mc-week{margin-bottom:2px}
 .mc-week span{text-align:center;font-size:10px;color:#9aa0ad}
 .mc-grid{grid-auto-rows:28px}
 .mc-day{
-  min-width:0;height:28px;padding:0;border-radius:7px;position:relative;
+  width:100%;min-width:0;height:28px;min-height:0;margin:0;padding:0;border-radius:7px;
+  position:relative;overflow:hidden;
   display:grid;place-items:center;
-  font-family:inherit;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;
+  font-family:inherit;font-size:11.5px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;
   background:transparent;border:1px solid transparent;color:var(--txt);
 }
-.mc-day.has{background:#fff;border-color:#d7dae1;cursor:pointer}
-.mc-day.has:hover{background:var(--accent-soft);border-color:rgba(212,32,46,.5);color:var(--accent)}
-.mc-day.empty{color:#b3b8c2;cursor:default}
-.mc-day.blank{visibility:hidden}
-.mc-day.today{box-shadow:inset 0 0 0 1px rgba(212,32,46,.55);color:var(--accent)}
-.mc-day.today::after{
+.mc-day.mc-has{background:#fff;border-color:#d7dae1;cursor:pointer}
+.mc-day.mc-has:hover{background:var(--accent-soft);border-color:rgba(212,32,46,.5);color:var(--accent)}
+.mc-day.mc-empty{color:#b3b8c2;cursor:default}
+.mc-day.mc-blank{visibility:hidden;border:0;background:none}
+.mc-day.mc-today{box-shadow:inset 0 0 0 1px rgba(212,32,46,.55);color:var(--accent)}
+.mc-day.mc-today::after{
   content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);
   width:4px;height:4px;border-radius:50%;background:var(--accent);
 }
