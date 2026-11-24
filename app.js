@@ -742,6 +742,23 @@ window.addEventListener('scroll', updateMiniCal, { passive: true });
 window.addEventListener('resize', updateMiniCal);
 setMiniCalOpen(miniCalOpen);
 
+/* ---------- 回到顶部 ---------- */
+var backTopEl = $('backTop');
+function updateBackTop() {
+  if (!backTopEl) return;
+  var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  // 日期小日历显示时让位，避免右下角叠层遮挡
+  backTopEl.hidden = y <= 400 || !$('miniCal').hidden;
+}
+if (backTopEl) {
+  backTopEl.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
+  });
+  window.addEventListener('scroll', updateBackTop, { passive: true });
+  window.addEventListener('resize', updateBackTop);
+  updateBackTop();
+}
+
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
