@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>中国电影资料馆 · 排片查询</title>
+<meta name="description" content="查询中国电影资料馆（北京小西天、百子湾艺术影院与苏州江南分馆）排片表，支持跨月连续查询。">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo-cfa-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/logo-cfa-96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/logo-cfa-180.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" id="brandHome" href="./" aria-label="返回首页">
+      <img class="brand-mark" src="assets/logo-cfa-96.png" width="31" height="38" alt="">
+      <div class="brand-text">
+        <h1>中国电影资料馆</h1>
+        <p>排片查询 · 北京 / 江南分馆</p>
+      </div>
+    </a>
+    <button type="button" class="head-plan-btn" id="planBtnHead" aria-haspopup="dialog" aria-controls="planModal">
+      观影计划<span class="head-plan-count" id="planFabCountHead" hidden>0</span>
+    </button>
+    <div class="feeds-nav" id="feedsNav" aria-label="公众号片单">
+      <button type="button" class="feeds-btn" data-feed="beijing" aria-haspopup="dialog" aria-controls="feedsModal">北京片单</button>
+      <button type="button" class="feeds-btn" data-feed="jiangnan" aria-haspopup="dialog" aria-controls="feedsModal">江南片单</button>
+    </div>
+    <nav class="header-links">
+      <a href="changelog.html">更新日志</a>
+      <a href="https://www.cfa.org.cn/eportal/ui?pageId=14b6b67fc1704838b760c4786a5fb46d" target="_blank" rel="noopener">官网放映日历</a>
+      <a href="https://www.cfa.org.cn/" target="_blank" rel="noopener">资料馆官网</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="controls" aria-label="筛选条件">
+    <div class="month-nav">
+      <div class="scope-switch" id="scopeSwitch" role="tablist" aria-label="查询范围">
+        <button type="button" class="tab is-active" data-scope="day" role="tab">当日排片</button>
+        <button type="button" class="tab" data-scope="all" role="tab">全部排片</button>
+        <button type="button" class="tab" data-scope="month" role="tab">按月查看</button>
+      </div>
+      <div class="month-nav-group" id="dayNavWrap">
+        <button type="button" id="prevDay" class="nav-btn" aria-label="前一天">&#8249;</button>
+        <div class="month-label">
+          <span id="dayText">—</span>
+          <button type="button" id="backToday" class="link-btn" hidden>回到今天</button>
+        </div>
+        <button type="button" id="nextDay" class="nav-btn" aria-label="后一天">&#8250;</button>
+      </div>
+      <div class="month-nav-group" id="monthNavWrap" hidden>
+        <button type="button" id="prevMonth" class="nav-btn" aria-label="上一月">&#8249;</button>
+        <div class="month-label">
+          <span id="monthText">—</span>
+          <button type="button" id="thisMonth" class="link-btn" hidden>回到本月</button>
+        </div>
+        <button type="button" id="nextMonth" class="nav-btn" aria-label="下一月">&#8250;</button>
+      </div>
+    </div>
+
+    <div class="venue-tabs" id="venueTabs" role="tablist" aria-label="影院筛选">
+      <button type="button" class="tab is-active" data-venue="all" role="tab">全部影院</button>
+      <button type="button" class="tab" data-venue="jiangnan" role="tab">江南分馆</button>
+      <button type="button" class="tab" data-venue="小西天艺术影院" role="tab">小西天</button>
+      <button type="button" class="tab" data-venue="百子湾艺术影院" role="tab">百子湾</button>
+    </div>
+
+    <div class="search-row">
+      <input type="search" id="searchBox" class="search-box" placeholder="搜索片名（中 / 英文）…" autocomplete="off">
+      <button type="button" id="refreshBtn" class="ghost-btn">刷新数据</button>
+      <button type="button" id="occBtn" class="ghost-btn occ-btn">上座率 · 登录查看</button>
+      <button type="button" id="occLogout" class="link-btn" hidden>上座率已登录 · 退出</button>
+    </div>
+  </section>
+
+  <section class="stats" id="stats" aria-live="polite"></section>
+
+  <section class="notice" id="notice" hidden></section>
+
+  <section class="calendar-block" id="calendarBlock" hidden>
+    <div class="block-head">
+      <h2>当月概览</h2>
+      <span class="block-hint">数字为当日排片场次，点击可跳转到该日</span>
+    </div>
+    <div class="calendar" id="calendar" role="grid" aria-label="月度排片日历"></div>
+  </section>
+
+  <section class="list-block">
+    <div class="block-head">
+      <h2>排片明细</h2>
+      <span class="block-hint" id="progressText"></span>
+    </div>
+    <div id="dayList"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>数据来源于中国电影资料馆官网放映日历接口，仅供查询参考，实际排片与购票请以
+      <a href="https://www.cfa.org.cn/eportal/ui?pageId=14b6b67fc1704838b760c4786a5fb46d" target="_blank" rel="noopener">官方网站</a>为准。</p>
+    <p class="muted"><a href="changelog.html">更新日志</a> · <span id="updatedAt"></span></p>
+  </div>
+</footer>
+
+<div class="modal-mask" id="loginModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <h3 id="loginTitle">登录以查看上座率</h3>
+    <p class="modal-hint">使用你的<strong>中国电影资料馆 APP</strong> 账号（手机号 + 密码）登录。凭证仅在本机浏览器直连资料馆服务器校验，不经过任何第三方。</p>
+    <label class="field">
+      <span>账号（手机号）</span>
+      <input type="text" id="loginAccount" autocomplete="username" inputmode="numeric" placeholder="注册 APP 时的手机号">
+    </label>
+    <label class="field">
+      <span>密码</span>
+      <input type="password" id="loginPassword" autocomplete="current-password" placeholder="APP 登录密码">
+    </label>
+    <p class="modal-error" id="loginError" hidden></p>
+    <div class="modal-actions">
+      <button type="button" class="ghost-btn" id="loginCancel">取消</button>
+      <button type="button" class="ghost-btn primary" id="loginSubmit">登录</button>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="plan-fab" id="planBtn" aria-haspopup="dialog" aria-controls="planModal">
+  观影计划<span class="plan-fab-count" id="planFabCount" hidden>0</span>
+</button>
+
+<button type="button" class="back-top" id="backTop" aria-label="回到顶部" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5.5 5 12.5l1.5 1.5 4-4V19h3V10l4 4 1.5-1.5z" fill="currentColor"/></svg>
+</button>
+
+<div class="mini-cal" id="miniCal" hidden>
+  <div class="mini-cal-panel" id="miniCalPanel" hidden>
+    <div class="mc-head">
+      <button type="button" class="mc-nav" id="mcPrev" aria-label="上个月">&#8249;</button>
+      <span class="mc-title" id="mcTitle" aria-live="polite"></span>
+      <button type="button" class="mc-nav" id="mcNext" aria-label="下个月">&#8250;</button>
+      <button type="button" class="mc-close" id="mcClose" aria-label="收起日期速选小日历">&times;</button>
+    </div>
+    <div class="mc-week" aria-hidden="true">
+      <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+    </div>
+    <div class="mc-grid" id="mcGrid" role="group" aria-label="日期速选小日历"></div>
+  </div>
+  <button type="button" class="mini-cal-toggle" id="miniCalToggle" aria-controls="miniCalPanel" aria-expanded="true" aria-label="收起日期速选小日历">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+  </button>
+</div>
+
+<div class="modal-mask" id="planModal" hidden>
+  <div class="modal plan-modal" role="dialog" aria-modal="true" aria-labelledby="planTitle">
+    <div class="plan-head">
+      <div class="plan-headtext">
+        <h3 id="planTitle">观影计划</h3>
+        <p class="plan-sub">仅支持<strong>江南分馆</strong>（苏州）<strong>当月与下月</strong>场次；计划按月份保存在本机浏览器。</p>
+      </div>
+      <button type="button" class="modal-x" id="planClose" aria-label="关闭">&times;</button>
+    </div>
+
+    <div class="plan-tabs" id="planTabs" role="tablist" aria-label="观影计划视图">
+      <button type="button" class="tab is-active" data-plan-tab="add" role="tab">选择场次</button>
+      <button type="button" class="tab" data-plan-tab="mine" role="tab">我的计划<span class="plan-tab-count" id="planTabCount" hidden>0</span></button>
+    </div>
+
+    <div class="plan-summary" id="planSummary" hidden></div>
+
+    <div class="plan-body">
+      <div class="plan-load" id="planLoad" hidden></div>
+
+      <div id="planAddPane" hidden>
+        <input type="search" id="planSearch" class="plan-search" placeholder="搜索片名（中 / 英文）…" autocomplete="off">
+        <div class="plan-cands" id="planCandidates"></div>
+      </div>
+
+      <div id="planMinePane" hidden>
+        <div class="plan-months" id="planMonths" role="tablist" aria-label="观影计划月份"></div>
+        <div class="plan-toolbar">
+          <span class="plan-total" id="planTotal"></span>
+          <div class="plan-toolbar-btns">
+            <button type="button" class="ghost-btn" id="planExport">导出图片</button>
+            <button type="button" class="ghost-btn" id="planClear">清空计划</button>
+          </div>
+        </div>
+        <div class="plan-list" id="planList"></div>
+      </div>
+    </div>
+
+    <p class="plan-toast" id="planToast" hidden></p>
+  </div>
+</div>
+
+<div class="modal-mask" id="seatModal" hidden>
+  <div class="modal seat-modal" role="dialog" aria-modal="true" aria-labelledby="seatTitle">
+    <div class="seat-head">
+      <div class="seat-headtext">
+        <h3 id="seatTitle">上座率</h3>
+        <p class="seat-sub" id="seatSub"></p>
+      </div>
+      <button type="button" class="modal-x" id="seatClose" aria-label="关闭">&times;</button>
+    </div>
+
+    <div class="seat-summary" id="seatSummary" hidden></div>
+
+    <div class="seat-scroll" id="seatScroll">
+      <div class="seat-status" id="seatStatus">正在查询座位…</div>
+      <div class="seat-map" id="seatMap" hidden>
+        <div class="seat-screen"><span>银　幕</span></div>
+        <div class="seat-rows" id="seatRows"></div>
+      </div>
+    </div>
+
+    <div class="seat-legend" id="seatLegend" hidden>
+      <span><i class="sw free"></i>可售</span>
+      <span><i class="sw sold"></i>已售</span>
+      <span><i class="sw blocked"></i>不可用</span>
+      <span><i class="sw unknown"></i>状态未知</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="feedsModal" hidden>
+  <div class="modal feeds-modal" role="dialog" aria-modal="true" aria-labelledby="feedsTitle">
+    <div class="feeds-head">
+      <div class="feeds-headtext">
+        <h3 id="feedsTitle">公众号片单</h3>
+        <p class="feeds-sub" id="feedsSub">仅收录月度片单，点击可跳转微信原文</p>
+      </div>
+      <button type="button" class="modal-x" id="feedsClose" aria-label="关闭">&times;</button>
+    </div>
+    <div class="feeds-tabs" id="feedsTabs" role="tablist" aria-label="公众号选择"></div>
+    <p class="feeds-note">仅收录两个公众号的月度片单文章，均为人工逐篇核实的微信原文；片单一般在月末发布，最新一期请以微信内该号为准。<span id="feedsHint"></span></p>
+    <div class="feeds-toolbar" id="feedsToolbar" hidden></div>
+    <div class="feeds-list" id="feedsList" role="tabpanel" aria-label="公众号片单列表"></div>
+  </div>
+</div>
+
+<!-- 本地排片问答：入口固定在左下角，避开右下角的观影计划浮动按钮与日期小日历 -->
+<button type="button" class="assist-btn" id="assistBtn" aria-haspopup="dialog" aria-controls="assistPanel" aria-expanded="false">
+  <span class="assist-btn-icon" aria-hidden="true">问</span>
+  <span class="assist-btn-text">问排片</span>
+</button>
+
+<section class="assist-panel" id="assistPanel" role="dialog" aria-modal="false" aria-labelledby="assistTitle" hidden>
+  <div class="assist-head">
+    <div class="assist-headtext">
+      <h2 id="assistTitle">排片问答</h2>
+      <p>本地规则问答 · 不联网、不接大模型</p>
+    </div>
+    <button type="button" class="modal-x" id="assistClose" aria-label="关闭排片问答">&times;</button>
+  </div>
+  <div class="assist-log" id="assistLog" role="log" aria-live="polite" aria-relevant="additions"></div>
+  <form class="assist-form" id="assistForm">
+    <label class="sr-only" for="assistInput">提问</label>
+    <input type="text" id="assistInput" class="assist-input" autocomplete="off" placeholder="例如：明天江南晚上 7 点后有什么 4K">
+    <button type="submit" class="assist-send">发送</button>
+  </form>
+  <p class="assist-note">能答：某天 / 影院 / 影厅 / 某部片 / 时间段 / 制式 / 活动 / 统计。查不到会直说，不编造场次与票价；上座率请点卡片上的按钮登录查看。Esc 关闭。</p>
+</section>
+
+<script src="extra-schedule.js"></script>
+<script src="events-2026-11.js"></script>
+<script src="prices.js"></script>
+<script src="douban-map.js"></script>
+<script src="app.js"></script>
+<script src="feeds.js"></script>
+<script src="assistant.js"></script>
+</body>
+</html>
