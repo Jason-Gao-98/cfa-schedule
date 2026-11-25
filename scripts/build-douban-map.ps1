@@ -147,6 +147,18 @@ if (Test-Path $OVR) {
   Write-Log ("overrides loaded: {0}" -f $overrides.Count)
 }
 
+# ---------- known misses: titles with no douban subject at all ----------
+# Compilations / special screenings that will never resolve. Skip querying
+# them entirely so incremental runs stay fast (no empty-result cooldowns).
+$knownMiss = @{}
+$KM = Join-Path (Split-Path -Parent $PSScriptRoot) 'scripts\douban-known-misses.json'
+if (Test-Path $KM) {
+  foreach ($n in (Get-Content $KM -Raw -Encoding UTF8 | ConvertFrom-Json)) {
+    if ($n) { $knownMiss[(Norm $n)] = $true }
+  }
+  Write-Log ("known-miss loaded: {0}" -f $knownMiss.Count)
+}
+
 # ---------- 1. collect films from archive + extra-schedule ----------
 $films = @{}           # "norm|year" -> @{name=;year=}
 $nameByNorm = @{}      # norm -> original display name
@@ -202,7 +214,7 @@ $idx = 0; $fetched = 0; $empty = 0
 foreach ($nn in $names) {
   $idx++
   $hasCands = $data.names.ContainsKey($nn) -and (@($data.names[$nn]).Count -gt 0)
-  if (-not $hasCands) {
+  if (-not $hasCands -and -not $knownMiss.ContainsKey($nn)) {
     $dn = $nameByNorm[$nn]
     try {
       $c = Get-Suggest $dn
@@ -223,8 +235,9 @@ foreach ($nn in $names) {
       Write-Log ("[{0}/{1}] suggest {2} FAILED: {3}" -f $idx, $names.Count, $dn, $_.Exception.Message)
       Add-Streak 'suggest-error'
     }
+    # throttle only after real network activity; cached names skip instantly
+    Start-Sleep -Milliseconds $DELAY
   }
-  Start-Sleep -Milliseconds $DELAY
 }
 Save-Cache
 Write-Log ("phase A done: fetched={0} empty={1} cached={2}" -f $fetched, $empty, $data.names.Count)
