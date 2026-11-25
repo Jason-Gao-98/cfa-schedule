@@ -1,12 +1,15 @@
 # =========================================================
 # Douban map builder (PowerShell 5.1, ASCII-only source)
 #
-# For every film (name + year) in archive/*.json, resolve its Douban
-# subject and freeze the data into a static table the frontend loads:
+# For every film (name + year) in archive/*.json and extra-schedule.js,
+# resolve its Douban subject and freeze the data into a static table the
+# frontend loads:
 #   1) subject_suggest  -> subject id + year + poster thumbnail
 #   2) rexxar v2 movie  -> rating (+ poster backup) by id
 # Year is used to pick the right entry when titles collide
 # (e.g. a 1983 film vs a 2026 remake sharing the same name).
+# scripts/douban-overrides.json pins exact subject ids for films whose
+# suggest search fails or only returns wrong entries.
 #
 # Why a static table instead of runtime queries:
 #   Douban sends no CORS headers and blocks cross-origin fetches, so
@@ -129,22 +132,41 @@ function Get-Rexxar([string]$id) {
   $pic = ''
   if ($j.pic -and $j.pic.normal) { $pic = [string]$j.pic.normal }
   elseif ($j.cover_url) { $pic = [string]$j.cover_url }
-  return [pscustomobject]@{ rating = $rating; pic = $pic }
+  return [pscustomobject]@{ rating = $rating; pic = $pic; title = [string]$j.title; year = [string]$j.year }
 }
 
-# ---------- 1. collect films from archive ----------
+# ---------- manual overrides: "norm|year" -> douban subject id ----------
+# Films whose suggest search fails or only returns wrong entries
+# (odd release titles, compilations with no entry, throttled names).
+# Keys are written as \u escapes so this file stays ASCII-safe.
+$overrides = @{}
+$OVR = Join-Path (Split-Path -Parent $PSScriptRoot) 'scripts\douban-overrides.json'
+if (Test-Path $OVR) {
+  $oj = Get-Content $OVR -Raw -Encoding UTF8 | ConvertFrom-Json
+  foreach ($p in $oj.PSObject.Properties) { $overrides[$p.Name] = [string]$p.Value }
+  Write-Log ("overrides loaded: {0}" -f $overrides.Count)
+}
+
+# ---------- 1. collect films from archive + extra-schedule ----------
 $films = @{}           # "norm|year" -> @{name=;year=}
 $nameByNorm = @{}      # norm -> original display name
+function Add-Film([string]$name, [string]$year) {
+  if (-not $name) { return }
+  $nn = Norm $name
+  $key = $nn + '|' + $year
+  if (-not $films.ContainsKey($key)) { $films[$key] = @{ name = $name; year = $year } }
+  if (-not $nameByNorm.ContainsKey($nn)) { $nameByNorm[$nn] = $name }
+}
 Get-ChildItem -Path (Join-Path $ROOT 'archive') -Filter '*.json' | ForEach-Object {
   $j = Get-Content $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
-  foreach ($r in $j.records) {
-    $name = [string]$r.name
-    $year = [string]$r.year
-    if (-not $name) { continue }
-    $nn = Norm $name
-    $key = $nn + '|' + $year
-    if (-not $films.ContainsKey($key)) { $films[$key] = @{ name = $name; year = $year } }
-    if (-not $nameByNorm.ContainsKey($nn)) { $nameByNorm[$nn] = $name }
+  foreach ($r in $j.records) { Add-Film ([string]$r.name) ([string]$r.year) }
+}
+# hand-curated screenings in extra-schedule.js also need posters
+$EXTRA = Join-Path $ROOT 'extra-schedule.js'
+if (Test-Path $EXTRA) {
+  $txt = Get-Content $EXTRA -Raw -Encoding UTF8
+  foreach ($m in [regex]::Matches($txt, "\{[^{}]*?title:\s*'([^']+)'[^{}]*?year:\s*'([^']+)'[^{}]*?\}")) {
+    Add-Film $m.Groups[1].Value $m.Groups[2].Value
   }
 }
 if ($films.Count -eq 0) { Write-Error 'no film data under archive/'; exit 1 }
@@ -214,15 +236,25 @@ foreach ($k in $films.Keys) {
   $nn = ($k -split '\|')[0]
   $yr = $films[$k].year
   $dn = $films[$k].name
-  $cands = @()
-  if ($data.names.ContainsKey($nn)) { $cands = @($data.names[$nn]) }
   $pick = $null
-  if ($cands.Count -gt 0) {
-    $exact = @($cands | Where-Object { $_.year -eq $yr })
-    if ($exact.Count -gt 0) {
-      $same = @($exact | Where-Object { (Norm $_.title) -eq (Norm $dn) })
-      if ($same.Count -gt 0) { $pick = $same[0] } else { $pick = $exact[0] }
-    } else { $pick = $cands[0] }
+  if ($overrides.ContainsKey($k)) {
+    # manual override always wins: pin the exact douban subject id
+    $pick = [pscustomobject]@{ id = $overrides[$k]; title = $dn; year = $yr; img = '' }
+  } else {
+    $cands = @()
+    if ($data.names.ContainsKey($nn)) { $cands = @($data.names[$nn]) }
+    if ($cands.Count -gt 0) {
+      $exact = @($cands | Where-Object { $_.year -eq $yr })
+      if ($exact.Count -gt 0) {
+        $same = @($exact | Where-Object { (Norm $_.title) -eq (Norm $dn) })
+        if ($same.Count -gt 0) { $pick = $same[0] } else { $pick = $exact[0] }
+      } else {
+        # no year match: only accept an exact title match (same-name remakes
+        # with no year match must NOT fall back to an arbitrary first candidate)
+        $same2 = @($cands | Where-Object { (Norm $_.title) -eq (Norm $dn) })
+        if ($same2.Count -gt 0) { $pick = $same2[0] }
+      }
+    }
   }
   $pickByKey[$k] = $pick
   if ($pick) {
@@ -265,6 +297,9 @@ foreach ($k in $films.Keys) {
       if ($rt.rating) { $r = [string]$rt.rating }
       if ($rt.pic) { $p = [string]$rt.pic }
     }
+    # douban grey placeholder = no real poster; leave p empty so the
+    # frontend keeps the CFA poster instead of a grey "no image" box
+    if ($p -match 'movie_normal|movie_default') { $p = '' }
     $map[$k] = @{ i = $id; r = [string]$r; p = [string]$p }
     $hit++
     if ($yearsByName[$nn].Count -eq 1 -and -not $map.Contains($nn)) { $map[$nn] = $map[$k] }
