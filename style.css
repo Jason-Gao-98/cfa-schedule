@@ -879,22 +879,29 @@ body.modal-open{overflow:hidden}
   .plan-tabs{width:100%}
   .plan-tabs .tab{flex:1;text-align:center;padding:7px 8px}
   .plan-cand{flex-wrap:wrap;gap:8px 12px}
-  .pc-when{width:110px;order:1}
-  .pc-body{order:2;flex:1 1 0}
-  .pc-add{order:3;margin-left:auto;padding:7px 12px;min-height:40px}
+  /* 窄屏候选行：片名独占整行、完整换行显示，时间/票价/加入按钮排第二行 */
+  .pc-when{width:auto;order:2}
+  .pc-body{order:1;flex:1 1 100%}
+  .pc-add{order:4;margin-left:0;padding:7px 12px;min-height:40px}
   .pc-info{
-    order:4;flex:1 1 100%;flex-direction:row;align-items:baseline;
+    order:3;flex:1 1 auto;flex-direction:row;align-items:baseline;
     justify-content:flex-end;gap:12px;padding-top:1px;
   }
-  /* 窄屏计划行：单行 —— 时间 + 片名 + 票价 + 删除（厅号已移到日期组头） */
+  .pc-title{flex-wrap:wrap;row-gap:2px;overflow:visible}
+  .pc-name{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+  /* 窄屏计划行：两行 —— 上行 时间 + 票价 + 删除，下行 片名独占整行完整换行（厅号已移到日期组头） */
   .plan-item{
     grid-template-columns:auto minmax(0,1fr) auto 40px;
-    grid-template-rows:auto;
-    column-gap:8px;row-gap:0;
+    grid-template-rows:auto auto;
+    column-gap:8px;row-gap:3px;
     min-height:0;padding:8px 12px;
   }
   .plan-time{grid-column:1;grid-row:1;align-self:center}
-  .plan-title{grid-column:2;grid-row:1;align-self:center;font-size:14px}
+  .plan-title{
+    grid-column:1 / -1;grid-row:2;align-self:center;font-size:14px;
+    flex-wrap:wrap;row-gap:2px;overflow:visible;
+  }
+  .plan-name{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
   .plan-price{grid-column:3;grid-row:1;align-self:center;justify-self:end;min-width:40px;font-size:18px}
   .plan-del{grid-column:4;grid-row:1;justify-self:end;width:40px;height:40px;font-size:18px}
   .plan-toolbar-btns{width:100%}
@@ -975,7 +982,7 @@ body.modal-open{overflow:hidden}
   .plan-date-head{font-size:13px}
   .plan-hall-head{font-size:12.5px}
   .plan-cand{gap:6px 10px;padding:10px 11px}
-  .pc-when{width:106px;gap:3px}
+  .pc-when{gap:3px}
   .pc-when b,.pc-when i{font-size:15px}
   .pc-name{font-size:13.5px}
   .pc-add{min-height:40px;padding:8px 13px;display:inline-flex;align-items:center}
