@@ -1,7 +1,119 @@
 {
  "month": "2026-12",
- "count": 13,
+ "count": 99,
  "records": [
+  {
+   "playTime": "2026-12-02 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "法式火锅",
+   "en": "The Taste of Things",
+   "year": "2023",
+   "min": 134,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "1794cc8eec91b23ac64c420ca5b53a4d%3AlUMpH03uQTro45OYTkqEUg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/8ca1b5d76da44c0e9ab40d12b33c491f.jpg"
+  },
+  {
+   "playTime": "2026-12-02 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "十字街头",
+   "en": "Crossroads",
+   "year": "1937",
+   "min": 108,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "1a68af993a692941a02009789c2e3e84%3A6tQ8EDGFRbSSaoi4Y5i42g%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/122e0a9f80de4f75bf11d7d8739c4c72.jpg"
+  },
+  {
+   "playTime": "2026-12-03 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "寂静人生",
+   "en": "Still Life",
+   "year": "2013",
+   "min": 88,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "c99a89ee8709c652ea5506b80729338c%3ASoHzXOAAnAZd9YNV8yOPPQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/02/2a0ab202602021202426863.jpeg"
+  },
+  {
+   "playTime": "2026-12-03 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "末路爱神",
+   "en": "Venus",
+   "year": "2006",
+   "min": 95,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "23b934df74ce7586d4818d96e7c2c7d7%3A%2FbvpmsAty847mwesvkFSYw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/11/d620f202411191037558466.jpeg"
+  },
+  {
+   "playTime": "2026-12-04 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "影迷",
+   "en": "Camera Buff",
+   "year": "1979",
+   "min": 113,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "d2d0b9937b0bc04375603a782152029f%3AT7S1yKA5p0NrYxyMOCsWmg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2025/11/b9251202511041207584050.jpeg"
+  },
+  {
+   "playTime": "2026-12-04 19:15:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "西游记之真假美猴王",
+   "en": "Monkey King",
+   "year": "2026",
+   "min": 90,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "9b2dbfce99a78722feb4fd798c7814b6%3AVUicWgB7daDyysuzxOPE5Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/11/91736202611241605315938.jpeg"
+  },
+  {
+   "playTime": "2026-12-04 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "罗拉快跑",
+   "en": "Run Lola Run",
+   "year": "1998",
+   "min": 76,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "793e1b731c42e5e9a3013fe8c0e38193%3A9h%2Bt5TukkarlU2P3ma0lVA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/2024/09/8995f47b-796d-415d-8c68-c0381fbbed1b.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "红楼梦",
+   "en": "The Dream of Red Mansions",
+   "year": "1962",
+   "min": 167,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "f162ba42ffda98f49359712e3a3718c1%3ASQNLbLgYUbZJNCSVfJZeaw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/de4be006e0ba4f8a9d4357a2958c2cfb.jpg"
+  },
   {
    "playTime": "2026-12-05 11:00:00",
    "cinema": "小西天艺术影院",
@@ -13,7 +125,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "db30a51ce310c67916e8cdb90d58daef%3AcjtuJ%2BV58C0FUO103FolBQ%3D%3D",
+   "movieId": "a7cc5042eca1308e194249b0ef3ada7e%3AKGxUh6Iwq63W3X4n6rwSMA%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/6366c20260805091233822.jpeg"
   },
   {
@@ -27,7 +139,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9f2a487ffef1d5eedf615aff6ea38b16%3Az97NOfJvXzaYKDGoKdUX1A%3D%3D",
+   "movieId": "1eea979b02794adb93152fa6b0aa794d%3AsLvCyNVnc64A50isKCzzgw%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/09/77b70202609240951507139.jpeg"
   },
   {
@@ -42,8 +154,37 @@
     "DCP",
     "4K"
    ],
-   "movieId": "42cd06619ee00864e0b79fdbcdf15c83%3AK%2FAHH41eMn9kDAZIYFTj%2BQ%3D%3D",
+   "movieId": "d864179f8a0eed8c6a80b299afa07205%3AaOLDj7cnbJYn10kvcZqKow%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/f61ee202608060958118506.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 14:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "薄荷糖",
+   "en": "Peppermint Candy",
+   "year": "1999",
+   "min": 130,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "41fe205f598ef4688c65d3e0a50153f5%3AX14qQu2MsEw8iGtgowGD0Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
+  },
+  {
+   "playTime": "2026-12-05 14:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "金童",
+   "en": "Golden Boy",
+   "year": "2026",
+   "min": 156,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "51bb4631649f52de79c4ef86ad206547%3A8%2FEFFEIGvWwTxRY6etmHXA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg"
   },
   {
    "playTime": "2026-12-05 15:00:00",
@@ -56,7 +197,7 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "ac7455e269fb54435efe23bfd5f2c55b%3ALl%2BDkqV501iP3zvqDMpVCw%3D%3D",
+   "movieId": "4bd0e6d8253783f8e3b73c4bd1a58c0a%3AR%2B7%2B5e7D7XlMfdQOSHKZmA%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/09/ffa33202609241507307139.jpeg"
   },
   {
@@ -71,8 +212,23 @@
     "DCP",
     "4K"
    ],
-   "movieId": "ae44378bb2a70c3c80e1bb2dbe6161f9%3ApaMrTGenbhpaYCfTtR%2Bkgw%3D%3D",
+   "movieId": "b4a123273b81b75f4909ac5d081f86a1%3A60VOx6eMOSR1WJBcDaL2HA%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/b2dff202608071035197528.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 16:40:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "东方快车谋杀案",
+   "en": "Murder on the Orient Express",
+   "year": "1974",
+   "min": 128,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "5aa7ca28e7252e917eb7dbc93be3ba47%3A3vQer2xZT2d4x6e%2Bt6C%2BzA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/3567f202607270943182666.jpeg"
   },
   {
    "playTime": "2026-12-05 17:30:00",
@@ -86,7 +242,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "46085aa2b57e57e6b94fc8de5f7ed8e8%3AJXFF9qRqboF7NPS%2F%2FmJ9rw%3D%3D",
+   "movieId": "ee5739d39f299701ff51a226bd04e459%3Ae1aMhjTrK5TYqcGtVeRw0A%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/09/417d6202609241557259234.jpeg"
   },
   {
@@ -100,8 +256,50 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "284768b1f2bf0635180b38248154fb6b%3AI9bARxqIZzN3e1MSVihF8Q%3D%3D",
+   "movieId": "fe79f7dbe9a24548bd663b25426588e4%3AHWCqcPwplPu%2FAyXckBV86Q%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/b519e202608071059375462.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 19:20:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "奇美拉",
+   "en": "La Chimera",
+   "year": "2023",
+   "min": 126,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "712b24cd1d7a8d4d24d919f820c767ee%3AvHP1ccRQbzX0JJ6%2FUt8uDw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/c8595202412091626276524.jpeg"
+  },
+  {
+   "playTime": "2026-12-05 19:45:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "特写",
+   "en": "Close-Up",
+   "year": "1990",
+   "min": 98,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "5580fe93f6474e8e9e4399f1ce3aa63f%3AvnxlgN4TdiaEPIdlHfXBiw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
+  },
+  {
+   "playTime": "2026-12-06 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "乘龙快婿",
+   "en": "Lucky Son-in-law",
+   "year": "1947",
+   "min": 85,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "8b59635637d7fdbb6ddd34aaa5409457%3ABUo%2FGnPYqRaM6M3hW12rEA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/2024/08/ca3584e1-305a-45b9-b6a7-1b155a0e5ac2.jpeg"
   },
   {
    "playTime": "2026-12-06 13:00:00",
@@ -115,7 +313,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "3411140727b2b1fe6930eb60b79926d5%3AAFSZ3HDBUunXDjkt89hvGg%3D%3D",
+   "movieId": "102e3d75bd8cc9c53d4e911bed30d0ad%3AOXCtzyXBwfevdIxZ%2Fqil%2Fw%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/3d83f202608111047313712.jpeg"
   },
   {
@@ -129,8 +327,36 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "9322a6299eda15827ab50a999627d276%3ACtnDEANoRKsaFz1iK7KCAA%3D%3D",
+   "movieId": "b98e9aab07e381dd9a780981d0790d7b%3A%2BGehd6hXWVSWfq3gqLPYBg%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/09/ff83d202609271156476125.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 13:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "还有明天",
+   "en": "There's Still Tomorrow",
+   "year": "2023",
+   "min": 119,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "71e2896dea4fe03bf218ffcc00a826fc%3AEfcGE%2BkV7qzJ7%2BH%2BLJoT4w%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2025/09/cf4c2202509270928071726.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 14:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "伦敦生活",
+   "en": "National Theatre Live: Fleabag",
+   "year": "2019",
+   "min": 89,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "7453cb108c2d915ea67e3ce94eddb8cf%3AWXZ%2BfO0muFu021rGq1klig%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/403ac4b8e2f2456d8d77e29b1b06d024.png"
   },
   {
    "playTime": "2026-12-06 15:45:00",
@@ -143,8 +369,22 @@
    "formats": [
     "DCP"
    ],
-   "movieId": "c701f526e3a329e419b7bf1541274521%3AyTRPzOdIRAF%2Ft2xWWYR9Fg%3D%3D",
+   "movieId": "c462198d0ba05d4d3eec16c968a1827d%3ApA82GXsl%2F4JnA6KRi55cwQ%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/09/bee13202609271645455699.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 16:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "赛末点",
+   "en": "Match Point",
+   "year": "2005",
+   "min": 124,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "c0aacd2f10a759b5b6b67cb1164dcab5%3Adr4fhKfvQqchgfK18HAjBg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/58891202412252001209571.jpeg"
   },
   {
    "playTime": "2026-12-06 17:30:00",
@@ -158,7 +398,7 @@
     "DCP",
     "4K"
    ],
-   "movieId": "1f41c874520b90e4c89ab7fa2d13d43a%3Ai5%2FgK%2BJ%2BbP1XlxULs8H02g%3D%3D",
+   "movieId": "a89d9c62f3f5663b0ecad0a6cb2d5a85%3AZSlzYn3hypsO7x9XSwc8mg%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/de29a202608111125566406.jpeg"
   },
   {
@@ -173,8 +413,22 @@
     "DCP",
     "4K"
    ],
-   "movieId": "7e75be4aa5af128aa6ae05584085ac46%3Adn728n%2FLEjkQJtqIeEwm6g%3D%3D",
+   "movieId": "60c19b6dc444f9e708551602d06871f6%3AMe6i%2FKShH6sRBPSkCdFdgQ%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/09/6afa3202609271722457652.jpeg"
+  },
+  {
+   "playTime": "2026-12-06 18:45:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "解构爱情狂",
+   "en": "Deconstructing Harry",
+   "year": "1997",
+   "min": 91,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "c54e1612cdbbfe7657f1d33b12b063e2%3AKth%2FO3fgoA8Zu5pXCfVlTg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/c8ca4202412251549565487.jpeg"
   },
   {
    "playTime": "2026-12-06 20:00:00",
@@ -188,9 +442,984 @@
     "DCP",
     "4K"
    ],
-   "movieId": "d41b189c68924c37f84a7719ef8aae71%3A%2BpUZAF5343%2BgdPmT5Hq%2FZA%3D%3D",
+   "movieId": "705c54c6608fc6922bb4c23abf8d0737%3AZTe4M6UKO1111lT7j76ksw%3D%3D",
    "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/7a1362026081209330821.jpeg"
+  },
+  {
+   "playTime": "2026-12-09 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "八千里路云和月",
+   "en": "Eight Thousand Li of Cloud and Moon",
+   "year": "1947",
+   "min": 126,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "e24be9bf42c30131e2b039758cd12dda%3AkrLlVLWo0R9clWXj8rT2xg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/536b89bfafe74d63a28d9d527c0fee9c.jpg"
+  },
+  {
+   "playTime": "2026-12-09 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "这时对，那时错",
+   "en": "Right Now, Wrong Then",
+   "year": "2015",
+   "min": 120,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "d6d46a654a7516113cc22f5f2c495a27%3AC77QpXk892SBn1NgSIWluQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/badc129dd0154a3eb4327a279247d925.webp"
+  },
+  {
+   "playTime": "2026-12-10 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "奇美拉",
+   "en": "La Chimera",
+   "year": "2023",
+   "min": 126,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "640843c33351d65dd2bd04841094b61a%3ARF4z4fRzQdF%2BGAROFgZjPQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/c8595202412091626276524.jpeg"
+  },
+  {
+   "playTime": "2026-12-10 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "罗拉快跑",
+   "en": "Run Lola Run",
+   "year": "1998",
+   "min": 76,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "be3ca195331c7161ae3752b3432dfbc1%3AxqnHqJvw8sCMZqnyAkUAsg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/2024/09/8995f47b-796d-415d-8c68-c0381fbbed1b.jpeg"
+  },
+  {
+   "playTime": "2026-12-11 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "寂静人生",
+   "en": "Still Life",
+   "year": "2013",
+   "min": 88,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "e4063ae2a065843c3a2cc7c876da24bf%3AWd%2Be7Z8H%2FHnCBLWcNIh%2Fwg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/02/2a0ab202602021202426863.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "追鱼",
+   "en": "The Scholar and the Fairy Carp",
+   "year": "1959",
+   "min": 93,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "6781f467e362fdd1f0231b538342d8fd%3AJOMl0Orx2ozx3XvcjAiXlg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/b69c674882c1414d836697c83d7b76ed.jpg"
+  },
+  {
+   "playTime": "2026-12-12 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "第七封印",
+   "en": "The Seventh Seal",
+   "year": "1957",
+   "min": 96,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "aec3af0d0c8e03cd013cffcd8c4ad19d%3A2NqXVgQdJi%2BwkMp9z67Z4Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/0c3d620260818141638424.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 13:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "光天化日之下",
+   "en": "It Happened in Broad Daylight",
+   "year": "1958",
+   "min": 100,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "01c00c10a1c090779375630478ec8eec%3Anizyl%2B0qqGOVcuFjFn2tTQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/3bb7b20261002211046810.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 14:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "伦敦生活",
+   "en": "National Theatre Live: Fleabag",
+   "year": "2019",
+   "min": 89,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "5a197fa16a6041dc88eabb86ecb91741%3AufrArulpdpK2jfY15FZpvw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/403ac4b8e2f2456d8d77e29b1b06d024.png"
+  },
+  {
+   "playTime": "2026-12-12 15:10:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "处女泉",
+   "en": "The Virgin Spring",
+   "year": "1960",
+   "min": 86,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "96660b7ae5144e4f564868610c7efb93%3AJW8gBnGuP%2B5IHVvYSATU%2FA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/581fc202608181413247218.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 15:40:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "夏尔之存亡",
+   "en": "Charles, Dead or Alive",
+   "year": "1969",
+   "min": 94,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "f4ebfeca22f39d43ebbf4ef795f309fe%3AyCTGLb5jn%2B43mBiYjSBPiA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/d1884202610031028214120.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 17:15:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "秋日奏鸣曲",
+   "en": "Autumn Sonata",
+   "year": "1978",
+   "min": 93,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "9e62b059d5e7c79f3db61b2784147ddf%3AV1NxRENpKpJvSTZV0Gffpw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/2bd1d20260818141855349.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 18:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "阿尔卑斯的激情",
+   "en": "Alpine Fire",
+   "year": "1985",
+   "min": 119,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "09a6052d493d44d41ee936e2b9ffc155%3ADgK29rxg2lkSNyRkR12Y9A%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/1ac8a202610031115009659.jpeg"
+  },
+  {
+   "playTime": "2026-12-12 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "机器人之梦",
+   "en": "Robot Dreams",
+   "year": "2023",
+   "min": 102,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "9eb3c8b0b6a68124e470d0cea7342433%3A%2BnTjGV%2FQEKKhVNCNansq7Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/14044202412051844573998.jpeg"
+  },
+  {
+   "playTime": "2026-12-13 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "《宇宙探索编辑部》特别放映",
+   "en": "Journey to the West",
+   "year": "2025",
+   "min": 325,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "6503d404d3192a9dfecaf0aa8552f77a%3A9VXe2nYYnHnX459MnuKWcw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/05/2729c202605281108395490.jpeg"
+  },
+  {
+   "playTime": "2026-12-13 14:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "希望之旅",
+   "en": "Journey of Hope",
+   "year": "1990",
+   "min": 110,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "033704a12bd681e3ef5087f041e863f1%3AqB9FhVi02NMcf0vVjQUibw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/89a2120261003192113613.jpeg"
+  },
+  {
+   "playTime": "2026-12-13 15:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "金童",
+   "en": "Golden Boy",
+   "year": "2026",
+   "min": 156,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "389abc693ae837d94e08a0272f35891c%3A5j03v4sx2gbQU6iHrUpQqg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg"
+  },
+  {
+   "playTime": "2026-12-13 16:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "玛丽·安宁：化石猎人",
+   "en": "Mary Anning",
+   "year": "2025",
+   "min": 72,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "38bb244e83b61234f5233ac86342f8d2%3AdmNQio6cnepb7bV4l5LzCg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/48961202610032005118736.jpeg"
+  },
+  {
+   "playTime": "2026-12-13 18:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "一江春水向东流",
+   "en": "A Spring River Flows East",
+   "year": "1947",
+   "min": 185,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "2c4de6533cbc70ab76e9681e77c5e411%3AXjfmq0fOJ3Ravhwg4pyPDQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/c4d745e8dc8a45c4a2c684b6638d49ad.jpg"
+  },
+  {
+   "playTime": "2026-12-13 18:40:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "末路爱神",
+   "en": "Venus",
+   "year": "2006",
+   "min": 95,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "18820ab18fe3645f13e847ec11287b77%3Am1z4Wv%2BMqwqYJT5%2Bzh7Bmw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/11/d620f202411191037558466.jpeg"
+  },
+  {
+   "playTime": "2026-12-13 19:10:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "薄荷糖",
+   "en": "Peppermint Candy",
+   "year": "1999",
+   "min": 130,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "b94bb13929cf1f78ab0ef32262132325%3ANqidwsm8yo142ydurGdxuA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
+  },
+  {
+   "playTime": "2026-12-16 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "还乡日记",
+   "en": "Diary About Returning To The Native",
+   "year": "1947",
+   "min": 118,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "8ec51a6d8f416c86761301063652c463%3AWyv5xIxDQyP%2BwMItdus2eQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/2024/08/ba4f35a8-8f98-40d9-b397-c7ff0be0b8dd.jpeg"
+  },
+  {
+   "playTime": "2026-12-16 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "特写",
+   "en": "Close-Up",
+   "year": "1990",
+   "min": 98,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "dce9ec3e271f4ccdfbaeefee14ee4909%3AlRXufBOMXslDxc2J%2FX2MWw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
+  },
+  {
+   "playTime": "2026-12-17 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "罗拉快跑",
+   "en": "Run Lola Run",
+   "year": "1998",
+   "min": 76,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "cb6fb579126a98734dc05ee71c4bee34%3Arz7bBjuE%2BWhpos%2BZ0KWX%2FA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/2024/09/8995f47b-796d-415d-8c68-c0381fbbed1b.jpeg"
+  },
+  {
+   "playTime": "2026-12-17 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "解构爱情狂",
+   "en": "Deconstructing Harry",
+   "year": "1997",
+   "min": 91,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "ed37e55f77850b49f7611bcb7b80f380%3Av7oVeOzWBmLEpNEBsmJTwQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/c8ca4202412251549565487.jpeg"
+  },
+  {
+   "playTime": "2026-12-18 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "赛末点",
+   "en": "Match Point",
+   "year": "2005",
+   "min": 124,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "95ca2138003e964c2479f228c80edc34%3AVdV3w5uaWdLJYya0VDw8wg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/58891202412252001209571.jpeg"
+  },
+  {
+   "playTime": "2026-12-18 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "东方快车谋杀案",
+   "en": "Murder on the Orient Express",
+   "year": "1974",
+   "min": 128,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "84d5d2bcb6f4b8ef75bd8559f4bef07e%3AB2LkoX7T0hzD%2BaNSge%2BKww%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/3567f202607270943182666.jpeg"
+  },
+  {
+   "playTime": "2026-12-19 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "碧玉簪",
+   "en": "The Jade Hairpin",
+   "year": "1962",
+   "min": 129,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "5a0cc982eb674da7ab0b2626e917e775%3AIB%2FNmDYRXvHJYdcJfDIhQg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/da8ba0132d4c442291d26bf4984bd9ae.jpg"
+  },
+  {
+   "playTime": "2026-12-19 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "柏林艳史",
+   "en": "A Foreign Affair",
+   "year": "1948",
+   "min": 111,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "d6becc081e8220df573a8e357f8b0799%3ADr4UVtv%2FHqYY0LP4ZIaqfA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/d6dcf202607290952583913.jpeg"
+  },
+  {
+   "playTime": "2026-12-19 13:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "隐藏摄像机",
+   "en": "Hidden",
+   "year": "2005",
+   "min": 118,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "e8eb40a113f6a982889079fa9ed679bf%3AXJRq4MolalEyPLRVjySsYQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/88d9a618299444fbb4c11177f4dce0b0.jpg"
+  },
+  {
+   "playTime": "2026-12-19 15:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "金童",
+   "en": "Golden Boy",
+   "year": "2026",
+   "min": 156,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "1cc02ec521dc84b695955e4260053059%3Ai%2F7CNawQE8A9ItxY%2FOrgww%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg"
+  },
+  {
+   "playTime": "2026-12-19 15:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "龙凤配",
+   "en": "Sabrina",
+   "year": "1954",
+   "min": 113,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "4690fb501b73d8b9b29cac07132e3eb1%3A60OPZQBbbouoObaWbfw0FA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/53a75202607291418373495.jpeg"
+  },
+  {
+   "playTime": "2026-12-19 16:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "穆赫兰道",
+   "en": "Mulholland Drive",
+   "year": "2001",
+   "min": 147,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "7dd8c26ac036a46ca70933d05cf1a483%3A1CKVP1wgiawO1C3PKv%2BUGA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg"
+  },
+  {
+   "playTime": "2026-12-19 18:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "黄昏之恋",
+   "en": "Love in the Afternoon",
+   "year": "1957",
+   "min": 130,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "64bd720bbafa0e7a9feb788d357d3004%3AHDgK%2F9WWnPzTPBxcZY6%2BEg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/3fb04202607291532013011.jpeg"
+  },
+  {
+   "playTime": "2026-12-19 19:20:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "这时对，那时错",
+   "en": "Right Now, Wrong Then",
+   "year": "2015",
+   "min": 120,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "b8e6de4aca85689e21c1d84c54ddb550%3Aq3CZNtDRvjPoSMCqW%2F%2B%2FKA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/badc129dd0154a3eb4327a279247d925.webp"
+  },
+  {
+   "playTime": "2026-12-20 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "新闺怨",
+   "en": "Sorrows of a Bride",
+   "year": "1948",
+   "min": 105,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "eac0c4ef5e53afa304a1de10a0039128%3A911ibfGE0b7LNyxZgSWJjw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/6e4713ae625e4aa7a6ac826ba1c239dd.jpg"
+  },
+  {
+   "playTime": "2026-12-20 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "热情如火",
+   "en": "Some Like It Hot",
+   "year": "1959",
+   "min": 121,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "5a7ca87aee83a10d265a7bf608d2773c%3AcgG1S8PD0paLgD8yaIFBaQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/e8f99202607301642159372.jpeg"
+  },
+  {
+   "playTime": "2026-12-20 13:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "于洛先生的假期",
+   "en": "Mr. Hulots Holiday",
+   "year": "1953",
+   "min": 88,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "006ba984c0fffcf1a7366ca26936cce3%3Al2RUyCiMakTll6uY8K1uXw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg"
+  },
+  {
+   "playTime": "2026-12-20 14:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "伦敦生活",
+   "en": "National Theatre Live: Fleabag",
+   "year": "2019",
+   "min": 89,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "13be1cd8dc03212c944000eaf9825e5a%3AdlxMMD1JpF4BK6PLbuRw1Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/403ac4b8e2f2456d8d77e29b1b06d024.png"
+  },
+  {
+   "playTime": "2026-12-20 15:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "玩乐时间",
+   "en": "Play Time",
+   "year": "1967",
+   "min": 124,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "a2fdf497fb860a8470401751ef8807f0%3A63N3En2AqtPqn5ujJpgUgw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg"
+  },
+  {
+   "playTime": "2026-12-20 15:40:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "桃色公寓",
+   "en": "The Apartment",
+   "year": "1960",
+   "min": 125,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "64cb148bcf551a691dd4b1d6d8b0239e%3A4mF%2F%2B2l%2FIZBYqZ0eLlH87Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/203bd202608041038155387.jpeg"
+  },
+  {
+   "playTime": "2026-12-20 18:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "交通意外",
+   "en": "Traffic",
+   "year": "1971",
+   "min": 97,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "00800af3b6500c41b88525450d98ef2b%3ApEwi02J4lo2mzGKIp%2FtrCQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg"
+  },
+  {
+   "playTime": "2026-12-20 18:40:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "飞来福",
+   "en": "The Fortune Cookie",
+   "year": "1966",
+   "min": 125,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "15daf4c0b1889f676a740dbbb11466ec%3AoeNBRpwzv310rt5pG1uacg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/dc5a2202608041058433165.jpeg"
+  },
+  {
+   "playTime": "2026-12-23 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "寂静人生",
+   "en": "Still Life",
+   "year": "2013",
+   "min": 88,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "a8bd2609563f7648dde200ae71b9600e%3At5CH4YA1g8ywvCLIgwem7A%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/02/2a0ab202602021202426863.jpeg"
+  },
+  {
+   "playTime": "2026-12-23 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "祝福",
+   "en": "New Year Sacrifice",
+   "year": "1956",
+   "min": 98,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "aa1b0441c44b8dce4279166ff45adf64%3AClDaim2HIFoipuNul0HpBQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ef02c091f8ff4bcea82071e41676f774.png"
+  },
+  {
+   "playTime": "2026-12-24 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "影迷",
+   "en": "Camera Buff",
+   "year": "1979",
+   "min": 113,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "6454d7ff1cade8a1459c782240402477%3AcLbodmkRfRNGKH5AjDfo0g%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2025/11/b9251202511041207584050.jpeg"
+  },
+  {
+   "playTime": "2026-12-24 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "薄荷糖",
+   "en": "Peppermint Candy",
+   "year": "1999",
+   "min": 130,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "c723b74762e2d24f19ddab21028b2d34%3AP2Vms8j60TeNDK5GdZKsFQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/d59a0230d64447b4b37ff4e46bd3b678.png"
+  },
+  {
+   "playTime": "2026-12-25 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "法式火锅",
+   "en": "The Taste of Things",
+   "year": "2023",
+   "min": 134,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "08302a6c38c53849b19d039ca00e0eb0%3ATvlHlxVlDdXfFvyOOOxy8Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/8ca1b5d76da44c0e9ab40d12b33c491f.jpg"
+  },
+  {
+   "playTime": "2026-12-25 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "末路爱神",
+   "en": "Venus",
+   "year": "2006",
+   "min": 95,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "51c3bd45bfb4862d54eb5e60843f89c9%3ALezlcszH3dgPnbctKN9v3Q%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/11/d620f202411191037558466.jpeg"
+  },
+  {
+   "playTime": "2026-12-26 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "梁山伯与祝英台",
+   "en": "Liang Shanbo and Zhu Yingtai",
+   "year": "1954",
+   "min": 111,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "62ad311733963f8a2637971b8925c016%3Al7%2B0%2BiVf02uKIVig2u0kpw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/04/a4d33202604151129247161.jpeg"
+  },
+  {
+   "playTime": "2026-12-26 12:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "双重赔偿",
+   "en": "Double Indemnity",
+   "year": "1944",
+   "min": 107,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "7bb184fbff9ac6ccb7e767e02ec7a0c1%3AzmhQECMz7jXA4xGzM9s82w%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/d159f202607281609194335.jpeg"
+  },
+  {
+   "playTime": "2026-12-26 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "于洛先生的假期",
+   "en": "Mr. Hulots Holiday",
+   "year": "1953",
+   "min": 88,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "c65a1cc9f5950fe3f1e62a107882511e%3A5JksW%2FwGfVrn5tiIaVuhPA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/93eb54267a3b4e3b9b33dcbd81c1451b.jpg"
+  },
+  {
+   "playTime": "2026-12-26 14:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "伦敦生活",
+   "en": "National Theatre Live: Fleabag",
+   "year": "2019",
+   "min": 89,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "f092000bc5913114d119a28ebed048b5%3Ag6vNk6Q5rSDH7kyG0PNU8g%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/403ac4b8e2f2456d8d77e29b1b06d024.png"
+  },
+  {
+   "playTime": "2026-12-26 14:45:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "失去的周末",
+   "en": "The Lost Weekend",
+   "year": "1945",
+   "min": 101,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "eb0ae23fec51edad3a1bcb0467af088b%3A1j6UiDtEhszZugmqfTDhtQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/b469e202607281639128527.jpeg"
+  },
+  {
+   "playTime": "2026-12-26 14:55:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "玩乐时间",
+   "en": "Play Time",
+   "year": "1967",
+   "min": 124,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "650968782d2c5457531799a02f811f42%3AkT%2Bf4ioz9LjTmZdgv%2FcE%2FA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2024/12/84976202412171657208090.jpeg"
+  },
+  {
+   "playTime": "2026-12-26 17:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "倒扣的王牌",
+   "en": "Ace in the Hole",
+   "year": "1951",
+   "min": 111,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "883042e07ff8c055b081171efdf77d22%3ATGASxmUJ3qvoQz0YC1J%2BqQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/4d9f9202607291054055877.jpeg"
+  },
+  {
+   "playTime": "2026-12-26 17:40:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "交通意外",
+   "en": "Traffic",
+   "year": "1971",
+   "min": 97,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "41dc34f6eaab7c70c8024a0b2ef7f672%3ABFV3EUtYprFu8ku5Ympq6g%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/36969d17503b43fab7a14125330a1ab0.jpg"
+  },
+  {
+   "playTime": "2026-12-26 19:20:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "穆赫兰道",
+   "en": "Mulholland Drive",
+   "year": "2001",
+   "min": 147,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "e49baaeedc50f7498bb5e9d47243eedb%3AUfN6zSAwsRXvl6GmOIogcQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/ec19f2420ecd4edbabba899517cbdbd0.jpg"
+  },
+  {
+   "playTime": "2026-12-27 10:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "为了和平",
+   "en": "For Peace",
+   "year": "1956",
+   "min": 111,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "a07ec0804773f2590dcb2c1aba9c48cb%3A5ocGZ0OXpReBehF067bqrw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/20916fcb0cb045328f2f42a91067dc78.jpg"
+  },
+  {
+   "playTime": "2026-12-27 11:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "日落大道",
+   "en": "Sunset Blvd.",
+   "year": "1950",
+   "min": 110,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "86c80e4b84003d58a0f252d6c7f5ea7c%3AKLazLhepALDxepj20pO86w%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2025/11/a8a53202511041532131625.jpeg"
+  },
+  {
+   "playTime": "2026-12-27 13:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "撒旦探戈",
+   "en": "Satan's Tango",
+   "year": "1994",
+   "min": 438,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "20a4b7da56c5002307c01ff0949e106e%3AkRgG8THC8nrx%2Ffib%2F1mNZQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/06/1fdcf202606121634287239.jpeg"
+  },
+  {
+   "playTime": "2026-12-27 13:20:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "丽人劫",
+   "en": "Fedora",
+   "year": "1978",
+   "min": 113,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "5bfbe467370f0e725670edf4e9aaf344%3AmWaTLFDOzSXCS6JRB3pBxw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/08/7eaa3202608041118302611.jpeg"
+  },
+  {
+   "playTime": "2026-12-27 15:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "2号厅",
+   "name": "金童",
+   "en": "Golden Boy",
+   "year": "2026",
+   "min": 156,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "ac5d8eb48fd9af712056bcb5b254f16f%3A4FI%2BPfZMK1oKDnyKoPIjdg%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/10/0db55202610151050209706.jpeg"
+  },
+  {
+   "playTime": "2026-12-27 15:45:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "战地军魂",
+   "en": "Stalag 17",
+   "year": "1953",
+   "min": 120,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "a7982035e7bc3c31212c6abf650a06eb%3AWXN4sOyspJOtGpEDpjL39A%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/07/456fa202607291133126389.jpeg"
+  },
+  {
+   "playTime": "2026-12-27 18:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "阿尔卡拉斯",
+   "en": "Alcarràs",
+   "year": "2022",
+   "min": 120,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "5012f3dfd77b607a957fb24186bb63fc%3A%2BvI7QLZiNmwN8HmQ3h7Y%2Bw%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/movie/2026/11/3d485202611042009506491.jpeg"
+  },
+  {
+   "playTime": "2026-12-29 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "乡愁",
+   "en": "Nostalghia",
+   "year": "1983",
+   "min": 126,
+   "formats": [
+    "DCP",
+    "4K"
+   ],
+   "movieId": "8ae52d9f05b2ba34c5caadbd9fce88a6%3AvC1utrwboi87Mkm4z7DYig%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/c9327dac4abd4f17a6ca18bd6b52d06b.jpg"
+  },
+  {
+   "playTime": "2026-12-30 19:00:00",
+   "cinema": "江南分馆影院",
+   "hall": "3号厅",
+   "name": "新闺怨",
+   "en": "Sorrows of a Bride",
+   "year": "1948",
+   "min": 105,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "7b67c95f139887e0bb6109ed8ab9c305%3ADBFy8rhKU4B3MIKBSIN%2BKQ%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/6e4713ae625e4aa7a6ac826ba1c239dd.jpg"
+  },
+  {
+   "playTime": "2026-12-30 19:30:00",
+   "cinema": "江南分馆影院",
+   "hall": "4号厅",
+   "name": "特写",
+   "en": "Close-Up",
+   "year": "1990",
+   "min": 98,
+   "formats": [
+    "DCP"
+   ],
+   "movieId": "76f15b183107c3a82e3ece7cba102d23%3AiZb4THNoLrCn09HnbRIOcA%3D%3D",
+   "poster": "https://oss.guoyingjiaying.cn/picture/dypc/2023/12/31/02eb18f900484b1fb6d85d4d1e96e93b.jpg"
   }
  ],
- "generatedAt": "2026-11-24T03:08:01.186Z"
+ "generatedAt": "2026-11-25T01:13:53.231Z"
 }
