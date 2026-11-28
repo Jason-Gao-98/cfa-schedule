@@ -739,7 +739,7 @@
           esc(String(r.movieHall || '未标注影厅')) + '</span>' +
       '</span>' +
       '<span class="ar-right"><span class="ar-price' + (p ? '' : ' is-unknown') + '">' +
-        priceText(p) + '</span>' + (r.archived ? '<span class="ar-state">已放映</span>' : '') +
+        priceText(p) + '</span>' +
       '</span>' +
       '</button>';
   }
