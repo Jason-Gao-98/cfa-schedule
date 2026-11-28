@@ -1296,3 +1296,27 @@ article.film.assist-hit,
 a.brand{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 a.brand:hover .brand-text h1{color:var(--accent)}
 a.brand:focus-visible{outline:2px solid rgba(212,32,46,.5);outline-offset:3px;border-radius:6px}
+
+/* ---------- 观影计划 · 选择场次筛选（月份 / 影厅） ---------- */
+.plan-filters{display:flex;flex-direction:column;gap:7px;margin:2px 0 10px}
+.plan-frow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.plan-frow[data-label]::before{
+  content:attr(data-label);flex:none;font-size:11.5px;font-weight:600;color:#9aa0ad;
+}
+.plan-fchip{
+  display:inline-flex;align-items:center;gap:5px;min-height:29px;padding:4px 12px;
+  font-size:12px;font-weight:600;line-height:1.3;color:#5a6070;cursor:pointer;
+  background:#fff;border:1px solid var(--line);border-radius:999px;
+  -webkit-tap-highlight-color:transparent;
+}
+.plan-fchip:hover{color:var(--txt);border-color:#c6c9d1}
+.plan-fchip:focus-visible{outline:2px solid rgba(212,32,46,.5);outline-offset:2px}
+.plan-fchip.is-active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.plan-fchip i{font-style:normal;font-size:10.5px;font-weight:600;color:#9aa0ad}
+.plan-fchip.is-active i{color:var(--accent)}
+@media (max-width:760px){
+  .plan-filters{gap:9px;margin-bottom:11px}
+  .plan-frow{gap:7px}
+  .plan-fchip{min-height:40px;padding:8px 14px;font-size:13px}
+  .plan-fchip i{font-size:11.5px}
+}
