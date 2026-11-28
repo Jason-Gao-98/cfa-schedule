@@ -883,7 +883,8 @@ function posterBlock(mi, db, dbUrl) {
   var orig = mi.pictureBig ? mi.pictureBig.replace(/^http:/, 'https:') : '';
   var doub = (db && db.p) ? db.p : '';
   // 本地副本 assets/posters/<id>.jpg 存在时优先；失败逐级回退：豆瓣 CDN -> 资料馆
-  var local = (db && db.i) ? ('assets/posters/' + db.i + '.jpg') : '';
+  // ?v= 版本号防止浏览器缓存旧图/旧 404（新增海报后 bump 一次即可）
+  var local = (db && db.i) ? ('assets/posters/' + db.i + '.jpg?v=20261128') : '';
   var primary = local || doub || orig;
   var fb = [];
   if (local && doub && doub !== local) fb.push(doub);
