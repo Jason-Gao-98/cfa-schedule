@@ -3494,7 +3494,7 @@ function renderPlanCandidates() {
             '<span class="pc-when"><b>' + esc(String(r.playTime).slice(11, 16)) + '</b>' +
               (endTxt ? '<i>– ' + esc(endTxt) + '</i>' : '') + '</span>' +
             '<span class="pc-body"><span class="pc-title"><span class="pc-name">《' + esc(mi.movieName) + '》</span>' +
-              fmtTags + evTag + (past ? '<span class="pc-past">已放映</span>' : '') + '</span>' +
+              fmtTags + evTag + '</span>' +
               (fmt.note ? '<span class="pc-note">' + esc(fmt.note) + '</span>' : '') +
               (r.extra ? '<span class="sr-only">公众号补充场次（淘票票可购票）</span>' : '') + '</span>' +
             '<span class="pc-info">' +
@@ -3571,12 +3571,12 @@ function renderPlanMine() {
     return planDateHead(g.d, g.items.length, halls) + g.items.map(function (it) {
       var p = planPriceOf(it);
       var bad = !!confKeys[it.k];
+      var past = String(it.t) < nowStamp();
       var endTxt = planEndText(it);
-      return '<div class="plan-item' + (bad ? ' conflict' : '') + '">' +
+      return '<div class="plan-item' + (bad ? ' conflict' : '') + (past ? ' is-past' : '') + '">' +
         '<div class="plan-time"><b>' + esc(String(it.t).slice(11, 16)) + '</b>' +
           '<span>– ' + esc(endTxt) + '</span></div>' +
         '<div class="plan-title"><span class="plan-name">《' + esc(it.n) + '》</span>' +
-          (String(it.t) < nowStamp() ? '<span class="plan-past">已放映</span>' : '') +
           planEventBadge(it) +
           (bad ? '<span class="plan-flag">时间冲突</span>' : '') + '</div>' +
         '<div class="plan-price' + (p ? '' : ' pending') + '">' + esc(planPriceText(p)) + '</div>' +
