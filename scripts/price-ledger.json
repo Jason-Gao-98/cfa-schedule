@@ -1,7 +1,7 @@
 {
  "version": 1,
  "说明": "逐场票价台账（唯一手工维护的数据源，prices.js 由它自动生成）。每条均来自 2026 年 11 月公众号月度排片表长图的逐格转录，source 指向文章与原图存档；未登记场次 = unknown。",
- "来源现状": "2026-11 江南分馆（吕班回顾/瓦伊达百年/百代经典等单元）与北京艺术影院（小西天、百子湾）均已在公众号月历长图上标注单场票价，本台账按图逐场登记；图片中无票价或缺行的场次不入账。",
+ "来源现状": "2026-11 江南分馆（吕班回顾/瓦伊达百年/百代经典等单元）与北京艺术影院（小西天、百子湾）均已在公众号月历长图上标注单场票价，本台账按图逐场登记；图片中无票价或缺行的场次不入账。两张片单长图的日历均延伸至 2026-12-06，其中 12 月 1-6 日已定档场次的票价已一并登记（2026-12-05/06 共 13 场，核对日期 2026-11-28）；12 月其余场次需待 12 月片单长图发布后补录。",
  "entries": [
   {
    "date": "2026-11-01",
@@ -2274,6 +2274,136 @@
    "price": 70,
    "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
    "verifiedAt": "2026-11-03"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "11:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "战国妖姬",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "13:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "一代人",
+   "price": 60,
+   "source": "微信公众号「中国电影资料馆江南分馆」2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》观影日历长图（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-jiangnan/calendar-2026-11-jiangnan.jpg，原文 https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "13:40",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "白夜",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "15:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "下水道",
+   "price": 60,
+   "source": "微信公众号「中国电影资料馆江南分馆」2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》观影日历长图（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-jiangnan/calendar-2026-11-jiangnan.jpg，原文 https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "16:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "北斗七星",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "17:30",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "灰烬与钻石",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆江南分馆」2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》观影日历长图（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-jiangnan/calendar-2026-11-jiangnan.jpg，原文 https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-05",
+   "time": "18:30",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "纳粹狂魔",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-06",
+   "time": "13:00",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "丹东",
+   "price": 60,
+   "source": "微信公众号「中国电影资料馆江南分馆」2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》观影日历长图（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-jiangnan/calendar-2026-11-jiangnan.jpg，原文 https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-06",
+   "time": "13:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "路德维希",
+   "price": 120,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-06",
+   "time": "15:45",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "科扎克医生",
+   "price": 60,
+   "source": "微信公众号「中国电影资料馆江南分馆」2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》观影日历长图（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-jiangnan/calendar-2026-11-jiangnan.jpg，原文 https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-06",
+   "time": "17:30",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "家族的肖像",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-06",
+   "time": "18:30",
+   "cinema": "江南分馆影院",
+   "hall": "1号厅",
+   "name": "残影余像",
+   "price": 60,
+   "source": "微信公众号「中国电影资料馆江南分馆」2026-10-28《江南分馆11月片单｜百年辉煌，戏梦重逢》观影日历长图（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-jiangnan/calendar-2026-11-jiangnan.jpg，原文 https://mp.weixin.qq.com/s/i7FuuAAv7jPVUjAKAZQKMA）",
+   "verifiedAt": "2026-11-28"
+  },
+  {
+   "date": "2026-12-06",
+   "time": "20:00",
+   "cinema": "小西天艺术影院",
+   "hall": "1号厅",
+   "name": "无辜",
+   "price": 70,
+   "source": "微信公众号「中国电影资料馆」2026-10-27《放映预告｜冬日渐近，11月片单热烈呈现！》观影日历长图下半月（该日历延伸至 2026-12-06；存档 scripts/sources/2026-11-beijing/img50.png，原文 https://mp.weixin.qq.com/s/LwUN3fxv3QZYPIEjkeRPhg）",
+   "verifiedAt": "2026-11-28"
   }
  ]
 }
