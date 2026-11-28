@@ -2914,6 +2914,8 @@ var plan = {
   loading: false,
   error: '',
   search: '',
+  fMonth: '',         // 选择场次 · 月份筛选（'' = 全部）
+  fHall: '',          // 选择场次 · 影厅筛选（'' = 全部）
   toastTimer: null
 };
 
@@ -3376,11 +3378,49 @@ function planFormatOf(r) {
   return { tags: tags, note: note };
 }
 
+/** 选择场次筛选条：月份 / 影厅选项随候选数据生成，厅号选项随月份收窄 */
+function renderPlanFilters() {
+  var rowM = $('planFMonth'), rowH = $('planFHall');
+  if (!rowM || !rowH) return;
+  var all = planCandidatesList();
+  var months = [], halls = [], mCount = {}, hCount = {};
+  all.forEach(function (r) {
+    var m = String(r.playTime).slice(0, 7);
+    if (!mCount[m]) { mCount[m] = 0; months.push(m); }
+    mCount[m]++;
+    if (plan.fMonth && m !== plan.fMonth) return;
+    var h = String(r.movieHall || '');
+    if (!hCount[h]) { hCount[h] = 0; halls.push(h); }
+    hCount[h]++;
+  });
+  months.sort();
+  if (plan.fHall && !hCount[plan.fHall]) plan.fHall = '';   // 月份收窄后该厅无场次 → 重置厅号筛选
+  halls.sort(function (a, b) {
+    var na = planHallRank(a), nb = planHallRank(b);
+    if (na !== nb) return na - nb;
+    return a.localeCompare(b, 'zh');
+  });
+  function chips(row, f, cur, items, labelOf) {
+    var total = items.reduce(function (s, x) { return s + x.n; }, 0);
+    row.innerHTML = [{ v: '', n: total }].concat(items).map(function (x) {
+      return '<button type="button" class="plan-fchip' + (x.v === cur ? ' is-active' : '') +
+        '" data-f="' + f + '" data-v="' + esc(x.v) + '" aria-pressed="' + (x.v === cur ? 'true' : 'false') + '">' +
+        esc(x.v === '' ? '全部' : labelOf(x.v)) + (x.n ? '<i>' + x.n + '</i>' : '') + '</button>';
+    }).join('');
+  }
+  chips(rowM, 'month', plan.fMonth, months.map(function (m) { return { v: m, n: mCount[m] }; }), planMonthLabel);
+  chips(rowH, 'hall', plan.fHall, halls.map(function (h) { return { v: h, n: hCount[h] }; }),
+    function (h) { return h || '影厅未知'; });
+}
+
 function renderPlanCandidates() {
   var box = $('planCandidates');
+  renderPlanFilters();
   var q = normName(plan.search);
   var all = planCandidatesList();
   var list = all.filter(function (r) {
+    if (plan.fMonth && String(r.playTime).slice(0, 7) !== plan.fMonth) return false;
+    if (plan.fHall && String(r.movieHall || '') !== plan.fHall) return false;
     if (!q) return true;
     var mi = r.movieInfo || {};
     return normName(mi.movieName).indexOf(q) >= 0 || normName(mi.englishName).indexOf(q) >= 0;
@@ -3389,7 +3429,9 @@ function renderPlanCandidates() {
 
   if (!list.length) {
     box.innerHTML = '<div class="plan-empty">' + (all.length
-      ? '没有匹配「' + esc(plan.search) + '」的场次。'
+      ? ((plan.fMonth || plan.fHall)
+        ? '当前月份 / 影厅筛选下没有场次，可切回「全部」或调整搜索。'
+        : '没有匹配「' + esc(plan.search) + '」的场次。')
       : (plan.loading ? '正在加载当月与下月排片…'
         : '当月与下月暂无可选场次（下月片单可能尚未发布，或均已开场）。')) + '</div>';
     return;
@@ -3965,6 +4007,17 @@ $('planSearch').addEventListener('input', function () {
   var v = this.value.trim();
   clearTimeout(planSearchTimer);
   planSearchTimer = setTimeout(function () { plan.search = v; renderPlanCandidates(); }, 160);
+});
+
+// 月份 / 影厅筛选条（旧版 HTML 无此元素时跳过，避免中断后续初始化）
+var planFiltersEl = $('planFilters');
+if (planFiltersEl) planFiltersEl.addEventListener('click', function (e) {
+  var btn = e.target.closest ? e.target.closest('.plan-fchip') : null;
+  if (!btn) return;
+  var f = btn.getAttribute('data-f'), v = btn.getAttribute('data-v') || '';
+  if (f === 'month') plan.fMonth = v;
+  else if (f === 'hall') plan.fHall = v;
+  renderPlanCandidates();
 });
 
 $('planCandidates').addEventListener('click', function (e) {
